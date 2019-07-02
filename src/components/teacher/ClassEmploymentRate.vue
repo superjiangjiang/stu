@@ -1,6 +1,15 @@
 <template>
-  <div id="main" style="width: 600px;height: 400px;"></div>
-  </template>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>老师</el-breadcrumb-item>
+      <el-breadcrumb-item>所带学生就业率</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div id="main" style="width: 800px;height: 600px;"></div>
+  </div>
+
+
+</template>
 <script>
   import echarts from 'echarts'
     export default {
@@ -8,13 +17,6 @@
 
       data () {
         return {
-          charts: '',
-          opinion:['男','女'],
-          opinionData:[
-            {value:335, name:'男'},
-            {value:310, name:'女'},
-
-          ]
         }
       },
       methods:{
@@ -22,7 +24,7 @@
           this.charts = echarts.init(document.getElementById(id))
           this.charts.setOption({
             title : {
-              text: '某站点用户访问来源',
+              text: '老师所带学生就业率',
               subtext: '纯属虚构',
               x:'center'
             },
@@ -40,13 +42,16 @@
                 name: '访问来源',
                 type: 'pie',
                 radius : '55%',
-                center: ['50%', '60%'],
+                center: ['60%', '50%'],
                 data:[
-                  {value:335, name:'直接访问'},
-                  {value:310, name:'邮件营销'},
-                  {value:234, name:'联盟广告'},
-                  {value:135, name:'视频广告'},
-                  {value:1548, name:'搜索引擎'}
+                  {value:335, name:'国内开发'},
+                  {value:310, name:'对日开发'},
+                  {value:234, name:'软件测试'},
+                  {value:135, name:'软件实施'},
+                  {value:1548, name:'软件销售'},
+                  {value:135, name:'计算机相关'},
+                  {value:1548, name:'非计算机类'}
+
                 ],
                 itemStyle: {
                   emphasis: {

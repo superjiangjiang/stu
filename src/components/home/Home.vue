@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="8">
           <div class="welcome">
-            <span>欢迎您XX会员</span>
+            <span>欢迎您XX</span>
             <a href="javascript:;" @click.prevent="logout">退出</a>
           </div>
         </el-col>
@@ -22,8 +22,6 @@
           el-menu 表示菜单组件
 
             default-active 当前激活菜单的 index 值
-            @open 菜单展开事件
-            @close 菜单收起事件
 
           el-sub-menu 表示一组菜单
             index 是唯一的，不能重复！！！
@@ -71,7 +69,7 @@
             <el-menu-item index="/home/statisticalscores">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>学生成绩统计</span>
+                <span>成绩管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/statisticsclass">
@@ -188,8 +186,7 @@ export default {
 
     .logo {
       text-align: left;
-      width: ;
-    }
+      }
 
     .title {
       margin: 0;
