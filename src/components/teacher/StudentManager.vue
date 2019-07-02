@@ -39,6 +39,8 @@
       </el-table-column>
       <el-table-column prop="school" label="学校" width="200">
       </el-table-column>
+      <el-table-column prop="class" label="班级" width="200">
+      </el-table-column>
       <el-table-column prop="dormitory" label="宿舍" width="200">
       </el-table-column>
       <el-table-column prop="employment" label="就业状态" width="200">
@@ -81,23 +83,26 @@
 
 
     <!-- 编辑用户对话框 -->
-    <el-dialog title="修改成绩" :visible.sync="userEditDialog" @close="closeUserEditDialog">
+    <el-dialog title="学生管理" :visible.sync="userEditDialog" @close="closeUserEditDialog">
 
       <el-form :model="userEditForm" :rules="userEditRules" ref="userEditForm">
         <el-form-item prop="number" label="学号" width="180">
           <el-input disabled  :value="userEditForm.number"></el-input>
         </el-form-item>
         <el-form-item prop="name" label="姓名" width="180">
-          <el-input  :value="userEditForm.username"></el-input>
+          <el-input  :value="userEditForm.name"></el-input>
         </el-form-item>
         <el-form-item prop="school" label="学校" width="180">
-          <el-input  :value="userEditForm.grade"></el-input>
+          <el-input  :value="userEditForm.school"></el-input>
+        </el-form-item>
+        <el-form-item prop="school" label="班级" width="180">
+          <el-input  :value="userEditForm.class"></el-input>
         </el-form-item>
         <el-form-item prop="dormitory" label="宿舍" width="180">
-          <el-input  :value="userEditForm.subject"></el-input>
+          <el-input  :value="userEditForm.dormitory"></el-input>
         </el-form-item>
         <el-form-item prop="employment" label="就业" width="180">
-          <el-input  :value="userEditForm.score"></el-input>
+          <el-input  :value="userEditForm.employment"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -138,51 +143,59 @@
         userEditDialog: false,
         userEditForm: {
           number: -1,
-          username: '',
-          grade: '',
-          subject: '',
-          score:''
+          name: '',
+          school: '',
+          class: '',
+          dormitory:'',
+          employment:''
         },
         tableData: [{
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }, {
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }, {
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }, {
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }, {
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }, {
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }, {
           number: '201603091071',
-          username: '赵珂',
+          name: '赵珂',
           school: '齐鲁工业大学',
+          class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
         }],
@@ -236,14 +249,7 @@
       }, */
 
       // 展示用户添加对话框
-      showUserAddDialog() {
-        this.userAddDialog = true
-      },
-      // 关闭对话框重置表单
-      closeUserAddDialog() {
-        // console.log('对话框关闭了')
-        this.$refs.userAddForm.resetFields()
-      },
+
 
       // 添加用户
 
