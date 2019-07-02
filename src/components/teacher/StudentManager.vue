@@ -33,17 +33,17 @@
     ]
      -->
     <el-table :data="tableData" stripe>
-      <el-table-column prop="number" label="学号" width="200">
+      <el-table-column prop="number" label="学号" width="150">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="200">
+      <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
-      <el-table-column prop="school" label="学校" width="200">
+      <el-table-column prop="school" label="学校" width="150">
       </el-table-column>
-      <el-table-column prop="class" label="班级" width="200">
+      <el-table-column prop="class" label="班级" width="150">
       </el-table-column>
-      <el-table-column prop="dormitory" label="宿舍" width="200">
+      <el-table-column prop="dormitory" label="宿舍" width="150">
       </el-table-column>
-      <el-table-column prop="employment" label="就业状态" width="200">
+      <el-table-column prop="employment" label="就业状态" width="150">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -86,22 +86,22 @@
     <el-dialog title="学生管理" :visible.sync="userEditDialog" @close="closeUserEditDialog">
 
       <el-form :model="userEditForm" :rules="userEditRules" ref="userEditForm">
-        <el-form-item prop="number" label="学号" width="180">
+        <el-form-item prop="number" label="学号" width="100">
           <el-input disabled  :value="userEditForm.number"></el-input>
         </el-form-item>
-        <el-form-item prop="name" label="姓名" width="180">
+        <el-form-item prop="name" label="姓名" width="100">
           <el-input  :value="userEditForm.name"></el-input>
         </el-form-item>
-        <el-form-item prop="school" label="学校" width="180">
+        <el-form-item prop="school" label="学校" width="100">
           <el-input  :value="userEditForm.school"></el-input>
         </el-form-item>
-        <el-form-item prop="school" label="班级" width="180">
+        <el-form-item prop="school" label="班级" width="100">
           <el-input  :value="userEditForm.class"></el-input>
         </el-form-item>
-        <el-form-item prop="dormitory" label="宿舍" width="180">
+        <el-form-item prop="dormitory" label="宿舍" width="100">
           <el-input  :value="userEditForm.dormitory"></el-input>
         </el-form-item>
-        <el-form-item prop="employment" label="就业" width="180">
+        <el-form-item prop="employment" label="就业" width="100">
           <el-input  :value="userEditForm.employment"></el-input>
         </el-form-item>
       </el-form>
