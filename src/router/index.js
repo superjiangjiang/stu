@@ -10,6 +10,30 @@ import Score from '@/components/student/Score'
 
 //引入上传组件
 import Upload from '@/components/student/Upload'
+
+//引入所带班级就业率组件
+import ClassEmploymentRate from '@/components/teacher/ClassEmploymentRate'
+
+//引入成绩统计组件
+import StatisticalScores from  '@/components/teacher/StatisticalScores'
+
+//引入统计课时组件
+import StatisticsClass from '@/components/teacher/StatisticsClass'
+
+
+//引入学生评价的组件
+
+import StatisticsStudentEvaluation from '@/components/teacher/StatisticsStudentEvaluation'
+
+//引入学生管理组件
+import StudentManager from '@/components/teacher/StudentManager'
+
+
+//引入学校就业统计组件
+import SchoolStatisticsEmployment from '@/components/school/SchoolStatisticsEmployment'
+
+//引入导师组件
+import Recruitment from '@/components/academic/Recruitment'
 Vue.use(Router)
 
 const router = new Router({
@@ -20,7 +44,14 @@ const router = new Router({
       component: Home,
       children: [
         { path: 'score', component: Score },
-        { path: 'upload', component: Upload }
+        { path: 'upload', component: Upload },
+        { path: 'ClassEmploymentRate', component: ClassEmploymentRate },
+        { path: 'StatisticalScores', component: StatisticalScores },
+        { path: 'StatisticsClass', component: StatisticsClass },
+        { path: 'StatisticsStudentEvaluation', component: StatisticsStudentEvaluation },
+        { path: 'StudentManager', component: StudentManager },
+        { path: 'SchoolStatisticsEmployment', component: SchoolStatisticsEmployment },
+        { path: 'Recruitment', component: Recruitment },
 
       ]
     },

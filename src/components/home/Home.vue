@@ -56,25 +56,80 @@
               </template>
             </el-menu-item>
           </el-submenu>
-
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>教师</span>
             </template>
 
-            <el-menu-item index="/home/roles">
+            <el-menu-item index="/home/classemploymentrate">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>所带学生就业率</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/statisticalscores">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学生成绩统计</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/statisticsclass">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>课时统计</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/rights">
+            <el-menu-item index="/home/statisticsstudentevaluation">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>学员评价统计</span>
+                <span>学生评价统计</span>
               </template>
             </el-menu-item>
+            <el-menu-item index="/home/statisticalscores">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学生成绩统计</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/studentmanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学生管理</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+
+
+          <el-submenu index="1">
+
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>学校</span>
+            </template>
+
+            <el-menu-item index="/home/schoolstatisticsemployment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学校就业统计</span>
+              </template>
+            </el-menu-item>
+
+          </el-submenu>
+          <el-submenu index="1">
+
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>导师</span>
+            </template>
+
+            <el-menu-item index="/home/recruitment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息</span>
+              </template>
+            </el-menu-item>
+
           </el-submenu>
         </el-menu>
       </el-aside>
