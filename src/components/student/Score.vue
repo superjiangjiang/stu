@@ -30,7 +30,7 @@
     ]
      -->
     <el-table :data="tableData" stripe>
-      <el-table-column prop="number" label="姓名" width="180">
+      <el-table-column prop="number" label="学号" width="180">
       </el-table-column>
       <el-table-column prop="username" label="姓名" width="180">
       </el-table-column>
@@ -143,7 +143,8 @@ export default {
         grade: '计科软件外包(16-2)',
         subject:'数据结构',
         score:'98'
-      }]    }
+      }]
+    }
   },
 
   methods: {
