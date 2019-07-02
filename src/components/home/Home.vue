@@ -49,6 +49,12 @@
                 <span>成绩显示</span>
               </template>
             </el-menu-item>
+            <el-menu-item index="/home/upload">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>上传简历</span>
+              </template>
+            </el-menu-item>
           </el-submenu>
 
           <el-submenu index="2">
