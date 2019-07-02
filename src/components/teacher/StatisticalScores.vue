@@ -45,12 +45,11 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showUserEditDailog(scope.row)"></el-button>
-          <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delUserById(scope.row.id)"></el-button>
-
         </template>
       </el-table-column>
 
     </el-table>
+
 
     <!--
       分页组件
