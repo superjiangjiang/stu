@@ -5,7 +5,12 @@
       <el-breadcrumb-item>老师</el-breadcrumb-item>
       <el-breadcrumb-item>所带学生就业率</el-breadcrumb-item>
     </el-breadcrumb>
-    <div id="main" style="width: 800px;height: 600px;"></div>
+
+    <el-row :gutter="20" class="el-row">
+      <el-col :span="5"  >
+        <div id="main" style="width: 800px;height: 600px;"></div>
+      </el-col>
+    </el-row>
   </div>
 
 
@@ -42,7 +47,7 @@
                 name: '访问来源',
                 type: 'pie',
                 radius : '55%',
-                center: ['60%', '50%'],
+                center: ['60%', '45%'],
                 data:[
                   {value:335, name:'国内开发'},
                   {value:310, name:'对日开发'},
@@ -78,9 +83,7 @@
 </script>
 
 <style scoped>
-  * {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+.el-row {
+  margin-top: 40px;
+}
 </style>
