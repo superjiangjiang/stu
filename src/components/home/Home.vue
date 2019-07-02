@@ -86,13 +86,7 @@
                 <span>学生评价统计</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/statisticalscores">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学生成绩统计</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/studentmanager">
+             <el-menu-item index="/home/studentmanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>学生管理</span>
