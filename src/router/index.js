@@ -8,6 +8,12 @@ import Home from '@/components/home/Home'
 // 导入用户列表组件
 import Score from '@/components/student/Score'
 
+//引入教师评价组件
+import TeacherEvaluation from '@/components/student/TeacherEvaluation'
+
+//引入学生申请退学组件
+import DropOut from '@/components/student/DropOut'
+
 //引入上传组件
 import Upload from '@/components/student/Upload'
 
@@ -44,6 +50,8 @@ const router = new Router({
       component: Home, children: [
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
+        { path: 'TeacherEvaluation', component: TeacherEvaluation },
+        { path: 'DropOut', component: DropOut },
         { path: 'ClassEmploymentRate', component: ClassEmploymentRate },
         { path: 'StatisticalScores', component: StatisticalScores },
         { path: 'StatisticsClass', component: StatisticsClass },
