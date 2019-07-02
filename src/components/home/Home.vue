@@ -95,7 +95,7 @@
           </el-submenu>
 
 
-          <el-submenu index="1">
+          <el-submenu index="3">
 
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -110,7 +110,7 @@
             </el-menu-item>
 
           </el-submenu>
-          <el-submenu index="1">
+          <el-submenu index="4">
 
             <template slot="title">
               <i class="el-icon-location"></i>
