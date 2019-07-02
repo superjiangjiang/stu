@@ -3,7 +3,7 @@
     <el-header>
       <el-row>
         <el-col :span="8" class="logo">
-          <img src="@/assets/logo.png" alt="黑马logo">
+          <img src="@/assets/logo.png" alt="安博logo">
         </el-col>
         <el-col :span="8">
           <h1 class="title">学生管理系统</h1>
@@ -188,6 +188,7 @@ export default {
 
     .logo {
       text-align: left;
+      width: ;
     }
 
     .title {

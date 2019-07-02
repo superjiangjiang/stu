@@ -12,8 +12,11 @@
           <el-button slot="append" icon="el-icon-search" ></el-button>
         </el-input>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="2">
         <el-button type="success" plain @click="showUserAddDialog">录入成绩</el-button>
+      </el-col>
+      <el-col :span="4">
+
       </el-col>
     </el-row>
 
@@ -62,6 +65,20 @@
     <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
     </el-pagination>
 
+
+
+<!--    上传Excel-->
+    <el-upload
+      class="upload-demo"
+      action="https://jsonplaceholder.typicode.com/posts/"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :file-list="fileList"
+      list-type="picture">
+      <el-button size="small" type="primary">点击上传excel文件</el-button>
+
+
+    </el-upload>
     <!-- 添加用户对话框 -->
     <el-dialog title="录入成绩" :visible.sync="userAddDialog" @close="closeUserAddDialog">
       <el-form :model="userAddForm" :rules="userAddRules" ref="userAddForm">
@@ -220,25 +237,25 @@
           grade: '计科软件外包(16-2)',
           subject:'数据结构',
           score:'98'
-        },{
-          number: '201603091071',
-          username: '赵珂',
-          grade: '计科软件外包(16-2)',
-          subject:'数据结构',
-          score:'98'
-        },{
-          number: '201603091071',
-          username: '赵珂',
-          grade: '计科软件外包(16-2)',
-          subject:'数据结构',
-          score:'98'
-        }]
+        }],
+      //excel上传
+        fileList: [
+          {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+          {name: 'food2.jpeg',url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+
 
 
       }
     },
 
     methods: {
+      //excel 上传
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
       // 获取用户列表数据
       // curPage = 1 给参数添加默认值
       /* getUserList(curPage = 1) {
