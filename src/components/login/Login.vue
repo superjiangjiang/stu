@@ -114,28 +114,28 @@ export default {
 
 
 
-    submitForm() {
-      // ref 用在组件中，就表示当前组件
-      // this.$refs.loginForm
-      this.$refs.loginForm.validate(valid => {
-        // valid 表示是否校验成功，如果成功就为：true
-        // 如果失败就为：false
-        if (valid) {
-          // 成功：调用登录接口
-          // alert('submit!')
-
-          // 获取到用户名和密码
-          // console.log(this.loginForm)
-          this.login()
-        } else {
-          // 校验失败
-          return false
-        }
-      })
-    },
-    resetForm() {
-      this.$refs.loginForm.resetFields()
-    }
+    // submitForm() {
+    //   // ref 用在组件中，就表示当前组件
+    //   // this.$refs.loginForm
+    //   this.$refs.loginForm.validate(valid => {
+    //     // valid 表示是否校验成功，如果成功就为：true
+    //     // 如果失败就为：false
+    //     if (valid) {
+    //       // 成功：调用登录接口
+    //       // alert('submit!')
+    //
+    //       // 获取到用户名和密码
+    //       // console.log(this.loginForm)
+    //       this.login()
+    //     } else {
+    //       // 校验失败
+    //       return false
+    //     }
+    //   })
+    // },
+    // resetForm() {
+    //   this.$refs.loginForm.resetFields()
+    // }
   }
 }
 </script>
