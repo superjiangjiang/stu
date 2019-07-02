@@ -20,7 +20,7 @@ const router = new Router({
       component: Home,
       children: [
         { path: 'score', component: Score },
-        { path: 'upload', component: Upload },
+        { path: 'upload', component: Upload }
 
       ]
     },
