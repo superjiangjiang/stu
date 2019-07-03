@@ -14,7 +14,17 @@
       </el-col>
 
       <el-col :span="4">
+        <el-upload
+          class="upload-demo"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
 
+          list-type="picture">
+          <el-button type="primary">点击上传excel文件</el-button>
+
+
+        </el-upload>
       </el-col>
     </el-row>
 
@@ -68,17 +78,7 @@
 
 
     <!--    上传Excel-->
-    <el-upload
-      class="upload-demo"
-      action="https://jsonplaceholder.typicode.com/posts/"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :file-list="fileList"
-      list-type="picture">
-      <el-button size="small" type="primary">点击上传excel文件</el-button>
 
-
-    </el-upload>
 
 
 
@@ -198,12 +198,8 @@
           class:'基础一班',
           dormitory:'25号楼1单元604',
           employment:'未就业'
-        }],
+        }]
         //excel上传
-        fileList: [
-          {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-          {name: 'food2.jpeg',url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-
 
 
       }

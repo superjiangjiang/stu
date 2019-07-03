@@ -17,6 +17,18 @@ import DropOut from '@/components/student/DropOut'
 //引入上传组件
 import Upload from '@/components/student/Upload'
 
+
+//引入学生评价的组件
+
+import StatisticsStudentEvaluation from '@/components/teacher/StatisticsStudentEvaluation'
+
+//引入学生详细评价的组件
+import EvaluationDetail from '@/components/subcompoents/EvaluationDetail'
+
+//引入学生查看招聘信息的组件
+import LookInfo from '@/components/student/LookInfo'
+
+
 //引入所带班级就业率组件
 import ClassEmploymentRate from '@/components/teacher/ClassEmploymentRate'
 
@@ -27,12 +39,7 @@ import StatisticalScores from  '@/components/teacher/StatisticalScores'
 import StatisticsClass from '@/components/teacher/StatisticsClass'
 
 
-//引入学生评价的组件
 
-import StatisticsStudentEvaluation from '@/components/teacher/StatisticsStudentEvaluation'
-
-//引入学生详细评价的组件
-import EvaluationDetail from '@/components/subcompoents/EvaluationDetail'
 
 //引入学生管理组件
 import StudentManager from '@/components/teacher/StudentManager'
@@ -58,6 +65,7 @@ const router = new Router({
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
         { path: 'teacherevaluation', component: TeacherEvaluation },
+        {path:'lookinfo',component:LookInfo},
         { path: 'dropout', component: DropOut },
         { path: 'classemploymentrate', component: ClassEmploymentRate },
         { path: 'statisticalscores', component: StatisticalScores },
@@ -67,7 +75,7 @@ const router = new Router({
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
         { path: 'recruitment', component: Recruitment },
         { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
-        { path:'/recruitment/infodetail',component:InfoDetail,name:'infodetail'}
+        { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'}
       ]
 
     },

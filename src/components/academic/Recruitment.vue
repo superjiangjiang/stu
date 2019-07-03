@@ -8,31 +8,29 @@
           <el-breadcrumb-item>发布信息</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
-      <el-row>
+      <el-row >
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="招聘企业">
             <el-input v-model="form.name" aria-placeholder="请输入企业名称"></el-input>
           </el-form-item>
+          <el-form-item label="工作地点">
+            <el-input v-model="form.workplace" aria-placeholder="请输入企业名称"></el-input>
+          </el-form-item>
+          <el-form-item label="企业地址">
+            <el-input v-model="form.workplace2" aria-placeholder="请输入企业名称"></el-input>
+          </el-form-item>
           <el-form-item label="招聘人数">
             <el-input v-model="form.region" aria-placeholder="请输入招聘人数"></el-input>
           </el-form-item>
-          <el-form-item label="招聘时间">
+          <el-form-item label="发布时间">
             <el-col :span="5">
               <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
             </el-col>
-            <el-col class="line" :span="0.5">-</el-col>
-            <el-col :span="5">
-              <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-            </el-col>
+
           </el-form-item>
 
           <el-form-item label="招聘职业">
-            <el-checkbox-group v-model="form.type">
-              <el-checkbox label="JAVA初级工程师" name="type"></el-checkbox>
-              <el-checkbox label="前端工程师" name="type"></el-checkbox>
-              <el-checkbox label="XXXXXXXXXX" name="type"></el-checkbox>
-              <el-checkbox label="XXXXXXXXXXXX" name="type"></el-checkbox>
-            </el-checkbox-group>
+            <el-input v-model="form.type" aria-placeholder="请输入企业名称"></el-input>
           </el-form-item>
           <el-form-item label="薪资">
             <el-col :span="5">
@@ -64,11 +62,13 @@
         return {
           form: {
             name: '',
+            workplace:'',
+            workplace2:'',
             region: '',
-            date1: '',
-            date2: '',
+            date: '',
 
-            type: [],
+
+            type: '',
             salary_min: '',
             salary_max:'',
             desc: ''

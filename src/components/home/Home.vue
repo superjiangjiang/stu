@@ -53,16 +53,22 @@
                 <span>上传简历</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/TeacherEvaluation">
+            <el-menu-item index="/home/teacherevaluation">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>教师评价</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/DropOut">
+            <el-menu-item index="/home/dropout">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>申请退学</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/lookinfo">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息</span>
               </template>
             </el-menu-item>
           </el-submenu>
