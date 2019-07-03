@@ -36,6 +36,8 @@
       </el-table-column>
       <el-table-column prop="grade" label="年级" width="180">
       </el-table-column>
+      <el-table-column prop="school" label="学校" width="180">
+      </el-table-column>
       <el-table-column prop="subject" label="科目" width="180">
       </el-table-column>
       <el-table-column prop="score" label="成绩" width="180">
@@ -87,12 +89,35 @@ export default {
         number: '201603091071',
         username: '赵珂',
         grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
         subject:'数据结构',
         score:'98'
       }, {
         number: '201603091071',
         username: '赵珂',
         grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
+        subject:'数据结构',
+        score:'98'
+      },{
+        number: '201603091071',
+        username: '赵珂',
+        grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
+        subject:'数据结构',
+        score:'98'
+      },{
+        number: '201603091071',
+        username: '赵珂',
+        grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
+        subject:'数据结构',
+        score:'98'
+      },{
+        number: '201603091071',
+        username: '赵珂',
+        grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
         subject:'数据结构',
         score:'98'
       },{
@@ -105,42 +130,28 @@ export default {
         number: '201603091071',
         username: '赵珂',
         grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
         subject:'数据结构',
         score:'98'
       },{
         number: '201603091071',
         username: '赵珂',
         grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
         subject:'数据结构',
         score:'98'
       },{
         number: '201603091071',
         username: '赵珂',
         grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
         subject:'数据结构',
         score:'98'
       },{
         number: '201603091071',
         username: '赵珂',
         grade: '计科软件外包(16-2)',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
+        school:'齐鲁工业大学',
         subject:'数据结构',
         score:'98'
       }]
