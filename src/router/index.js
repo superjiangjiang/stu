@@ -57,9 +57,9 @@ const router = new Router({
       component: Home, children: [
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
-        { path: 'teacherevaluation', component: TeacherEvaluation },
-        { path: 'propout', component: DropOut },
-        { path: 'slassemploymentrate', component: ClassEmploymentRate },
+        { path: 'teacherEvaluation', component: TeacherEvaluation },
+        { path: 'dropout', component: DropOut },
+        { path: 'classemploymentrate', component: ClassEmploymentRate },
         { path: 'statisticalscores', component: StatisticalScores },
         { path: 'statisticsclass', component: StatisticsClass },
         { path: 'statisticsstudentevaluation', component: StatisticsStudentEvaluation },
