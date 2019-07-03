@@ -66,13 +66,13 @@ const router = new Router({
         { path: 'studentmanager', component: StudentManager },
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
         { path: 'recruitment', component: Recruitment },
-
+        { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
+        { path:'/recruitment/infodetail',component:InfoDetail,name:'infodetail'}
       ]
 
     },
     { path: '/login', component: Login },
-    { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
-    {path:'/recruitment/infodetail',component:InfoDetail,name:'infodetail'}
+
 
   ]
 })
