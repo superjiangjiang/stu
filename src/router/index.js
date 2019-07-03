@@ -31,6 +31,9 @@ import StatisticsClass from '@/components/teacher/StatisticsClass'
 
 import StatisticsStudentEvaluation from '@/components/teacher/StatisticsStudentEvaluation'
 
+//引入学生详细评价的组件
+import EvaluationDetail from '@/components/subcompoents/EvaluationDetail'
+
 //引入学生管理组件
 import StudentManager from '@/components/teacher/StudentManager'
 
@@ -40,8 +43,12 @@ import SchoolStatisticsEmployment from '@/components/school/SchoolStatisticsEmpl
 
 //引入导师组件
 import Recruitment from '@/components/academic/Recruitment'
-Vue.use(Router)
 
+//引入导师发布招聘信息组件
+import InfoDetail from '@/components/subcompoents/InfoDetail'
+
+
+Vue.use(Router)
 const router = new Router({
   routes: [
     // children 用来配置子路由，将来匹配的组件会展示在 Home 组件的 router-view 中
@@ -50,19 +57,23 @@ const router = new Router({
       component: Home, children: [
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
-        { path: 'TeacherEvaluation', component: TeacherEvaluation },
-        { path: 'DropOut', component: DropOut },
-        { path: 'ClassEmploymentRate', component: ClassEmploymentRate },
-        { path: 'StatisticalScores', component: StatisticalScores },
-        { path: 'StatisticsClass', component: StatisticsClass },
-        { path: 'StatisticsStudentEvaluation', component: StatisticsStudentEvaluation },
-        { path: 'StudentManager', component: StudentManager },
-        { path: 'SchoolStatisticsEmployment', component: SchoolStatisticsEmployment },
-        { path: 'Recruitment', component: Recruitment },
+        { path: 'teacherevaluation', component: TeacherEvaluation },
+        { path: 'propout', component: DropOut },
+        { path: 'slassemploymentrate', component: ClassEmploymentRate },
+        { path: 'statisticalscores', component: StatisticalScores },
+        { path: 'statisticsclass', component: StatisticsClass },
+        { path: 'statisticsstudentevaluation', component: StatisticsStudentEvaluation },
+        { path: 'studentmanager', component: StudentManager },
+        { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
+        { path: 'recruitment', component: Recruitment },
 
       ]
+
     },
-    { path: '/login', component: Login }
+    { path: '/login', component: Login },
+    { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
+    {path:'/recruitment/infodetail',component:InfoDetail,name:'infodetail'}
+
   ]
 })
 
