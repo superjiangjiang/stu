@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column label="操作" >
         <template slot-scope="scope">
-          <el-button plain size="mini" @click="godetail()" >评价</el-button>
+          <el-button plain size="mini" @click="godetail()" >开始评价</el-button>
         </template>
       </el-table-column>
     </el-table>
