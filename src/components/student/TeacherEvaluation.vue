@@ -133,7 +133,8 @@
     methods: {
       godetail(){
         console.log("haha")
-        this.$route.push({name:"evaluationdetail"})
+        // this.$route.push({name:"evaluationdetail"})
+        this.$router.push({name:'evaluationdetail'})
       }
 
     }
