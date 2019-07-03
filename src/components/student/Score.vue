@@ -42,7 +42,6 @@
       </el-table-column>
       <el-table-column prop="score" label="成绩" width="180">
       </el-table-column>
-
     </el-table>
 
     <!--
