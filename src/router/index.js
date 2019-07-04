@@ -72,11 +72,9 @@ const router = new Router({
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
         { path: 'teacherevaluation', component: TeacherEvaluation },
-
         { path: 'periodmanager', component: PeriodManager },
         { path: 'showrecruitment', component: ShowRecruitment },
         { path: 'showperiod', component: ShowPeriod },
-
         {path:'lookinfo',component:LookInfo},
         { path: 'dropout', component: DropOut },
         { path: 'classemploymentrate', component: ClassEmploymentRate },
@@ -85,7 +83,6 @@ const router = new Router({
         { path: 'statisticsstudentevaluation', component: StatisticsStudentEvaluation },
         { path: 'studentmanager', component: StudentManager },
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
-
         { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
         { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'},
         { path:'/statisticsclass/statisticsclassdetail',component:StatisticsClassDetail,name:'statisticsclassdetail'}
