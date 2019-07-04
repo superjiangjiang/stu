@@ -20,6 +20,8 @@ import Upload from '@/components/student/Upload'
 //引入学生查看学时组件
 import ShowPeriod from '@/components/student/ShowPeriod'
 
+//引入学生查看学时详情的组件
+import PeriodDetial from '@/components/subcompoents/PeriodDetial'
 //引入学生评价的组件
 
 import StatisticsStudentEvaluation from '@/components/teacher/StatisticsStudentEvaluation'
@@ -85,7 +87,8 @@ const router = new Router({
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
         { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
         { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'},
-        { path:'/statisticsclass/statisticsclassdetail',component:StatisticsClassDetail,name:'statisticsclassdetail'}
+        { path:'/statisticsclass/statisticsclassdetail',component:StatisticsClassDetail,name:'statisticsclassdetail'},
+        { path:'/showperiod/perioddetial',component:PeriodDetial,name:'perioddetial'}
       ]
 
     },
