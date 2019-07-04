@@ -53,7 +53,7 @@
       </el-table-column>
     </el-table>
 
-  <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
+    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
     </el-pagination>
 
 
@@ -94,13 +94,13 @@
     </el-dialog>
 
     <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
-        <el-table :data="jobTrackingData">
-          <el-table-column property="time" label="就业追踪" width="120"></el-table-column>
-          <el-table-column property="name" label="姓名" width="80"></el-table-column>
-          <el-table-column property="company" label="公司" width="250"></el-table-column>
-          <el-table-column property="salary" label="薪水" idth="100"></el-table-column>
-          <el-table-column property="position" label="职位" idth="150"></el-table-column>
-        </el-table>
+      <el-table :data="jobTrackingData">
+        <el-table-column property="time" label="就业追踪" width="120"></el-table-column>
+        <el-table-column property="name" label="姓名" width="80"></el-table-column>
+        <el-table-column property="company" label="公司" width="250"></el-table-column>
+        <el-table-column property="salary" label="薪水" idth="100"></el-table-column>
+        <el-table-column property="position" label="职位" idth="150"></el-table-column>
+      </el-table>
     </el-dialog>
 
   </div>
@@ -109,9 +109,7 @@
 <script>
   export default {
     created() {
-
     },
-
     data() {
       return {
         userList: [],
@@ -123,7 +121,6 @@
         total: 0,
         // 搜索内容
         queryStr: '',
-
         // 控制编辑用户对话框的展示和隐藏
         studentEditDialog: false,
         studentEditForm: {
@@ -156,7 +153,6 @@
           salary: '13000',
           position: 'java开发'
         }],
-
         tableData: [{
           number: '201603091071',
           name: '赵珂',
@@ -213,11 +209,8 @@
           salary: 13000
         }]
         //excel上传
-
-
       }
     },
-
     methods: {
       //excel 上传
       handleRemove(file, fileList) {
@@ -226,7 +219,6 @@
       handlePreview(file) {
         console.log(file);
       },
-
       // 展示编辑对话框
       showUserEditDailog(curUser) {
         // console.log(curUser)
@@ -235,27 +227,20 @@
         for (const key in this.studentEditForm) {
           this.studentEditForm[key] = curUser[key]
         }
-
         // 打开用户编辑对话框
         this.studentEditDialog = true
       },
-
       // 关闭用户编辑对话框
       closestudentEditDialog() {
         this.$refs.studentEditForm.resetFields()
       },
-
       showJobTrackingDailog(curUser){
-
         // 打开用户编辑对话框
         this.jobTrackingDialog = true
       },
       // 点击确定按钮，修改用户数据
-
       closeJobTrackingDialog() {
-
       }
-
     }
   }
 </script>

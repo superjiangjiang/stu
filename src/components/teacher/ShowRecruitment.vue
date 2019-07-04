@@ -39,13 +39,13 @@
       </el-table-column>
       <el-table-column prop="salary" label="薪资" width="80">
       </el-table-column>
-      <el-table-column prop="company" label="公司" width="250">
+      <el-table-column prop="company" label="公司" width="220">
       </el-table-column>
       <el-table-column prop="location" label="位置" width="180">
       </el-table-column>
       <el-table-column prop="people" label="招聘人数" width="100">
       </el-table-column>
-      <el-table-column prop="time" label="发布时间" width="150">
+      <el-table-column prop="time" label="发布时间" width="100">
       </el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
