@@ -7,10 +7,22 @@
     <el-breadcrumb-item>课时详情</el-breadcrumb-item>
   </el-breadcrumb>
 
+  <el-row :gutter="20">
+    <el-col :span="6">
+      <el-input placeholder="请输入编号" v-model="queryStr" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search"></el-button>
+      </el-input>
+    </el-col>
+    <el-col :span="2">
+      <el-button type="success" plain @click="showinfoAddDialog">添加课时</el-button>
+    </el-col>
+
+  </el-row>
+
   <el-table
     :data="courseData"
     stripe>
-    <el-table-column prop="date" label="授课日期" width="180">
+    <el-table-column prop="date" label="授课日期" width="150">
     </el-table-column>
     <el-table-column prop="category" label="所教科目" width="180">
     </el-table-column>
@@ -20,11 +32,12 @@
     </el-table-column>
     <el-table-column prop="all" label="总课时" width="80">
     </el-table-column>
-    <el-table-column prop="state" label="状态" width="120">
+    <el-table-column prop="state" label="状态" width="100">
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showClassEditDailog(scope.row)"></el-button>
+        <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delInfoById(scope.row.id)"></el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -36,7 +49,7 @@
 
     <el-form :model="classEditForm" :rules="classEditRules" ref="classEditForm">
       <el-form-item prop="date" label="授课日期" width="100">
-        <el-input disabled  :value="classEditForm.date"></el-input>
+         <el-date-picker type="date" placeholder="选择日期" v-model="classEditForm.date" style="width: 100%;"></el-date-picker>
       </el-form-item>
       <el-form-item prop="category" label="所教科目" width="100">
         <el-input  :value="classEditForm.category"></el-input>
@@ -59,6 +72,35 @@
       <el-button type="primary" >确 定</el-button>
     </div>
   </el-dialog>
+
+  <el-dialog title="添加课时" :visible.sync="infoAddDialog" @close="closeinfoAddDialog">
+    <el-form :model="form"  ref="infoAddForm">
+      <el-form-item label="授课日期">
+         <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="所教科目">
+        <el-input v-model="form.category" placeholder="请输入所教科目"></el-input>
+      </el-form-item>
+      <el-form-item label="课时名称">
+        <el-input v-model="form.name"  placeholder="请输入课时名称"></el-input>
+      </el-form-item>
+       <el-form-item label="课时内容">
+        <el-input v-model="form.content" placeholder="请输入课时内容"></el-input>
+      </el-form-item>
+      <el-form-item label="总课时">
+          <el-input v-model="form.all" placeholder="请输入总课时"></el-input>
+       </el-form-item>
+      <el-form-item label="状态">
+          <el-input v-model="form.state" placeholder="请输入状态"></el-input>
+       </el-form-item>
+    </el-form>
+
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="infoAddDialog = false">取 消</el-button>
+      <el-button type="primary">立即发布</el-button>
+    </div>
+
+  </el-dialog>
 </div>
 </template>
 
@@ -67,6 +109,17 @@
     name: 'StatisticsClassDetail',
     data() {
       return {
+        form: {
+          date: '',
+          category: '',
+          name: '',
+          content: '',
+          all:'',
+          state:''
+        },
+
+        infoAddDialog: false,
+
         classEditDialog: false,
         classEditForm: {
           date: '',
@@ -114,7 +167,8 @@
             '线程间通信',
           all:1,
           state: '未授课'
-        }]
+        },
+        ]
       }
     },
     methods: {
@@ -132,10 +186,28 @@
         this.classEditDialog = true
       },
 
-      // 关闭用户编辑对话框
+      // 关闭编辑对话框
       closeClassEditDialog() {
         this.$refs.classEditForm.resetFields()
-      }
+      },
+      delInfoById(id) {
+        // console.log(id)
+        this.$confirm('确认删除该信息吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      },
+
+      // 展示添加对话框
+      showinfoAddDialog() {
+        this.infoAddDialog = true
+      },
+      // 关闭对话框重置表单
+      closeinfoAddDialog() {
+        // console.log('对话框关闭了')
+        this.$refs.infoAddForm.resetFields()
+      },
 
     }
   }

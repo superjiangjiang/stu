@@ -6,8 +6,6 @@
       <el-breadcrumb-item>课时管理</el-breadcrumb-item>
     </el-breadcrumb>
 
-<!--    表格
--->
     <el-table :data="tableData" stripe>
       <el-table-column prop="number" label="教师号" width="180">
       </el-table-column>

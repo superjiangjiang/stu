@@ -43,9 +43,9 @@
       </el-table-column>
       <el-table-column prop="location" label="位置" width="180">
       </el-table-column>
-      <el-table-column prop="people" label="招聘人数" width="180">
+      <el-table-column prop="people" label="招聘人数" width="100">
       </el-table-column>
-      <el-table-column prop="time" label="发布时间" width="180">
+      <el-table-column prop="time" label="发布时间" width="150">
       </el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
@@ -207,42 +207,6 @@
     },
 
     methods: {
-      // 获取用户列表数据
-      // curPage = 1 给参数添加默认值
-      /* getUserList(curPage = 1) {
-        this.$http
-          .get('/student', {
-            params: {
-              // 当前页
-              pagenum: curPage,
-              // 每页展示多少条数据
-              pagesize: 3,
-              // 查询条件
-              query: this.queryStr || ''
-            }
-            // 将 token 作为请求头，传递给服务器接口
-            // 这样，才能正确的调用这个接口
-            // headers: {
-            //   Authorization: localStorage.getItem('token')
-            // }
-          })
-          .then(res => {
-            console.log('请求成功:', res)
-            const { data, meta } = res.data
-            if (meta.status === 200) {
-              // 获取数据成功
-              this.userList = data.student
-              this.total = data.total
-              this.curPage = data.pagenum
-            }
-          })
-      }, */
-      /**
-       * 分页获取数据
-       * 参数 cruPage 表示当前点击的页码
-       */
-
-
       // 展示用户添加对话框
       showinfoAddDialog() {
         this.infoAddDialog = true
