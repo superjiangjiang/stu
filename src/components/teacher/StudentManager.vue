@@ -28,58 +28,33 @@
       </el-col>
     </el-row>
 
-    <!--
-      el-table 表格组件
-        data 用来给表格组件提供数据
-        stripe 添加改属性后，启用隔行变色效果
-
-      el-table-column 表格中的每一列
-        label 每一列的标题名称
-        width 每一列的宽度
-        prop 表示数据中的属性名（字段名称）
-
-    userList = [
-      {}, {}, {}
-    ]
-     -->
     <el-table :data="tableData" stripe>
-      <el-table-column prop="number" label="学号" width="150">
+      <el-table-column prop="number" label="学号" width="120">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="150">
+      <el-table-column prop="name" label="姓名" width="80">
       </el-table-column>
-      <el-table-column prop="school" label="学校" width="180">
+      <el-table-column prop="school" label="学校" width="150">
       </el-table-column>
-      <el-table-column prop="class" label="班级" width="150">
+      <el-table-column prop="class" label="班级" width="80">
       </el-table-column>
       <el-table-column prop="dormitory" label="宿舍" width="150">
       </el-table-column>
-      <el-table-column prop="employment" label="就业状态" width="150">
+      <el-table-column prop="employment" label="就业状态" width="80">
+      </el-table-column>
+      <el-table-column prop="unit" label="首次就业单位" width="180">
+      </el-table-column>
+      <el-table-column prop="salary" label="薪资" width="100">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showUserEditDailog(scope.row)"></el-button>
+          <el-button type="primary" plain size="mini" @click="showJobTrackingDailog(scope.row)">就业追踪</el-button>
         </template>
       </el-table-column>
-
     </el-table>
 
-
-    <!--
-      分页组件
-        background 背景色
-        layout 分页显示的内容
-        total 总条数
-
-        给 current-page 属性添加 .sync 修饰符后, 就可以设置当前页
-    -->
-    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
+  <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
     </el-pagination>
-
-
-
-    <!--    上传Excel-->
-
-
 
 
     <!-- 编辑用户对话框 -->
@@ -104,6 +79,13 @@
         <el-form-item prop="employment" label="就业" width="100">
           <el-input  :value="userEditForm.employment"></el-input>
         </el-form-item>
+
+        <el-form-item prop="unit" label="首次就业单位" width="100">
+          <el-input  :value="userEditForm.unit"></el-input>
+        </el-form-item>
+        <el-form-item prop="salary" label="薪资" width="100">
+          <el-input  :value="userEditForm.salary"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="userEditDialog = false">取 消</el-button>
@@ -111,14 +93,20 @@
       </div>
     </el-dialog>
 
-
+    <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
+        <el-table :data="jobTrackingData">
+          <el-table-column property="time" label="就业时间" width="120"></el-table-column>
+          <el-table-column property="name" label="姓名" width="80"></el-table-column>
+          <el-table-column property="company" label="公司" width="250"></el-table-column>
+          <el-table-column property="salary" label="薪水" idth="100"></el-table-column>
+          <el-table-column property="position" label="职位" idth="150"></el-table-column>
+        </el-table>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-
-
   export default {
     created() {
 
@@ -136,9 +124,6 @@
         // 搜索内容
         queryStr: '',
 
-        // 控制用户添加对话框的展示和隐藏
-
-
         // 控制编辑用户对话框的展示和隐藏
         userEditDialog: false,
         userEditForm: {
@@ -147,57 +132,85 @@
           school: '',
           class: '',
           dormitory:'',
-          employment:''
+          employment:'',
+          unit: '',
+          salary: ''
         },
+        jobTrackingDialog: false,
+        jobTrackingData: [{
+          time: '第一次就业',
+          name: '宋阳阳',
+          company: '济南市睿德信息技术有限公司',
+          salary: '13000',
+          position: 'java开发'
+        }, {
+          time: '第二次就业',
+          name: '宋阳阳',
+          company: '济南市睿德信息技术有限公司',
+          salary: '13000',
+          position: 'java开发'
+        },{
+          time: '第三次就业',
+          name: '宋阳阳',
+          company: '济南市睿德信息技术有限公司',
+          salary: '13000',
+          position: 'java开发'
+        }],
+
         tableData: [{
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
           class:'基础一班',
           dormitory:'25号楼1单元604',
-          employment:'未就业'
-        }, {
+          employment:'未就业',
+          unit: '济南市睿德信息技术有限公司',
+          salary: 13000
+        },{
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
           class:'基础一班',
           dormitory:'25号楼1单元604',
-          employment:'未就业'
-        }, {
+          employment:'未就业',
+          unit: '济南市睿德信息技术有限公司',
+          salary: 13000
+        },{
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
           class:'基础一班',
           dormitory:'25号楼1单元604',
-          employment:'未就业'
-        }, {
+          employment:'未就业',
+          unit: '济南市睿德信息技术有限公司',
+          salary: 13000
+        },{
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
           class:'基础一班',
           dormitory:'25号楼1单元604',
-          employment:'未就业'
-        }, {
+          employment:'未就业',
+          unit: '济南市睿德信息技术有限公司',
+          salary: 13000
+        },{
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
           class:'基础一班',
           dormitory:'25号楼1单元604',
-          employment:'未就业'
-        }, {
+          employment:'未就业',
+          unit: '济南市睿德信息技术有限公司',
+          salary: 13000
+        },{
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
           class:'基础一班',
           dormitory:'25号楼1单元604',
-          employment:'未就业'
-        }, {
-          number: '201603091071',
-          name: '赵珂',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
-          employment:'未就业'
+          employment:'未就业',
+          unit: '济南市睿德信息技术有限公司',
+          salary: 13000
         }]
         //excel上传
 
@@ -213,45 +226,6 @@
       handlePreview(file) {
         console.log(file);
       },
-      // 获取用户列表数据
-      // curPage = 1 给参数添加默认值
-      /* getUserList(curPage = 1) {
-        this.$http
-          .get('/student', {
-            params: {
-              // 当前页
-              pagenum: curPage,
-              // 每页展示多少条数据
-              pagesize: 3,
-              // 查询条件
-              query: this.queryStr || ''
-            }
-            // 将 token 作为请求头，传递给服务器接口
-            // 这样，才能正确的调用这个接口
-            // headers: {
-            //   Authorization: localStorage.getItem('token')
-            // }
-          })
-          .then(res => {
-            console.log('请求成功:', res)
-            const { data, meta } = res.data
-            if (meta.status === 200) {
-              // 获取数据成功
-              this.userList = data.student
-              this.total = data.total
-              this.curPage = data.pagenum
-            }
-          })
-      }, */
-
-      // 展示用户添加对话框
-
-
-      // 添加用户
-
-
-      // 根据用户id删除用户
-
 
       // 展示编辑对话框
       showUserEditDailog(curUser) {
@@ -271,9 +245,16 @@
         this.$refs.userEditForm.resetFields()
       },
 
+      showJobTrackingDailog(curUser){
+
+        // 打开用户编辑对话框
+        this.jobTrackingDialog = true
+      },
       // 点击确定按钮，修改用户数据
 
+      closeJobTrackingDialog() {
 
+      }
 
     }
   }
