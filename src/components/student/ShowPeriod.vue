@@ -14,7 +14,7 @@
     </el-table-column>
     <el-table-column prop="school" label="学校" width="180">
     </el-table-column>
-    <el-table-column prop="has_period" label="已获学时" width="180">
+    <el-table-column prop="all_period" label="总学时" width="180">
     </el-table-column>
     <el-table-column prop="un_period" label="已扣学时" width="180">
     </el-table-column>
@@ -37,14 +37,13 @@
           username: '赵珂',
           grade: '计科软件外包(16-2)',
           school:'齐鲁工业大学',
-          has_period:'100',
+          all_period:'100',
           un_period:'20'
         }]
       }
     },
     methods:{
       godetail(){
-
         // this.$route.push({name:"evaluationdetail"})
         this.$router.push({name:'perioddetial'})
       }

@@ -7,24 +7,24 @@
         <el-breadcrumb-item>查看学时详情</el-breadcrumb-item>
       </el-breadcrumb>
 
-      <div class="block">
-        <div class="radio">
-          排序：
-          <el-radio-group v-model="reverse">
-            <el-radio :label="true">倒序</el-radio>
-            <el-radio :label="false">正序</el-radio>
-          </el-radio-group>
-        </div>
+      <el-table :data="tableData" stripe class="table">
+        <el-table-column prop="time" label="时间" width="180">
+        </el-table-column>
+        <el-table-column prop="number" label="学号" width="180">
+        </el-table-column>
+        <el-table-column prop="username" label="姓名" width="180">
+        </el-table-column>
+        <el-table-column prop="grade" label="年级" width="180">
+        </el-table-column>
+        <el-table-column prop="school" label="学校" width="180">
+        </el-table-column>
+        <el-table-column prop="resource" label="原因" width="180">
+        </el-table-column>
 
-        <el-timeline :reverse="reverse">
-          <el-timeline-item
-            v-for="(activity, index) in activities"
-            :key="index"
-            :timestamp="activity.timestamp">
-            {{activity.content}}
-          </el-timeline-item>
-        </el-timeline>
-      </div>
+
+      </el-table>
+
+
     </div>
 </template>
 
@@ -33,6 +33,14 @@
     name: 'PeriodDetial',
     data() {
       return {
+        tableData: [{
+          time:'2019-07-04',
+          number: '201603091071',
+          username: '赵珂',
+          grade: '计科软件外包(16-2)',
+          school:'齐鲁工业大学',
+          resource:'请假一天'
+        }]
 
       }
     }
@@ -40,5 +48,8 @@
 </script>
 
 <style scoped>
+.table{
+  margin-top: 20px;
 
+}
 </style>
