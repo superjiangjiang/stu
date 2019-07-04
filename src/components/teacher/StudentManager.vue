@@ -95,7 +95,7 @@
 
     <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
         <el-table :data="jobTrackingData">
-          <el-table-column property="time" label="就业时间" width="120"></el-table-column>
+          <el-table-column property="time" label="就业追踪" width="120"></el-table-column>
           <el-table-column property="name" label="姓名" width="80"></el-table-column>
           <el-table-column property="company" label="公司" width="250"></el-table-column>
           <el-table-column property="salary" label="薪水" idth="100"></el-table-column>

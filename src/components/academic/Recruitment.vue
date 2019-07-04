@@ -4,8 +4,8 @@
       <el-row>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
           <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>学业导师</el-breadcrumb-item>
-          <el-breadcrumb-item>发布信息</el-breadcrumb-item>
+          <el-breadcrumb-item>教师</el-breadcrumb-item>
+          <el-breadcrumb-item>招聘信息</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
       <el-row >
@@ -92,5 +92,11 @@
   }
   .el-col {
     border-radius: 4px;
+  }
+  .user-breadcrumb {
+    line-height: 40px;
+    background-color: #d4dae0;
+    font-size: 18px;
+    padding-left: 10px;
   }
 </style>

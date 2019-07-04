@@ -146,6 +146,13 @@
 </script>
 
 <style scoped lang="less">
+  .user-breadcrumb {
+    line-height: 40px;
+    background-color: #d4dae0;
+    font-size: 18px;
+    padding-left: 10px;
+  }
+
   .el-row {
     margin-bottom: 20px;
     &:last-child {

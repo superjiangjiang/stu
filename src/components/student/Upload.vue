@@ -76,4 +76,10 @@ export default {
   .el-col {
     border-radius: 4px;
   }
+  .user-breadcrumb {
+    line-height: 40px;
+    background-color: #d4dae0;
+    font-size: 18px;
+    padding-left: 10px;
+  }
 </style>
