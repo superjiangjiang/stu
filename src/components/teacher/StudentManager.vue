@@ -47,7 +47,7 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
-      <el-table-column prop="school" label="学校" width="150">
+      <el-table-column prop="school" label="学校" width="180">
       </el-table-column>
       <el-table-column prop="class" label="班级" width="150">
       </el-table-column>

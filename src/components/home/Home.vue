@@ -41,6 +41,12 @@
 
             <!-- 启用路由模式后，index就相当于 原来 router-link 中的to属性，用来指定导航的路径（哈希值） -->
             <!-- 可以使用 /home/student 或者 home/student -->
+            <el-menu-item index="/home/showperiod">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>查看学时</span>
+              </template>
+            </el-menu-item>
             <el-menu-item index="/home/score">
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -51,6 +57,12 @@
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>上传简历</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/lookinfo">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/teacherevaluation">
@@ -65,35 +77,40 @@
                 <span>申请退学</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/lookinfo">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>招聘信息</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/showperiod">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>查看学时</span>
-              </template>
-            </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>教师</span>
             </template>
-
-            <el-menu-item index="/home/classemploymentrate">
+            <el-menu-item index="/home/studentmanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>所带学生就业率</span>
+                <span>学生管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/periodmanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学时管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/statisticalscores">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>成绩管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/showrecruitment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/recruitment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/statisticsclass">
@@ -108,56 +125,18 @@
                 <span>学生评价统计</span>
               </template>
             </el-menu-item>
-             <el-menu-item index="/home/studentmanager">
+            <el-menu-item index="/home/classemploymentrate">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>学生管理</span>
+                <span>所带学生就业率</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/showrecruitment">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>招聘信息查看</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/periodmanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学时管理</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
-
-
-          <el-submenu index="3">
-
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>学校</span>
-            </template>
-
-            <el-menu-item index="/home/schoolstatisticsemployment">
+           <el-menu-item index="/home/schoolstatisticsemployment">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>学校就业统计</span>
               </template>
             </el-menu-item>
-
-          </el-submenu>
-          <el-submenu index="4">
-
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>导师</span>
-            </template>
-
-            <el-menu-item index="/home/recruitment">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>招聘信息</span>
-              </template>
-            </el-menu-item>
-
           </el-submenu>
         </el-menu>
       </el-aside>

@@ -45,15 +45,17 @@
     ]
      -->
     <el-table :data="tableData" stripe>
-      <el-table-column prop="number" label="学号" width="200">
+      <el-table-column prop="number" label="学号" width="150">
       </el-table-column>
-      <el-table-column prop="username" label="姓名" width="200">
+      <el-table-column prop="username" label="姓名" width="150">
       </el-table-column>
-      <el-table-column prop="grade" label="年级" width="200">
+      <el-table-column prop="school" label="学校" width="180">
       </el-table-column>
-      <el-table-column prop="subject" label="科目" width="200">
+      <el-table-column prop="class" label="班级" width="150">
       </el-table-column>
-      <el-table-column prop="score" label="成绩" width="200">
+      <el-table-column prop="subject" label="科目" width="180">
+      </el-table-column>
+      <el-table-column prop="score" label="成绩" width="100">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -87,9 +89,12 @@
           <el-form-item prop="username" label="姓名" label-width="120px">
             <el-input  v-model="userAddForm.username" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item prop="class" label="班级" label-width="120px">
-            <el-input v-model="userAddForm.class"  autocomplete="off"></el-input>
-          </el-form-item>
+        <el-form-item prop="school" label="学校" label-width="120px">
+          <el-input v-model="userAddForm.school"  autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="class" label="班级" label-width="120px">
+          <el-input v-model="userAddForm.class"  autocomplete="off"></el-input>
+        </el-form-item>
           <el-form-item prop="subject" label="科目" label-width="120px">
             <el-input v-model="userAddForm.subject"  autocomplete="off"></el-input>
           </el-form-item>
@@ -114,10 +119,13 @@
           <el-input disabled  :value="userEditForm.number"></el-input>
         </el-form-item>
         <el-form-item prop="username" label="姓名" width="180">
-          <el-input  :value="userEditForm.username"></el-input>
+          <el-input disabled :value="userEditForm.username"></el-input>
         </el-form-item>
-        <el-form-item prop="grade" label="年级" width="180">
-          <el-input  :value="userEditForm.grade"></el-input>
+        <el-form-item prop="school" label="学校" width="180">
+          <el-input disabled :value="userEditForm.school"></el-input>
+        </el-form-item>
+        <el-form-item prop="class" label="班级" width="180">
+          <el-input disabled :value="userEditForm.class"></el-input>
         </el-form-item>
         <el-form-item prop="subject" label="科目" width="180">
           <el-input  :value="userEditForm.subject"></el-input>
@@ -162,6 +170,7 @@
         userAddForm: {
           number:'',
           username: '',
+          school: '',
           class: '',
           subject: '',
           score: ''
@@ -184,59 +193,47 @@
         userEditForm: {
           number: -1,
           username: '',
-          grade: '',
+          school: '',
+          class: '',
           subject: '',
           score:''
         },
         tableData: [{
           number: '201603091071',
           username: '赵珂',
-          grade: '计科软件外包(16-2)',
-          subject:'数据结构',
-          score:'98'
-        }, {
-          number: '201603091071',
-          username: '赵珂',
-          grade: '计科软件外包(16-2)',
+          school: '齐鲁工业大学',
+          class: '基础班',
           subject:'数据结构',
           score:'98'
         },{
           number: '201603091071',
           username: '赵珂',
-          grade: '计科软件外包(16-2)',
+          school: '齐鲁工业大学',
+          class: '基础班',
           subject:'数据结构',
           score:'98'
         },{
           number: '201603091071',
           username: '赵珂',
-          grade: '计科软件外包(16-2)',
+          school: '齐鲁工业大学',
+          class: '基础班',
           subject:'数据结构',
           score:'98'
         },{
           number: '201603091071',
           username: '赵珂',
-          grade: '计科软件外包(16-2)',
+          school: '齐鲁工业大学',
+          class: '基础班',
           subject:'数据结构',
           score:'98'
         },{
           number: '201603091071',
           username: '赵珂',
-          grade: '计科软件外包(16-2)',
+          school: '齐鲁工业大学',
+          class: '基础班',
           subject:'数据结构',
           score:'98'
-        },{
-          number: '201603091071',
-          username: '赵珂',
-          grade: '计科软件外包(16-2)',
-          subject:'数据结构',
-          score:'98'
-        },{
-          number: '201603091071',
-          username: '赵珂',
-          grade: '计科软件外包(16-2)',
-          subject:'数据结构',
-          score:'98'
-        }],
+        }]
       //excel上传
 
 
