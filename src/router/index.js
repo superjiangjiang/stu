@@ -17,6 +17,8 @@ import DropOut from '@/components/student/DropOut'
 //引入上传组件
 import Upload from '@/components/student/Upload'
 
+//引入学生查看学时组件
+import ShowPeriod from '@/components/student/ShowPeriod'
 
 //引入学生评价的组件
 
@@ -39,7 +41,11 @@ import StatisticalScores from  '@/components/teacher/StatisticalScores'
 import StatisticsClass from '@/components/teacher/StatisticsClass'
 
 
+//引入学时管理组件
+import PeriodManager from  '@/components/teacher/PeriodManager'
 
+//引入历史发布的招聘信息组件
+import ShowRecruitment from '@/components/teacher/ShowRecruitment'
 
 //引入学生管理组件
 import StudentManager from '@/components/teacher/StudentManager'
@@ -54,6 +60,8 @@ import Recruitment from '@/components/academic/Recruitment'
 //引入导师发布招聘信息组件
 import InfoDetail from '@/components/subcompoents/InfoDetail'
 
+//引入课时详情组件
+import StatisticsClassDetail from '@/components/subcompoents/StatisticsClassDetail'
 
 Vue.use(Router)
 const router = new Router({
@@ -65,6 +73,11 @@ const router = new Router({
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
         { path: 'teacherevaluation', component: TeacherEvaluation },
+
+        { path: 'periodmanager', component: PeriodManager },
+        { path: 'showrecruitment', component: ShowRecruitment },
+        { path: 'showperiod', component: ShowPeriod },
+
         {path:'lookinfo',component:LookInfo},
         { path: 'dropout', component: DropOut },
         { path: 'classemploymentrate', component: ClassEmploymentRate },
@@ -75,7 +88,8 @@ const router = new Router({
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
         { path: 'recruitment', component: Recruitment },
         { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
-        { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'}
+        { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'},
+        { path:'/statisticsclass/statisticsclassdetail',component:StatisticsClassDetail,name:'statisticsclassdetail'}
       ]
 
     },

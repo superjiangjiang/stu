@@ -11,18 +11,22 @@
     <el-table :data="tableData" stripe>
       <el-table-column prop="number" label="教师号" width="180">
       </el-table-column>
-      <el-table-column prop="teachername" label="教师名" width="180">
+      <el-table-column prop="teachername" label="教师名" width="100">
       </el-table-column>
       <el-table-column prop="subject" label="所教科目" width="180">
       </el-table-column>
-      <el-table-column prop="all" label="总课时" width="180">
+      <el-table-column prop="all" label="总课时" width="100">
       </el-table-column>
-      <el-table-column prop="have" label="已授课时" width="180">
+      <el-table-column prop="have" label="已授课时" width="100">
       </el-table-column>
-      <el-table-column prop="residue" label="剩余课时" width="180">
+      <el-table-column prop="residue" label="剩余课时" width="100">
       </el-table-column>
 
-
+      <el-table-column label="操作" >
+        <template slot-scope="scope">
+          <el-button plain size="mini" @click="godetail()" >课时详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!--
@@ -122,6 +126,11 @@
     },
 
     methods: {
+      godetail(){
+        console.log("haha")
+        // this.$route.push({name:"evaluationdetail"})
+        this.$router.push({name:'statisticsclassdetail'})
+      }
       // 获取用户列表数据
       // curPage = 1 给参数添加默认值
       /* getUserList(curPage = 1) {

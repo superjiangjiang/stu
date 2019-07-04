@@ -71,6 +71,12 @@
                 <span>招聘信息</span>
               </template>
             </el-menu-item>
+            <el-menu-item index="/home/showperiod">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>查看学时</span>
+              </template>
+            </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
@@ -106,6 +112,18 @@
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>学生管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/showrecruitment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息查看</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/periodmanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学时管理</span>
               </template>
             </el-menu-item>
           </el-submenu>
