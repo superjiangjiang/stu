@@ -5,64 +5,59 @@ import Router from 'vue-router'
 import Login from '@/components/login/Login'
 // 导入首页组件
 import Home from '@/components/home/Home'
-// 导入用户列表组件
-import Score from '@/components/student/Score'
-
-//引入教师评价组件
-import TeacherEvaluation from '@/components/student/TeacherEvaluation'
-
 //引入学生申请退学组件
 import DropOut from '@/components/student/DropOut'
-
-//引入上传组件
-import Upload from '@/components/student/Upload'
-
-//引入学生查看学时组件
-import ShowPeriod from '@/components/student/ShowPeriod'
-
-//引入学生查看学时详情的组件
-import PeriodDetial from '@/components/subcompoents/PeriodDetial'
-//引入学生评价的组件
-
-import StatisticsStudentEvaluation from '@/components/teacher/StatisticsStudentEvaluation'
-
-//引入学生详细评价的组件
-import EvaluationDetail from '@/components/subcompoents/EvaluationDetail'
 
 //引入学生查看招聘信息的组件
 import LookInfo from '@/components/student/LookInfo'
 
+// 导入用户列表组件
+import Score from '@/components/student/Score'
+//引入学生查看学时组件
+import ShowPeriod from '@/components/student/ShowPeriod'
 
-//引入所带班级就业率组件
-import ClassEmploymentRate from '@/components/teacher/ClassEmploymentRate'
+//引入教师评价组件
+import TeacherEvaluation from '@/components/student/TeacherEvaluation'
 
-//引入成绩统计组件
-import StatisticalScores from  '@/components/teacher/StatisticalScores'
+//引入上传组件
+import Upload from '@/components/student/Upload'
 
-//引入统计课时组件
-import StatisticsClass from '@/components/teacher/StatisticsClass'
-
-
-//引入学时管理组件
-import PeriodManager from  '@/components/teacher/PeriodManager'
-
-//引入历史发布的招聘信息组件
-import ShowRecruitment from '@/components/teacher/ShowRecruitment'
-
-//引入学生管理组件
-import StudentManager from '@/components/teacher/StudentManager'
-
-
-//引入学校就业统计组件
-import SchoolStatisticsEmployment from '@/components/school/SchoolStatisticsEmployment'
-
+//引入学生详细评价的组件
+import EvaluationDetail from '@/components/subcompoents/EvaluationDetail'
 
 
 //引入导师发布招聘信息组件
 import InfoDetail from '@/components/subcompoents/InfoDetail'
 
+//引入学生查看学时详情的组件
+import PeriodDetial from '@/components/subcompoents/PeriodDetial'
+
 //引入课时详情组件
 import StatisticsClassDetail from '@/components/subcompoents/StatisticsClassDetail'
+
+//引入学时管理组件
+import PeriodManager from  '@/components/headteacher/PeriodManager'
+
+//引入学生管理组件
+import StudentManager from '@/components/headteacher/StudentManager'
+
+//引入所带班级就业率组件
+import ClassEmploymentRate from '@/components/technologyteacher/ClassEmploymentRate'
+
+//引入学校就业统计组件
+import SchoolStatisticsEmployment from '@/components/technologyteacher/SchoolStatisticsEmployment'
+
+//引入成绩统计组件
+import StatisticalScores from  '@/components/technologyteacher/StatisticalScores'
+
+//引入统计课时组件
+import StatisticsClass from '@/components/technologyteacher/StatisticsClass'
+
+//引入学生评价的组件
+import StatisticsStudentEvaluation from '@/components/technologyteacher/StatisticsStudentEvaluation'
+
+//引入历史发布的招聘信息组件
+import ShowRecruitment from '@/components/tutor/ShowRecruitment'
 
 Vue.use(Router)
 const router = new Router({

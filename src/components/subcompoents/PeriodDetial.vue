@@ -8,11 +8,11 @@
       </el-breadcrumb>
 
       <el-table :data="tableData" stripe class="table">
-        <el-table-column prop="time" label="时间" width="180">
+        <el-table-column prop="time" label="时间" width="150">
         </el-table-column>
         <el-table-column prop="number" label="学号" width="180">
         </el-table-column>
-        <el-table-column prop="username" label="姓名" width="180">
+        <el-table-column prop="username" label="姓名" width="120">
         </el-table-column>
         <el-table-column prop="grade" label="年级" width="180">
         </el-table-column>
@@ -20,7 +20,8 @@
         </el-table-column>
         <el-table-column prop="resource" label="原因" width="180">
         </el-table-column>
-
+        <el-table-column prop="score" label="学时变动情况" width="150">
+        </el-table-column>
 
       </el-table>
 
@@ -39,7 +40,8 @@
           username: '赵珂',
           grade: '计科软件外包(16-2)',
           school:'齐鲁工业大学',
-          resource:'请假一天'
+          resource:'请假一天',
+          score:'-1'
         }]
 
       }
@@ -50,6 +52,5 @@
 <style scoped>
 .table{
   margin-top: 20px;
-
 }
 </style>

@@ -15,7 +15,9 @@
       <el-col :span="2">
         <el-button type="success" plain @click="showinfoAddDialog">添加招聘信息</el-button>
       </el-col>
-
+      <el-col :span="4" :push="12">
+        <el-button type="primary" plain>查看历史记录</el-button>
+      </el-col>
     </el-row>
 
     <!--
@@ -79,17 +81,13 @@
           <el-input v-model="form.people"  placeholder="请输入招聘人数"></el-input>
         </el-form-item>
         <el-form-item label="发布时间">
-          <el-col :span="5">
             <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
-          </el-col>
-        </el-form-item>
+         </el-form-item>
         <el-form-item label="招聘职业">
-          <el-input v-model="form.job" aria-placeholder="请输入企业名称"></el-input>
+          <el-input v-model="form.job" placeholder="请输入企业名称"></el-input>
         </el-form-item>
         <el-form-item label="薪资">
-          <el-col :span="5">
-            <el-input v-model="form.salary" aria-placeholder="请输入最低工资"></el-input>
-          </el-col>
+             <el-input v-model="form.salary" placeholder="请输入最低工资"></el-input>
         </el-form-item>
 
 

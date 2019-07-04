@@ -21,12 +21,17 @@
           :on-remove="handleRemove"
 
           list-type="picture">
-          <el-button type="primary">点击上传excel文件</el-button>
+          <el-button type="primary">点击上传excel</el-button>
 
 
         </el-upload>
       </el-col>
+      <el-col :span="4" :push="10">
+        <el-button type="primary" plain>查看历史记录</el-button>
+      </el-col>
     </el-row>
+
+
 
     <el-table :data="tableData" stripe>
       <el-table-column prop="number" label="学号" width="120">

@@ -28,6 +28,10 @@
 
         </el-upload>
       </el-col>
+
+      <el-col :span="4" :push="8">
+        <el-button type="primary" plain>查看历史记录</el-button>
+      </el-col>
     </el-row>
 
     <!--
@@ -242,43 +246,6 @@
     },
 
     methods: {
-     /* //excel 上传
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },*/
-      // 获取用户列表数据
-      // curPage = 1 给参数添加默认值
-      /* getUserList(curPage = 1) {
-        this.$http
-          .get('/student', {
-            params: {
-              // 当前页
-              pagenum: curPage,
-              // 每页展示多少条数据
-              pagesize: 3,
-              // 查询条件
-              query: this.queryStr || ''
-            }
-            // 将 token 作为请求头，传递给服务器接口
-            // 这样，才能正确的调用这个接口
-            // headers: {
-            //   Authorization: localStorage.getItem('token')
-            // }
-          })
-          .then(res => {
-            console.log('请求成功:', res)
-            const { data, meta } = res.data
-            if (meta.status === 200) {
-              // 获取数据成功
-              this.userList = data.student
-              this.total = data.total
-              this.curPage = data.pagenum
-            }
-          })
-      }, */
 
       // 展示用户添加对话框
       showscoreAddDialog() {

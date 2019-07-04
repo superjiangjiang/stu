@@ -81,7 +81,13 @@
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>教师</span>
+              <span>管理员</span>
+            </template>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>班主任</span>
             </template>
             <el-menu-item index="/home/studentmanager">
               <template slot="title">
@@ -95,20 +101,19 @@
                 <span>学时管理</span>
               </template>
             </el-menu-item>
+            </el-submenu>
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>技术老师</span>
+            </template>
             <el-menu-item index="/home/statisticalscores">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>成绩管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/showrecruitment">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>招聘信息管理</span>
-              </template>
-            </el-menu-item>
-
-            <el-menu-item index="/home/statisticsclass">
+           <el-menu-item index="/home/statisticsclass">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>课时管理</span>
@@ -126,10 +131,22 @@
                 <span>所带学生就业率</span>
               </template>
             </el-menu-item>
-           <el-menu-item index="/home/schoolstatisticsemployment">
+            <el-menu-item index="/home/schoolstatisticsemployment">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>学校就业统计</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>导师</span>
+            </template>
+             <el-menu-item index="/home/showrecruitment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息管理</span>
               </template>
             </el-menu-item>
           </el-submenu>
