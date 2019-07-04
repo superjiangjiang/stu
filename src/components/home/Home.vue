@@ -111,7 +111,7 @@
             <el-menu-item index="/home/statisticsclass">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>课时统计</span>
+                <span>课时管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/statisticsstudentevaluation">
