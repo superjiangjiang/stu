@@ -13,6 +13,8 @@
       </el-table-column>
       <el-table-column prop="teachername" label="教师名" width="100">
       </el-table-column>
+      <el-table-column prop="class" label="所教班级" width="180">
+      </el-table-column>
       <el-table-column prop="subject" label="所教科目" width="180">
       </el-table-column>
       <el-table-column prop="all" label="总课时" width="100">
@@ -74,49 +76,40 @@
         tableData: [{
           number: '201603091071',
           teachername: '赵珂',
-          subject: '数据结构',
+          class: '基础班',
+          subject: 'java基础',
           all:200,
           have:100,
           residue:100
         }, {
           number: '201603091071',
           teachername: '赵珂',
-          subject: '数据结构',
+          class: '基础班',
+          subject: '数据库',
           all:'200',
           have:'100',
           residue:'100'
         },{
           number: '201603091071',
           teachername: '赵珂',
-          subject: '数据结构',
+          class: '基础班',
+          subject: 'jdbc',
           all:'200',
           have:'100',
           residue:'100'
         },{
           number: '201603091071',
           teachername: '赵珂',
-          subject: '数据结构',
+          class: '基础班',
+          subject: 'javaweb',
           all:'200',
           have:'100',
           residue:'100'
         },{
           number: '201603091071',
           teachername: '赵珂',
-          subject: '数据结构',
-          all:'200',
-          have:'100',
-          residue:'100'
-        },{
-          number: '201603091071',
-          teachername: '赵珂',
-          subject: '数据结构',
-          all:'200',
-          have:'100',
-          residue:'100'
-        },{
-          number: '201603091071',
-          teachername: '赵珂',
-          subject: '数据结构',
+          class: '基础班',
+          subject: 'ssm',
           all:'200',
           have:'100',
           residue:'100'
