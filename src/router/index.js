@@ -54,8 +54,7 @@ import StudentManager from '@/components/teacher/StudentManager'
 //引入学校就业统计组件
 import SchoolStatisticsEmployment from '@/components/school/SchoolStatisticsEmployment'
 
-//引入导师组件
-import Recruitment from '@/components/academic/Recruitment'
+
 
 //引入导师发布招聘信息组件
 import InfoDetail from '@/components/subcompoents/InfoDetail'
@@ -86,7 +85,7 @@ const router = new Router({
         { path: 'statisticsstudentevaluation', component: StatisticsStudentEvaluation },
         { path: 'studentmanager', component: StudentManager },
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
-        { path: 'recruitment', component: Recruitment },
+
         { path:'/teacherevaluation/evaluationdetail',component:EvaluationDetail,name:'evaluationdetail'},
         { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'},
         { path:'/statisticsclass/statisticsclassdetail',component:StatisticsClassDetail,name:'statisticsclassdetail'}

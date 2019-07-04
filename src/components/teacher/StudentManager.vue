@@ -58,37 +58,37 @@
 
 
     <!-- 编辑用户对话框 -->
-    <el-dialog title="学生管理" :visible.sync="userEditDialog" @close="closeUserEditDialog">
+    <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
 
-      <el-form :model="userEditForm" :rules="userEditRules" ref="userEditForm">
+      <el-form :model="studentEditForm" :rules="userEditRules" ref="studentEditForm">
         <el-form-item prop="number" label="学号" width="100">
-          <el-input disabled  :value="userEditForm.number"></el-input>
+          <el-input disabled  :value="studentEditForm.number"></el-input>
         </el-form-item>
         <el-form-item prop="name" label="姓名" width="100">
-          <el-input  :value="userEditForm.name"></el-input>
+          <el-input  :value="studentEditForm.name"></el-input>
         </el-form-item>
         <el-form-item prop="school" label="学校" width="100">
-          <el-input  :value="userEditForm.school"></el-input>
+          <el-input  :value="studentEditForm.school"></el-input>
         </el-form-item>
         <el-form-item prop="school" label="班级" width="100">
-          <el-input  :value="userEditForm.class"></el-input>
+          <el-input  :value="studentEditForm.class"></el-input>
         </el-form-item>
         <el-form-item prop="dormitory" label="宿舍" width="100">
-          <el-input  :value="userEditForm.dormitory"></el-input>
+          <el-input  :value="studentEditForm.dormitory"></el-input>
         </el-form-item>
         <el-form-item prop="employment" label="就业" width="100">
-          <el-input  :value="userEditForm.employment"></el-input>
+          <el-input  :value="studentEditForm.employment"></el-input>
         </el-form-item>
 
         <el-form-item prop="unit" label="首次就业单位" width="100">
-          <el-input  :value="userEditForm.unit"></el-input>
+          <el-input  :value="studentEditForm.unit"></el-input>
         </el-form-item>
         <el-form-item prop="salary" label="薪资" width="100">
-          <el-input  :value="userEditForm.salary"></el-input>
+          <el-input  :value="studentEditForm.salary"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="userEditDialog = false">取 消</el-button>
+        <el-button @click="studentEditDialog = false">取 消</el-button>
         <el-button type="primary" >确 定</el-button>
       </div>
     </el-dialog>
@@ -125,8 +125,8 @@
         queryStr: '',
 
         // 控制编辑用户对话框的展示和隐藏
-        userEditDialog: false,
-        userEditForm: {
+        studentEditDialog: false,
+        studentEditForm: {
           number: -1,
           name: '',
           school: '',
@@ -231,18 +231,18 @@
       showUserEditDailog(curUser) {
         // console.log(curUser)
         // 先获取到当前用户的数据
-        // 数据交给 userEditForm 后，就会展示在编辑对话框中
-        for (const key in this.userEditForm) {
-          this.userEditForm[key] = curUser[key]
+        // 数据交给 studentEditForm 后，就会展示在编辑对话框中
+        for (const key in this.studentEditForm) {
+          this.studentEditForm[key] = curUser[key]
         }
 
         // 打开用户编辑对话框
-        this.userEditDialog = true
+        this.studentEditDialog = true
       },
 
       // 关闭用户编辑对话框
-      closeUserEditDialog() {
-        this.$refs.userEditForm.resetFields()
+      closestudentEditDialog() {
+        this.$refs.studentEditForm.resetFields()
       },
 
       showJobTrackingDailog(curUser){

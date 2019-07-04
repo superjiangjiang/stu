@@ -13,7 +13,7 @@
         </el-input>
       </el-col>
       <el-col :span="2">
-        <el-button type="success" plain @click="showUserAddDialog">录入成绩</el-button>
+        <el-button type="success" plain @click="showscoreAddDialog">录入成绩</el-button>
       </el-col>
       <el-col :span="4">
         <!--    上传Excel-->
@@ -59,7 +59,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showUserEditDailog(scope.row)"></el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showScoreEditDailog(scope.row)"></el-button>
         </template>
       </el-table-column>
 
@@ -81,61 +81,61 @@
 
 
     <!-- 添加用户对话框 -->
-    <el-dialog title="录入成绩" :visible.sync="userAddDialog" @close="closeUserAddDialog">
-      <el-form :model="userAddForm" :rules="userAddRules" ref="userAddForm">
+    <el-dialog title="录入成绩" :visible.sync="scoreAddDialog" @close="closescoreAddDialog">
+      <el-form :model="scoreAddForm" :rules="scoreAddRules" ref="scoreAddForm">
           <el-form-item prop="number" label="学号" label-width="120px">
-          <el-input  v-model="userAddForm.number" autocomplete="off"></el-input>
+          <el-input  v-model="scoreAddForm.number" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="username" label="姓名" label-width="120px">
-            <el-input  v-model="userAddForm.username" autocomplete="off"></el-input>
+            <el-input  v-model="scoreAddForm.username" autocomplete="off"></el-input>
           </el-form-item>
         <el-form-item prop="school" label="学校" label-width="120px">
-          <el-input v-model="userAddForm.school"  autocomplete="off"></el-input>
+          <el-input v-model="scoreAddForm.school"  autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="class" label="班级" label-width="120px">
-          <el-input v-model="userAddForm.class"  autocomplete="off"></el-input>
+          <el-input v-model="scoreAddForm.class"  autocomplete="off"></el-input>
         </el-form-item>
           <el-form-item prop="subject" label="科目" label-width="120px">
-            <el-input v-model="userAddForm.subject"  autocomplete="off"></el-input>
+            <el-input v-model="scoreAddForm.subject"  autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="score" label="成绩" label-width="120px">
-            <el-input v-model="userAddForm.score"  autocomplete="off"></el-input>
+            <el-input v-model="scoreAddForm.score"  autocomplete="off"></el-input>
           </el-form-item>
       </el-form>
 
           <div slot="footer" class="dialog-footer">
-            <el-button @click="userAddDialog = false">取 消</el-button>
+            <el-button @click="scoreAddDialog = false">取 消</el-button>
             <el-button type="primary">确 定</el-button>
           </div>
 
     </el-dialog>
 
 
-    <!-- 编辑用户对话框 -->
-    <el-dialog title="修改成绩" :visible.sync="userEditDialog" @close="closeUserEditDialog">
+    <!-- 编辑成绩对话框 -->
+    <el-dialog title="修改成绩" :visible.sync="scoreEditDialog" @close="closescoreEditDailog">
 
-      <el-form :model="userEditForm" :rules="userEditRules" ref="userEditForm">
+      <el-form :model="scoreEditForm" :rules="userEditRules" ref="scoreEditForm">
         <el-form-item prop="number" label="学号" width="180">
-          <el-input disabled  :value="userEditForm.number"></el-input>
+          <el-input disabled  :value="scoreEditForm.number"></el-input>
         </el-form-item>
         <el-form-item prop="username" label="姓名" width="180">
-          <el-input disabled :value="userEditForm.username"></el-input>
+          <el-input disabled :value="scoreEditForm.username"></el-input>
         </el-form-item>
         <el-form-item prop="school" label="学校" width="180">
-          <el-input disabled :value="userEditForm.school"></el-input>
+          <el-input disabled :value="scoreEditForm.school"></el-input>
         </el-form-item>
         <el-form-item prop="class" label="班级" width="180">
-          <el-input disabled :value="userEditForm.class"></el-input>
+          <el-input disabled :value="scoreEditForm.class"></el-input>
         </el-form-item>
         <el-form-item prop="subject" label="科目" width="180">
-          <el-input  :value="userEditForm.subject"></el-input>
+          <el-input  :value="scoreEditForm.subject"></el-input>
         </el-form-item>
         <el-form-item prop="score" label="成绩" width="180">
-          <el-input  :value="userEditForm.score"></el-input>
+          <el-input  :value="scoreEditForm.score"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="userEditDialog = false">取 消</el-button>
+        <el-button @click="scoreEditDialog = false">取 消</el-button>
         <el-button type="primary" >确 定</el-button>
       </div>
     </el-dialog>
@@ -166,8 +166,8 @@
         queryStr: '',
 
         // 控制用户添加对话框的展示和隐藏
-        userAddDialog: false,
-        userAddForm: {
+        scoreAddDialog: false,
+        scoreAddForm: {
           number:'',
           username: '',
           school: '',
@@ -175,7 +175,7 @@
           subject: '',
           score: ''
         },
-        userAddRules: {
+        scoreAddRules: {
           username: [
             { required: true, message: '姓名为必填项', trigger: 'blur' },
             {
@@ -189,8 +189,8 @@
         },
 
         // 控制编辑用户对话框的展示和隐藏
-        userEditDialog: false,
-        userEditForm: {
+        scoreEditDialog: false,
+        scoreEditForm: {
           number: -1,
           username: '',
           school: '',
@@ -281,13 +281,13 @@
       }, */
 
       // 展示用户添加对话框
-      showUserAddDialog() {
-        this.userAddDialog = true
+      showscoreAddDialog() {
+        this.scoreAddDialog = true
       },
       // 关闭对话框重置表单
-      closeUserAddDialog() {
+      closescoreAddDialog() {
         // console.log('对话框关闭了')
-        this.$refs.userAddForm.resetFields()
+        this.$refs.scoreAddForm.resetFields()
       },
 
       // 添加用户
@@ -297,21 +297,21 @@
 
 
       // 展示编辑对话框
-      showUserEditDailog(curUser) {
+      showScoreEditDailog(curUser) {
         // console.log(curUser)
         // 先获取到当前用户的数据
-        // 数据交给 userEditForm 后，就会展示在编辑对话框中
-        for (const key in this.userEditForm) {
-          this.userEditForm[key] = curUser[key]
+        // 数据交给 scoreEditForm 后，就会展示在编辑对话框中
+        for (const key in this.scoreEditForm) {
+          this.scoreEditForm[key] = curUser[key]
         }
 
         // 打开用户编辑对话框
-        this.userEditDialog = true
+        this.scoreEditDialog = true
       },
 
       // 关闭用户编辑对话框
-      closeUserEditDialog() {
-        this.$refs.userEditForm.resetFields()
+      closescoreEditDailog() {
+        this.$refs.scoreEditForm.resetFields()
       },
 
       // 点击确定按钮，修改用户数据

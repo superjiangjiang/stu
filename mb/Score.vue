@@ -269,7 +269,13 @@ export default {
 
 
     // 根据用户id删除用户
-
+    delUserById(id) {
+      // console.log(id)
+      this.$confirm('确认删除该用户吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })},
 
     // 展示编辑对话框
     showUserEditDailog(curUser) {

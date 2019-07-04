@@ -107,12 +107,7 @@
                 <span>招聘信息管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/recruitment">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>招聘信息</span>
-              </template>
-            </el-menu-item>
+
             <el-menu-item index="/home/statisticsclass">
               <template slot="title">
                 <i class="el-icon-menu"></i>
