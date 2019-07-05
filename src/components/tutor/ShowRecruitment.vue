@@ -1,11 +1,10 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>教师</el-breadcrumb-item>
-      <el-breadcrumb-item>招聘信息管理</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+    <el-breadcrumb-item>学业导师</el-breadcrumb-item>
+    <el-breadcrumb-item>招聘信息管理</el-breadcrumb-item>
     </el-breadcrumb>
-
     <el-row :gutter="20">
       <el-col :span="6">
         <el-input placeholder="请输入编号" v-model="queryStr" class="input-with-select">

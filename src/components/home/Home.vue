@@ -50,7 +50,7 @@
             <el-menu-item index="/home/score">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>成绩显示</span>
+                <span>查看成绩</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/upload">
@@ -62,13 +62,13 @@
             <el-menu-item index="/home/lookinfo">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>招聘信息</span>
+                <span>查看招聘信息</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/teacherevaluation">
+            <el-menu-item index="/home/personal">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>教师评价</span>
+                <span>修改个人信息</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/home/dropout">
@@ -83,26 +83,50 @@
               <i class="el-icon-location"></i>
               <span>管理员</span>
             </template>
-          </el-submenu>
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>班主任</span>
-            </template>
             <el-menu-item index="/home/studentmanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>学生管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/periodmanager">
+            <el-menu-item index="/home/teachermanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>学时管理</span>
+                <span>教师管理</span>
               </template>
             </el-menu-item>
-            </el-submenu>
-          <el-submenu index="4">
+            <el-menu-item index="/home/dormitorymanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>宿舍管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/classmanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>班级管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/classtypemanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>班型管理</span>
+              </template>
+            </el-menu-item><el-menu-item index="/home/periodmanager">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>学时管理</span>
+            </template>
+          </el-menu-item>
+            <el-menu-item index="/home/courseinfomanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>课程信息管理</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>技术老师</span>
@@ -113,40 +137,48 @@
                 <span>成绩管理</span>
               </template>
             </el-menu-item>
-           <el-menu-item index="/home/statisticsclass">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>课时管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/statisticsstudentevaluation">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学生评价统计</span>
-              </template>
-            </el-menu-item>
             <el-menu-item index="/home/classemploymentrate">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>所带学生就业率</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/schoolstatisticsemployment">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学校就业统计</span>
-              </template>
-            </el-menu-item>
+
           </el-submenu>
-          <el-submenu index="5">
+          <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导师</span>
+              <span>学业导师</span>
             </template>
              <el-menu-item index="/home/showrecruitment">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>招聘信息管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/studentchange">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学生管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/periodchange">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学时管理</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>公共</span>
+            </template>
+            <el-menu-item index="/home/schoolstatisticsemployment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学校就业统计</span>
               </template>
             </el-menu-item>
           </el-submenu>
