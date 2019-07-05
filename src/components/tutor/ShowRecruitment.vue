@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
-    <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>学业导师</el-breadcrumb-item>
-    <el-breadcrumb-item>招聘信息管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>学业导师</el-breadcrumb-item>
+      <el-breadcrumb-item>招聘信息管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="20">
       <el-col :span="6">
@@ -44,14 +44,17 @@
       </el-table-column>
       <el-table-column prop="location" label="位置" width="180">
       </el-table-column>
-      <el-table-column prop="people" label="招聘人数" width="100">
+      <el-table-column prop="people" label="招聘人数" width="80">
       </el-table-column>
       <el-table-column prop="time" label="发布时间" width="100">
       </el-table-column>
-      <el-table-column label="操作" width="180">
+      <el-table-column label="操作" width="270">
         <template slot-scope="scope">
           <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showinfoEditDailog(scope.row)"></el-button>
           <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delInfoById(scope.row.id)"></el-button>
+
+          <el-button type="primary" plain size="mini"  @click="showJobTrackingDailog(scope.row)">查看已报名学生</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -80,13 +83,13 @@
           <el-input v-model="form.people"  placeholder="请输入招聘人数"></el-input>
         </el-form-item>
         <el-form-item label="发布时间">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
-         </el-form-item>
+          <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
+        </el-form-item>
         <el-form-item label="招聘职业">
           <el-input v-model="form.job" placeholder="请输入企业名称"></el-input>
         </el-form-item>
         <el-form-item label="薪资">
-             <el-input v-model="form.salary" placeholder="请输入最低工资"></el-input>
+          <el-input v-model="form.salary" placeholder="请输入最低工资"></el-input>
         </el-form-item>
 
 
@@ -102,6 +105,25 @@
       </div>
 
     </el-dialog>
+
+    <el-dialog title="已报名学生信息" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
+
+      <el-table :data="jobTrackingData">
+        <el-table-column property="name" label="姓名" width="70"></el-table-column>
+        <el-table-column property="school" label="学校" width="120"></el-table-column>
+        <el-table-column property="class" label="班级" width="80"></el-table-column>
+        <el-table-column property="position" label="职位" width="120"></el-table-column>
+        <el-table-column property="salary" label="薪资" width="70"></el-table-column>
+        <el-table-column property="company" label="公司名" width="180"></el-table-column>
+      </el-table>
+      <el-row :gutter="20" >
+        <el-col :span="6" push="10">
+          <el-button  plain size="mini" type="primary" @click="showJobTrackingDailog(scope.row)">点我下载excel</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
+
+
 
     <!-- 编辑招聘信息对话框 -->
     <el-dialog  title="修改招聘信息" :visible.sync="infoEditDialog" @close="closeInfoEditDialog">
@@ -186,6 +208,36 @@
           time:'',
           desc: ''
         },
+        jobTrackingData: [{
+          name: '宋阳阳',
+          school: '齐鲁工业大学',
+          class: '基础1班',
+          position: '前端工程师',
+          salary: 5000,
+          company:'杭州虞美人公司'
+        },{
+          name: '宋阳阳',
+          school: '齐鲁工业大学',
+          class: '基础1班',
+          position: '前端工程师',
+          salary: 5000,
+          company:'杭州虞美人公司'
+        }, {
+          name: '宋阳阳',
+          school: '齐鲁工业大学',
+          class: '基础1班',
+          position: '前端工程师',
+          salary: 5000,
+          company:'杭州虞美人公司'
+        }, {
+          name: '宋阳阳',
+          school: '齐鲁工业大学',
+          class: '基础1班',
+          position: '前端工程师',
+          salary: 5000,
+          company:'杭州虞美人公司'
+        }],
+        jobTrackingDialog: false,
 
         infoAddDialog: false,
         infoEditDialog: false,
@@ -213,11 +265,13 @@
         // console.log('对话框关闭了')
         this.$refs.infoAddForm.resetFields()
       },
-
-      // 添加用户
-
-
-      // 根据用户id删除用户
+      showJobTrackingDailog(curUser){
+        // 打开用户编辑对话框
+        this.jobTrackingDialog = true
+      },
+      // 点击确定按钮，修改用户数据
+      closeJobTrackingDialog() {
+      },
       delInfoById(id) {
         // console.log(id)
         this.$confirm('确认删除该信息吗?', '提示', {
