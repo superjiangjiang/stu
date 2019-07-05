@@ -9,7 +9,7 @@
 
       <el-row :gutter="20">
          <el-col :span="6" :push="17" >
-           <el-select v-model="value" placeholder="请选择">
+           <el-select v-model="searchValue" placeholder="请选择" filterable @change="chickvalue">
              <el-option
                v-for="item in options"
                :key="item.value"
@@ -40,13 +40,13 @@
       data () {
         return {
           options: [{
-            value: '选项1',
+            value: '本科',
             label: '本科'
           }, {
-            value: '选项2',
+            value: '专科',
             label: '专科'
           }],
-          value: ''
+          searchValue: ''
         }
       },
       methods:{
@@ -126,6 +126,9 @@
 
           // 使用刚指定的配置项和数据显示图表。
           myChart.setOption(option);
+        },
+        chickvalue () {
+          console.log(this.searchValue)
         }
       },
       //调用
@@ -135,6 +138,7 @@
           this.drawZhu()
         })
       }
+
     }
 </script>
 

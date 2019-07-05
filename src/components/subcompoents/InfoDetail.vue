@@ -68,7 +68,15 @@
           <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
         </el-form-item>
         <el-form-item label="班级">
-          <el-input v-model="form.class" placeholder="请输入班级"></el-input>
+          <el-select @change="chickvalue"
+                     v-model="form.class" filterable placeholder="请输入/请选择班级" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -87,7 +95,13 @@
     name: 'InfoDetail',
     data(){
       return {
-
+        options: [{
+          value: '基础班',
+          label: '基础班'
+        }, {
+          value: '骨干班',
+          label: '骨干班'
+        }],
         form: {
          school: '',
          name: '',
@@ -98,6 +112,9 @@
       }
     },
     methods: {
+      chickvalue () {
+        console.log(this.form.class)
+      },
       // 展示添加对话框
       showinfoAddDialog() {
         this.infoAddDialog = true

@@ -42,7 +42,10 @@
       </el-table-column>
       <el-table-column prop="class" label="班级" width="80">
       </el-table-column>
-      <el-table-column prop="dormitory" label="宿舍" width="150">
+      <el-table-column label="宿舍" width="150">
+        <template slot-scope="scope">
+         {{dormitory}}
+        </template>
       </el-table-column>
       <el-table-column prop="employment" label="就业状态" width="80">
       </el-table-column>
@@ -54,8 +57,10 @@
         <template slot-scope="scope">
           <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showUserEditDailog(scope.row)"></el-button>
           <el-button type="primary" plain size="mini" @click="showJobTrackingDailog(scope.row)">就业追踪</el-button>
+
         </template>
       </el-table-column>
+
     </el-table>
 
     <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
@@ -65,7 +70,7 @@
     <!-- 编辑用户对话框 -->
     <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
 
-      <el-form :model="studentEditForm" :rules="userEditRules" ref="studentEditForm">
+      <el-form :model="studentEditForm"  ref="studentEditForm">
         <el-form-item prop="number" label="学号" width="100">
           <el-input disabled  :value="studentEditForm.number"></el-input>
         </el-form-item>
@@ -75,14 +80,50 @@
         <el-form-item prop="school" label="学校" width="100">
           <el-input  :value="studentEditForm.school"></el-input>
         </el-form-item>
-        <el-form-item prop="school" label="班级" width="100">
-          <el-input  :value="studentEditForm.class"></el-input>
+        <el-form-item prop="class" label="班级" width="100">
+          <el-select @change="chickvalue1"
+                     v-model="studentEditForm.class" filterable placeholder="请输入/请选择" >
+            <el-option
+              v-for="item in options1"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item prop="dormitory" label="宿舍" width="100">
-          <el-input  :value="studentEditForm.dormitory"></el-input>
+
+
+          <el-select @change="chickvalue2"
+                     v-model="studentEditForm.dormitory1" filterable placeholder="请输入/请选择宿舍楼" >
+            <el-option
+              v-for="item in options2"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
+          <el-select @change="chickvalue3"
+                     v-model="studentEditForm.dormitory2" filterable placeholder="请输入/请选择单元" >
+            <el-option
+              v-for="item in options3"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
+          <el-input  :value="studentEditForm.dormitory3" style="width: 150px;" placeholder="请输入宿舍号"></el-input>
         </el-form-item>
         <el-form-item prop="employment" label="就业" width="100">
-          <el-input  :value="studentEditForm.employment"></el-input>
+          <el-select @change="chickvalue4"
+                     v-model="studentEditForm.employment" filterable placeholder="请输入/请选择" >
+            <el-option
+              v-for="item in options4"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item prop="unit" label="首次就业单位" width="100">
@@ -117,6 +158,34 @@
     },
     data() {
       return {
+        options1: [{
+          value: '基础1班',
+          label: '基础1班'
+        }, {
+          value: '骨干班',
+          label: '骨干班'
+        }],
+        options2: [{
+          value: '25号楼',
+          label: '25号楼'
+        }, {
+          value: '24号楼',
+          label: '24号楼'
+        }],
+        options3: [{
+          value: '1单元',
+          label: '1单元'
+        }, {
+          value: '2单元',
+          label: '2单元'
+        }],
+        options4: [{
+          value: '未就业',
+          label: '未就业'
+        }, {
+          value: '已就业',
+          label: '已就业'
+        }],
         userList: [],
         // 每页大小
         pageSize: 3,
@@ -133,7 +202,10 @@
           name: '',
           school: '',
           class: '',
-          dormitory:'',
+          dormitory: '',
+          dormitory1:'',
+          dormitory2:'',
+          dormitory3:'',
           employment:'',
           unit: '',
           salary: ''
@@ -162,54 +234,24 @@
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
+          class:'基础1班',
+          dormitory: '',
+          dormitory1:'25号楼',
+          dormitory2:'3单元',
+          dormitory3:'901',
           employment:'未就业',
           unit: '济南市睿德信息技术有限公司',
           salary: 13000
         },{
           number: '201603091071',
-          name: '赵珂',
+          name: '十一月',
           school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
-          employment:'未就业',
-          unit: '济南市睿德信息技术有限公司',
-          salary: 13000
-        },{
-          number: '201603091071',
-          name: '赵珂',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
-          employment:'未就业',
-          unit: '济南市睿德信息技术有限公司',
-          salary: 13000
-        },{
-          number: '201603091071',
-          name: '赵珂',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
-          employment:'未就业',
-          unit: '济南市睿德信息技术有限公司',
-          salary: 13000
-        },{
-          number: '201603091071',
-          name: '赵珂',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
-          employment:'未就业',
-          unit: '济南市睿德信息技术有限公司',
-          salary: 13000
-        },{
-          number: '201603091071',
-          name: '赵珂',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory:'25号楼1单元604',
-          employment:'未就业',
+          class:'基础1班',
+          dormitory: '',
+          dormitory1:'21号楼',
+          dormitory2:'2单元',
+          dormitory3:'401',
+          employment:'已就业',
           unit: '济南市睿德信息技术有限公司',
           salary: 13000
         }]
@@ -245,7 +287,24 @@
       },
       // 点击确定按钮，修改用户数据
       closeJobTrackingDialog() {
+      },
+      chickvalue1 () {
+        console.log(this.studentEditForm.class)
+      },
+      chickvalue2 () {
+        console.log(this.studentEditForm.dormitory1)
+      },
+      chickvalue3 () {
+        console.log(this.studentEditForm.dormitory2)
+      },
+      chickvalue4 () {
+        console.log(this.studentEditForm.employment)
       }
+    },
+    computed:{
+      dormitory: function () {
+
+       }
     }
   }
 </script>

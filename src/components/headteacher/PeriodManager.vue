@@ -1,38 +1,30 @@
 <template>
-    <div>
-      <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>老师</el-breadcrumb-item>
-        <el-breadcrumb-item>学时管理</el-breadcrumb-item>
-      </el-breadcrumb>
-      <el-row>
-        <el-col :span="5"><div class="grid-content bg-purple">
-          <el-select :default-active="$route.path" @change="chickvalue"
-                     v-model="searchValue" filterable placeholder="请输入/请选择" class="h-m-select">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              v-model="item.value">
-            </el-option>
-          </el-select>
-        </div></el-col>
-        <el-col :span="24">
-          <!--操作按钮-->
-        </el-col>
-        <el-col :span="24">
-          <!--列表-->
-        </el-col>
-        <el-col :span="24">
-          <!--列表底部内容-->
-        </el-col>
-      </el-row>
-      <el-row>
-        <router-view>
-        </router-view>
-      </el-row>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>老师</el-breadcrumb-item>
+      <el-breadcrumb-item>学时管理</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-row>
+      <el-col :span="5"><div class="grid-content bg-purple">
+        <el-select :default-active="$route.path" @change="chickvalue"
+                   v-model="searchValue" filterable placeholder="请输入/请选择" class="h-m-select">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            v-model="item.value">
+          </el-option>
+        </el-select>
+      </div></el-col>
 
-    </div>
+    </el-row>
+    <el-row>
+      <router-view>
+      </router-view>
+    </el-row>
+
+  </div>
 </template>
 
 <script>
@@ -66,14 +58,10 @@
       }
     },
     methods: {
-      handleClick () {
-        alert('button click')
-      },
       chickvalue () {
         console.log(this.searchValue)
       }
     }
-
   }
 </script>
 
@@ -84,9 +72,7 @@
     font-size: 18px;
     padding-left: 10px;
   }
-
   .h-m-select{
     margin-top: 10px ;
   }
-
 </style>

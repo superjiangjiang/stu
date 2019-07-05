@@ -53,8 +53,8 @@
         <el-form-item prop="date" label="授课日期" width="100">
           <el-date-picker type="date" placeholder="选择日期" v-model="classEditForm.date" style="width: 100%;"></el-date-picker>
         </el-form-item>
-        <el-form-item prop="category" label="所教科目" width="100">
-          <el-input  :value="classEditForm.category"></el-input>
+        <el-form-item prop="category" label="所教科目"  width="100">
+          <el-input  :value="classEditForm.category" disabled></el-input>
         </el-form-item>
         <el-form-item prop="name" label="课时名称" width="100">
           <el-input  :value="classEditForm.name"></el-input>
@@ -66,7 +66,18 @@
           <el-input  :value="classEditForm.all"></el-input>
         </el-form-item>
         <el-form-item prop="state" label="状态" width="100">
-          <el-input  :value="classEditForm.state"></el-input>
+      <!--    <el-input  :value="classEditForm.state"></el-input>
+
+-->
+          <el-select @change="chickvalue2"
+                     v-model="classEditForm.state" filterable placeholder="请输入/请选择" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -81,7 +92,7 @@
           <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="所教科目">
-          <el-input v-model="form.category" placeholder="请输入所教科目"></el-input>
+          <el-input v-model="form.category" disabled placeholder="请输入所教科目"></el-input>
         </el-form-item>
         <el-form-item label="课时名称">
           <el-input v-model="form.name"  placeholder="请输入课时名称"></el-input>
@@ -93,7 +104,15 @@
           <el-input v-model="form.all" placeholder="请输入总课时"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-input v-model="form.state" placeholder="请输入状态"></el-input>
+          <el-select @change="chickvalue1"
+                     v-model="form.state" filterable placeholder="请输入/请选择" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -111,9 +130,17 @@
     name: 'StatisticsClassDetail',
     data() {
       return {
+        options: [{
+          value: '已授课',
+          label: '已授课'
+        }, {
+          value: '未授课',
+          label: '未授课'
+        }],
+        searchValue: '',
         form: {
           date: '',
-          category: '',
+          category: 'java基础',
           name: '',
           content: '',
           all:'',
@@ -204,6 +231,12 @@
         // console.log('对话框关闭了')
         this.$refs.infoAddForm.resetFields()
       },
+      chickvalue1 () {
+        console.log(this.form.state)
+      },
+      chickvalue2 () {
+        console.log(this.classEditForm.state)
+      }
     }
   }
 </script>

@@ -86,7 +86,7 @@
 
     <!-- 添加用户对话框 -->
     <el-dialog title="录入成绩" :visible.sync="scoreAddDialog" @close="closescoreAddDialog">
-      <el-form :model="scoreAddForm" :rules="scoreAddRules" ref="scoreAddForm">
+      <el-form :model="scoreAddForm" ref="scoreAddForm">
           <el-form-item prop="number" label="学号" label-width="120px">
           <el-input  v-model="scoreAddForm.number" autocomplete="off"></el-input>
           </el-form-item>
@@ -97,10 +97,28 @@
           <el-input v-model="scoreAddForm.school"  autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="class" label="班级" label-width="120px">
-          <el-input v-model="scoreAddForm.class"  autocomplete="off"></el-input>
+          <el-select  @change="chickvalue2"
+                      v-model="scoreAddForm.class" filterable placeholder="请输入/请选择">
+            <el-option
+              v-for="item in options1"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
+
         </el-form-item>
           <el-form-item prop="subject" label="科目" label-width="120px">
-            <el-input v-model="scoreAddForm.subject"  autocomplete="off"></el-input>
+              <el-select  @change="chickvalue"
+                       v-model="scoreAddForm.subject" filterable placeholder="请输入/请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                v-model="item.value">
+              </el-option>
+            </el-select>
+
           </el-form-item>
           <el-form-item prop="score" label="成绩" label-width="120px">
             <el-input v-model="scoreAddForm.score"  autocomplete="off"></el-input>
@@ -132,7 +150,16 @@
           <el-input disabled :value="scoreEditForm.class"></el-input>
         </el-form-item>
         <el-form-item prop="subject" label="科目" width="180">
-          <el-input  :value="scoreEditForm.subject"></el-input>
+
+          <el-select  @change="chickvalue1"
+                      v-model="scoreEditForm.subject" filterable placeholder="请输入/请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item prop="score" label="成绩" width="180">
           <el-input  :value="scoreEditForm.score"></el-input>
@@ -159,6 +186,38 @@
 
     data() {
       return {
+        options: [{
+          value: 'java基础',
+          label: 'java基础'
+        }, {
+          value: '数据库',
+          label: '数据库'
+        }, {
+          value: 'javaweb',
+          label: 'javaweb'
+        }, {
+          value: 'ssm',
+          label: 'ssm'
+        }, {
+          value: 'maven',
+          label: 'maven'
+        }],
+        options1: [{
+          value: '基础1班',
+          label: '基础1班'
+        }, {
+          value: '基础2班',
+          label: '基础2班'
+        }, {
+          value: '骨干班',
+          label: '骨干班'
+        }, {
+          value: '卓越班',
+          label: '卓越班'
+        }, {
+          value: '实施班',
+          label: '实施班'
+        }],
         userList: [],
         // 每页大小
         pageSize: 3,
@@ -166,8 +225,6 @@
         curPage: 1,
         // 总条数
         total: 0,
-        // 搜索内容
-        queryStr: '',
 
         // 控制用户添加对话框的展示和隐藏
         scoreAddDialog: false,
@@ -281,10 +338,16 @@
         this.$refs.scoreEditForm.resetFields()
       },
 
-      // 点击确定按钮，修改用户数据
+      chickvalue () {
+        console.log(this.scoreAddForm.subject)
+      },
+      chickvalue1 () {
+        console.log(this.scoreEditForm.subject)
+      },
 
-
-
+    chickvalue2 () {
+      console.log(this.scoreAddForm.class)
+    }
     }
   }
 </script>

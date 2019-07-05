@@ -6,17 +6,17 @@
     <el-breadcrumb-item>查看学时</el-breadcrumb-item>
   </el-breadcrumb>
   <el-table :data="tableData" stripe>
-    <el-table-column prop="number" label="学号" width="180">
+    <el-table-column prop="number" label="学号" width="150">
     </el-table-column>
-    <el-table-column prop="username" label="姓名" width="180">
+    <el-table-column prop="username" label="姓名" width="100">
     </el-table-column>
     <el-table-column prop="grade" label="年级" width="180">
     </el-table-column>
     <el-table-column prop="school" label="学校" width="180">
     </el-table-column>
-    <el-table-column prop="all_period" label="总学时" width="180">
+    <el-table-column prop="all_period" label="总学时" width="100">
     </el-table-column>
-    <el-table-column prop="un_period" label="已扣学时" width="180">
+    <el-table-column prop="un_period" label="已扣学时" width="100">
     </el-table-column>
     <el-table-column label="详情" >
       <template slot-scope="scope">
