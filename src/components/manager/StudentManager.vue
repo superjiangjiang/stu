@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>管理员</el-breadcrumb-item>
+      <el-breadcrumb-item>教师</el-breadcrumb-item>
       <el-breadcrumb-item>学生管理</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -234,7 +234,7 @@
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
-          class:'基础1班',
+          class:'基础一班',
           dormitory: '',
           dormitory1:'25号楼',
           dormitory2:'3单元',
@@ -246,7 +246,7 @@
           number: '201603091071',
           name: '十一月',
           school: '齐鲁工业大学',
-          class:'基础1班',
+          class:'基础一班',
           dormitory: '',
           dormitory1:'21号楼',
           dormitory2:'2单元',
