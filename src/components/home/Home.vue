@@ -95,35 +95,15 @@
                 <span>教师管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/dormitorymanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>宿舍管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/classmanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>班级管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/classtypemanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>班型管理</span>
-              </template>
-            </el-menu-item><el-menu-item index="/home/periodmanager">
+
+
+         <el-menu-item index="/home/periodmanager">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span>学时管理</span>
             </template>
           </el-menu-item>
-            <el-menu-item index="/home/courseinfomanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>课程信息管理</span>
-              </template>
-            </el-menu-item>
+
           </el-submenu>
 
           <el-submenu index="3">
@@ -162,7 +142,7 @@
                 <span>学生管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/periodchange">
+            <el-menu-item index="/home/periodmanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>学时管理</span>

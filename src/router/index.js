@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 // 导入 Login 组件（注意，不要添加 .vue 后缀）
 import Login from '@/components/login/Login'
-// 导入首页组件
+// 导入招聘信息管理组件
 import SchoolStatisticsEmployment from '@/components/public/SchoolStatisticsEmployment'
 // 导入首页组件
 import Home from '@/components/home/Home'
@@ -28,23 +28,13 @@ import InfoDetail from '@/components/subcompoents/InfoDetail'
 //引入学生查看学时详情的组件
 import PeriodDetial from '@/components/subcompoents/PeriodDetial'
 
-//引入学生班级管理组件
-import ClassManager from '@/components/manager/ClassManager'
-//引入班型管理组件
-import ClassTypeManager from '@/components/manager/ClassTypeManager'
-//引入课程信息管理组件
-import CourseInfoManager from '@/components/manager/CourseInfoManager'
-//引入学生宿舍管理组件
-import DormitoryManager from '@/components/manager/DormitoryManager'
-//引入学时管理组件
-import PeriodManager from '@/components/manager/PeriodManager'
-//引入学时管理历史记录组件
-import PeriodManager from '@/components/manager/PeriodHistory'
+
+
 //引入学生管理组件
 import StudentManager from '@/components/manager/StudentManager'
 
-//引入学生管理组件
-import TeacherManager from '@/components/manager/TeacherManager'
+//引入导师学生管理组件
+import StudentChange from '../components/tutor/StudentChange'
 
 //引入所带班级就业率组件
 import ClassEmploymentRate from '@/components/technologyteacher/ClassEmploymentRate'
@@ -52,13 +42,20 @@ import ClassEmploymentRate from '@/components/technologyteacher/ClassEmploymentR
 //引入成绩统计组件
 import StatisticalScores from  '@/components/technologyteacher/StatisticalScores'
 
-//引入历史发布的招聘信息组件
-import PeriodChange from '@/components/tutor/PeriodChange'
-//引入历史发布的招聘信息组件
-import ShowRecruitment from '@/components/tutor/ShowRecruitment'
-//引入历史发布的招聘信息组件
-import StudentChange from '@/components/tutor/StudentChange'
-import PeriodHistory from '../components/manager/PeriodHistory'
+//引入学时历史记录
+import PeriodHistory from '../components/tutor/PeriodHistory'
+
+//引入教师管理组件
+import TeacherManager from '../components/manager/TeacherManager'
+//引入课时管理组件
+import CourseInfoManager from '../components/manager/CourseInfoManager'
+
+//引入招聘信息管理组件
+import ShowRecruitment from '../components/tutor/ShowRecruitment'
+
+//引入学时管理组件
+import PeriodManager from '@/components/tutor/PeriodManager'
+
 
 Vue.use(Router)
 const router = new Router({
@@ -68,8 +65,9 @@ const router = new Router({
       path: '/home',
       component: Home, children: [
         { path: 'showrecruitment', component: ShowRecruitment },
-        { path: 'periodchange', component: PeriodChange },
-        { path: 'studentchange', component: StudentChange },
+
+        { path:'studentchange',component:StudentChange},
+
 
         { path: 'score', component: Score },
         { path: 'upload', component: Upload },
@@ -81,13 +79,15 @@ const router = new Router({
         { path: 'classemploymentrate', component: ClassEmploymentRate },
         { path: 'statisticalscores', component: StatisticalScores },
 
-        { path: 'classmanager', component: ClassManager },
-        { path: 'classtypemanager', component: ClassTypeManager },
-        { path: 'courseinfomanager', component: CourseInfoManager },
-        { path: 'dormitorymanager', component: DormitoryManager },
+
+
+
         { path: 'periodmanager', component: PeriodManager },
         { path: 'studentmanager', component: StudentManager },
-        { path: 'teachermanager', component: TeacherManager },
+        {path:'teachermanager',component:TeacherManager},
+        {path:'courseinfomanager',component:CourseInfoManager},
+
+
 
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
 

@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>教师</el-breadcrumb-item>
+      <el-breadcrumb-item>管理员</el-breadcrumb-item>
       <el-breadcrumb-item>学生管理</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -26,14 +26,18 @@
 
         </el-upload>
       </el-col>
-      <el-col :span="4" :push="10">
-        <el-button type="primary" plain>查看历史记录</el-button>
+      <el-col :span="4">
+          <el-button type="danger" @click="delGroup">批量删除</el-button>
       </el-col>
     </el-row>
 
 
 
-    <el-table :data="tableData" stripe>
+    <el-table :data="tableData" stripe   @selection-change="handleSelectionChange" @row-click="handleCurrentChange">
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <el-table-column prop="number" label="学号" width="120">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="80">
@@ -55,7 +59,8 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showUserEditDailog(scope.row)"></el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showStudentEditDailog(scope.row)"></el-button>
+          <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delStuById(scope.row.id)"></el-button>
           <el-button type="primary" plain size="mini" @click="showJobTrackingDailog(scope.row)">就业追踪</el-button>
 
         </template>
@@ -81,7 +86,7 @@
           <el-input  :value="studentEditForm.school"></el-input>
         </el-form-item>
         <el-form-item prop="class" label="班级" width="100">
-          <el-select @change="chickvalue1"
+          <el-select
                      v-model="studentEditForm.class" filterable placeholder="请输入/请选择" >
             <el-option
               v-for="item in options1"
@@ -94,7 +99,7 @@
         <el-form-item prop="dormitory" label="宿舍" width="100">
 
 
-          <el-select @change="chickvalue2"
+          <el-select
                      v-model="studentEditForm.dormitory1" filterable placeholder="请输入/请选择宿舍楼" >
             <el-option
               v-for="item in options2"
@@ -103,7 +108,7 @@
               v-model="item.value">
             </el-option>
           </el-select>
-          <el-select @change="chickvalue3"
+          <el-select
                      v-model="studentEditForm.dormitory2" filterable placeholder="请输入/请选择单元" >
             <el-option
               v-for="item in options3"
@@ -115,7 +120,7 @@
           <el-input  :value="studentEditForm.dormitory3" style="width: 150px;" placeholder="请输入宿舍号"></el-input>
         </el-form-item>
         <el-form-item prop="employment" label="就业" width="100">
-          <el-select @change="chickvalue4"
+          <el-select
                      v-model="studentEditForm.employment" filterable placeholder="请输入/请选择" >
             <el-option
               v-for="item in options4"
@@ -259,6 +264,25 @@
       }
     },
     methods: {
+
+      toggleSelection(rows) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.multipleTable.toggleRowSelection(row);
+          });
+        } else {
+          this.$refs.multipleTable.clearSelection();
+        }
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      handleCurrentChange(row, event, column) {
+        this.$refs.table.toggleRowSelection(row)
+      },
+      delGroup() {
+        var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔
+      },
       //excel 上传
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -267,7 +291,7 @@
         console.log(file);
       },
       // 展示编辑对话框
-      showUserEditDailog(curUser) {
+      showStudentEditDailog(curUser) {
         // console.log(curUser)
         // 先获取到当前用户的数据
         // 数据交给 studentEditForm 后，就会展示在编辑对话框中
@@ -288,18 +312,14 @@
       // 点击确定按钮，修改用户数据
       closeJobTrackingDialog() {
       },
-      chickvalue1 () {
-        console.log(this.studentEditForm.class)
-      },
-      chickvalue2 () {
-        console.log(this.studentEditForm.dormitory1)
-      },
-      chickvalue3 () {
-        console.log(this.studentEditForm.dormitory2)
-      },
-      chickvalue4 () {
-        console.log(this.studentEditForm.employment)
-      }
+     //删除
+      delStuById(id) {
+        // console.log(id)
+        this.$confirm('确认删除该用户吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })},
     },
     computed:{
       dormitory: function () {

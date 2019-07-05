@@ -12,23 +12,10 @@
           <el-button slot="append" icon="el-icon-search" ></el-button>
         </el-input>
       </el-col>
-      <el-col :span="2">
-        <el-button type="success" plain @click="showRewardDialog">录入成绩</el-button>
-      </el-col>
-      <el-col :span="4">
-        <!--    上传Excel-->
-        <el-upload
-          class="upload-demo"
-          action="#"
-          multiple
-          :limit="3">
-          <el-button type="primary">点击上传</el-button>
 
-        </el-upload>
-      </el-col>
 
       <el-col :span="4" :push="8">
-        <el-button type="primary" plain>查看历史记录</el-button>
+        <el-button type="primary" plain @click="GoHistory">查看历史记录</el-button>
       </el-col>
     </el-row>
 
@@ -85,8 +72,8 @@
     <!-- 奖励对话框 -->
     <el-dialog title="奖励学时" :visible.sync="RewardDialog" @close="closeRewardDialog">
       <el-form :model="RewardForm" ref="scoreAddForm">
-        <el-form-item prop="number" label="时间" label-width="120px">
-            <el-date-picker type="date" placeholder="选择日期" v-model="RewardForm.date1" style="width: 100%;"></el-date-picker>
+        <el-form-item prop="date" label="时间" label-width="120px">
+            <el-date-picker type="date" placeholder="选择日期" v-model="RewardForm.date" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item prop="number" label="原因" label-width="120px">
           <el-input v-model="RewardForm.reason"></el-input>
@@ -107,15 +94,24 @@
 
     <el-dialog title="扣除学时" :visible.sync="PunishDialog" @close="closePunishDialog">
       <el-form :model="PunishForm" ref="PunishForm">
-        <el-form-item label="扣除学时原因" prop="typeId">
-          <el-select v-model="PunishForm.reason" placeholder="请选择">
-            <el-option v-for="item in items" :label="item.reason" :value="item.id"></el-option>
+        <el-form-item label="时间"  label-width="65px">
+          <el-date-picker type="date" placeholder="选择日期" v-model="PunishForm.date" style="width: 100%;"></el-date-picker>
+
+        </el-form-item>
+        <el-form-item label="扣除学时原因" prop="typeId" label-width="120px">
+          <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
+            <el-option v-for="item in items" :label="item.reason" :value="item.id" :key="item.index"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="扣除学时原因" prop="typeId" label-width="120px">
+          <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
+            <el-option v-for="item in scoreOption" :label="item.score" :value="item.id" :key="item.index"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="RewardDialog = false">取 消</el-button>
+        <el-button @click="PunishDialog = false">取 消</el-button>
         <el-button type="primary">确 定</el-button>
       </div>
 
@@ -144,18 +140,24 @@
             reasons:''
           },
           items:[{reason:'请假一天',id:'1'},{reason:'请假半天',id:'2'},{reason:'旷课',id:'3'},{reason:'早退',id:'4'}],
-
+          scoreOption:[{score:'5',id:'1'},{score:'2',id:'2'},{score:'3',id:'3'},{score:'4',id:'4'}],
 
 
           // 控制编辑用户对话框的展示和隐藏
           PunishDialog: false,
           RewardForm: {
-            number: -1,
+
             date:'',
             reason:'',
             score:''
 
           },
+          PunishForm:{
+            date:'',
+            reason:'',
+            score:''
+          },
+
           tableData: [{
             number: '201603091071',
             username: '赵珂',
@@ -195,7 +197,9 @@
       },
 
       methods: {
-
+        GoHistory(){
+          this.$router.push({name:'periodhistory'})
+        },
         // 展示奖励分数
         showRewardDialog() {
           this.RewardDialog = true
@@ -210,7 +214,13 @@
 
 
         // 根据用户id删除用户
-
+        delStuById(id) {
+          // console.log(id)
+          this.$confirm('确认删除该用户吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })},
 
         // 展示编辑对话框
         showPunishDialog(curUser) {
