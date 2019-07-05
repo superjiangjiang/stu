@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>学生</el-breadcrumb-item>
-      <el-breadcrumb-item>招聘信息查看</el-breadcrumb-item>
+      <el-breadcrumb-item>查看招聘信息</el-breadcrumb-item>
       <el-breadcrumb-item>招聘信息详情</el-breadcrumb-item>
     </el-breadcrumb>
 
