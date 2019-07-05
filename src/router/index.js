@@ -28,16 +28,18 @@ import InfoDetail from '@/components/subcompoents/InfoDetail'
 //引入学生查看学时详情的组件
 import PeriodDetial from '@/components/subcompoents/PeriodDetial'
 
-//引入学生管理组件
+//引入学生班级管理组件
 import ClassManager from '@/components/manager/ClassManager'
-//引入学生管理组件
+//引入班型管理组件
 import ClassTypeManager from '@/components/manager/ClassTypeManager'
-//引入学生管理组件
+//引入课程信息管理组件
 import CourseInfoManager from '@/components/manager/CourseInfoManager'
-//引入学生管理组件
+//引入学生宿舍管理组件
 import DormitoryManager from '@/components/manager/DormitoryManager'
-//引入学生管理组件
+//引入学时管理组件
 import PeriodManager from '@/components/manager/PeriodManager'
+//引入学时管理历史记录组件
+import PeriodManager from '@/components/manager/PeriodHistory'
 //引入学生管理组件
 import StudentManager from '@/components/manager/StudentManager'
 
@@ -56,6 +58,7 @@ import PeriodChange from '@/components/tutor/PeriodChange'
 import ShowRecruitment from '@/components/tutor/ShowRecruitment'
 //引入历史发布的招聘信息组件
 import StudentChange from '@/components/tutor/StudentChange'
+import PeriodHistory from '../components/manager/PeriodHistory'
 
 Vue.use(Router)
 const router = new Router({
@@ -89,7 +92,8 @@ const router = new Router({
         { path: 'schoolstatisticsemployment', component: SchoolStatisticsEmployment },
 
          { path:'/lookinfo/infodetail',component:InfoDetail,name:'infodetail'},
-        { path:'/showperiod/perioddetial',component:PeriodDetial,name:'perioddetial'}
+        { path:'/showperiod/perioddetial',component:PeriodDetial,name:'perioddetial'},
+        {path:'/periodmanager/periodhistory',component:PeriodHistory,name:'periodhistory'}
       ]
 
     },
