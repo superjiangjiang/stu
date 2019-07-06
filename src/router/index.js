@@ -56,6 +56,8 @@ import ShowRecruitment from '../components/tutor/ShowRecruitment'
 //引入学时管理组件
 import PeriodManager from '@/components/tutor/PeriodManager'
 
+//引入信息管理组件
+import InfoManager from '../components/manager/InfoManager'
 
 Vue.use(Router)
 const router = new Router({
@@ -86,6 +88,7 @@ const router = new Router({
         { path: 'studentmanager', component: StudentManager },
         {path:'teachermanager',component:TeacherManager},
         {path:'courseinfomanager',component:CourseInfoManager},
+        {path:'infomanager',component:InfoManager},
 
 
 

@@ -97,10 +97,10 @@
             </el-menu-item>
 
 
-         <el-menu-item index="/home/periodmanager">
+         <el-menu-item index="/home/infomanager">
             <template slot="title">
               <i class="el-icon-menu"></i>
-              <span>学时管理</span>
+              <span>信息管理</span>
             </template>
           </el-menu-item>
 
