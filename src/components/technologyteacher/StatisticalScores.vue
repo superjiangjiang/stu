@@ -28,10 +28,6 @@
 
         </el-upload>
       </el-col>
-
-      <el-col :span="4" :push="8">
-        <el-button type="primary" plain>查看历史记录</el-button>
-      </el-col>
     </el-row>
 
     <!--

@@ -14,10 +14,7 @@
       <el-col :span="2">
         <el-button type="success" plain @click="showinfoAddDialog">添加招聘信息</el-button>
       </el-col>
-      <el-col :span="4" :push="12">
-        <el-button type="primary" plain>查看历史记录</el-button>
-      </el-col>
-    </el-row>
+      </el-row>
 
     <!--
       el-table 表格组件

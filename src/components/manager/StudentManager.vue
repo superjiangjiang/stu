@@ -146,14 +146,39 @@
 
     <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
       <el-table :data="jobTrackingData">
-        <el-table-column property="time" label="就业追踪" width="120"></el-table-column>
-        <el-table-column property="name" label="姓名" width="80"></el-table-column>
+        <el-table-column property="name" label="姓名" width="100"></el-table-column>
         <el-table-column property="company" label="公司" width="250"></el-table-column>
         <el-table-column property="salary" label="薪水" idth="100"></el-table-column>
         <el-table-column property="position" label="职位" idth="150"></el-table-column>
       </el-table>
+      <el-row :gutter="20" >
+        <el-col :span="6" push="10">
+          <el-button  plain size="mini" type="primary" @click="showinfoAddDialog" style="margin-top: 10px;">添加就业追踪</el-button>
+        </el-col>
+      </el-row>
     </el-dialog>
 
+
+    <el-dialog title="添加就业追踪" :visible.sync="infoAddDialog" @close="closeinfoAddDialog">
+      <el-form :model="form"  ref="infoAddForm">
+         <el-form-item label="姓名">
+          <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="公司名">
+          <el-input v-model="form.company"  placeholder="请输入公司名"></el-input>
+        </el-form-item>
+        <el-form-item label="薪水">
+          <el-input v-model="form.salary"  placeholder="请输入薪水"></el-input>   </el-form-item>
+        <el-form-item label="职位">
+          <el-input v-model="form.position" placeholder="请输入职位"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="infoAddDialog = false">取 消</el-button>
+        <el-button type="primary">添加</el-button>
+      </div>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -217,19 +242,16 @@
         },
         jobTrackingDialog: false,
         jobTrackingData: [{
-          time: '第一次就业',
           name: '宋阳阳',
           company: '济南市睿德信息技术有限公司',
           salary: '13000',
           position: 'java开发'
         }, {
-          time: '第二次就业',
           name: '宋阳阳',
           company: '济南市睿德信息技术有限公司',
           salary: '13000',
           position: 'java开发'
         },{
-          time: '第三次就业',
           name: '宋阳阳',
           company: '济南市睿德信息技术有限公司',
           salary: '13000',
@@ -259,7 +281,18 @@
           employment:'已就业',
           unit: '济南市睿德信息技术有限公司',
           salary: 13000
-        }]
+        }],
+        form: {
+          num:1,
+          job:'',
+          salary:'',
+          company:'',
+          location:'',
+          people:'',
+          time:'',
+          desc: ''
+        },
+        infoAddDialog: false,
         //excel上传
       }
     },
@@ -312,6 +345,16 @@
       // 点击确定按钮，修改用户数据
       closeJobTrackingDialog() {
       },
+      showinfoAddDialog() {
+        this.infoAddDialog = true,
+          this.jobTrackingDialog = false
+      },
+      // 关闭对话框重置表单
+      closeinfoAddDialog() {
+        // console.log('对话框关闭了')
+        this.$refs.infoAddForm.resetFields(),
+          this.jobTrackingDialog = true
+      },
      //删除
       delStuById(id) {
         // console.log(id)
@@ -320,6 +363,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         })},
+
     },
     computed:{
       dormitory: function () {
