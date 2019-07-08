@@ -1,6 +1,6 @@
 <template>
   <el-container class="home-wrapper">
-    <el-header>
+    <el-header class="color">
       <el-row>
         <el-col :span="8" class="logo">
           <img src="@/assets/logo.png" alt="安博logo">
