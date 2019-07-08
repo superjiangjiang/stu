@@ -3,7 +3,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>学生</el-breadcrumb-item>
-        <el-breadcrumb-item>修改个人信息</el-breadcrumb-item>
+        <el-breadcrumb-item>查看个人信息</el-breadcrumb-item>
       </el-breadcrumb>
 
       <el-row :gutter="20" style="margin-top: 10px;">

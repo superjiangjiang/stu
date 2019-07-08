@@ -40,13 +40,13 @@
       </el-table-column>
       <el-table-column prop="number" label="学号" width="120">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="80">
+      <el-table-column prop="name" label="姓名" width="70">
       </el-table-column>
       <el-table-column prop="school" label="学校" width="150">
       </el-table-column>
       <el-table-column prop="class" label="班级" width="80">
       </el-table-column>
-      <el-table-column label="宿舍" width="150">
+      <el-table-column label="宿舍" width="120">
         <template slot-scope="scope">
          {{dormitory}}
         </template>

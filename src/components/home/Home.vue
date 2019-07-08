@@ -53,12 +53,6 @@
                 <span>查看成绩</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/upload">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>上传简历</span>
-              </template>
-            </el-menu-item>
             <el-menu-item index="/home/lookinfo">
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -68,16 +62,10 @@
             <el-menu-item index="/home/personal">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>修改个人信息</span>
+                <span>查看个人信息</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/dropout">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>申请退学</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
+             </el-submenu>
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -194,13 +182,6 @@ export default {
           // 跳回登录页面
           this.$router.push('/login')
         })
-      // // 点击取消按钮
-      // .catch(() => {
-      //   this.$message({
-      //     type: 'info',
-      //     message: '已取消删除'
-      //   })
-      // })
     },
 
     handleOpen(key, keyPath) {
@@ -268,5 +249,4 @@ export default {
     line-height: 320px;
   }
 }
-
 </style>

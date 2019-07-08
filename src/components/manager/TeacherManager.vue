@@ -24,6 +24,12 @@
       </el-table-column>
       <el-table-column prop="time" label="工作年限" width="100">
       </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showScoreEditDailog(scope.row)"></el-button>
+          <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delStuById(scope.row.id)"></el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
@@ -99,6 +105,49 @@
       </div>
 
     </el-dialog>
+
+
+
+    <!-- 编辑导师信息对话框 -->
+    <el-dialog title="修改导师信息" :visible.sync="scoreEditDialog" @close="closescoreEditDailog">
+
+      <el-form :model="scoreEditForm" :rules="userEditRules" ref="scoreEditForm">
+        <el-form-item prop="empno" label="导师编号" width="180">
+          <el-input disabled  :value="scoreEditForm.empno"></el-input>
+        </el-form-item>
+        <el-form-item prop="name" label="导师姓名" width="180">
+          <el-input  :value="scoreEditForm.name"></el-input>
+        </el-form-item>
+
+        <el-form-item prop="sex" label="导师性别" width="180">
+
+          <el-select  @change="chickvalue1"
+                      v-model="scoreEditForm.sex" filterable placeholder="请输入/请选择导师性别">
+            <el-option
+              v-for="item in options3"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+       <el-form-item prop="skills" label="擅长的技术" width="180">
+          <el-input :value="scoreEditForm.skills"></el-input>
+        </el-form-item>
+        <el-form-item prop="time" label="工作年限" width="180">
+          <el-input :value="scoreEditForm.time"></el-input>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="scoreEditDialog = false">取 消</el-button>
+        <el-button type="primary" >确 定</el-button>
+      </div>
+    </el-dialog>
+
+
+
   </div>
 </template>
 
@@ -130,7 +179,13 @@
           value: '男2',
           label: '男2'
         }],
-
+        options3: [{
+          value: '男',
+          label: '男'
+        }, {
+          value: '女',
+          label: '女'
+        }],
         userList: [],
 
         tableData:[{
@@ -141,10 +196,10 @@
           time: '3'
         },{
           empno: '20160309',
-          name: '宋阳阳',
-          sex: '女',
+          name: 'syy',
+          sex: '男',
           skills:'java',
-          time: '3'
+          time: '4'
         },{
           empno: '20160309',
           name: '宋阳阳',
@@ -174,7 +229,14 @@
 
         infoAddDialog: false,
         infoAddDialog1: false,
-
+        scoreEditDialog: false,
+        scoreEditForm: {
+          empno: -1,
+          name: '',
+          sex: '',
+          skills:'',
+          time: ''
+        },
       }
     },
 
@@ -196,12 +258,33 @@
         // console.log('对话框关闭了')
         this.$refs.infoAddForm1.resetFields()
       },
+
+      showScoreEditDailog(curUser) {
+        for (const key in this.scoreEditForm) {
+          this.scoreEditForm[key] = curUser[key]
+        }
+        // 打开用户编辑对话框
+        this.scoreEditDialog = true
+      },
+
+      // 关闭用户编辑对话框
+      closescoreEditDailog() {
+        this.$refs.scoreEditForm.resetFields()
+      },
       chickvalue1 () {
         console.log(this.form.sex)
       },
       chickvalue2 () {
         console.log(this.form1.sex)
       },
+
+      delStuById(id) {
+        // console.log(id)
+        this.$confirm('确认删除该导师吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })},
     }
   }
 </script>
