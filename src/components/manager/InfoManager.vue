@@ -6,30 +6,16 @@
         <el-breadcrumb-item>信息管理</el-breadcrumb-item>
       </el-breadcrumb>
       <el-row class="content">
-
-        <el-col :span="5" class="span">
-          <el-button type="success" plain @click="showTypeAddDialog">添加班型</el-button>
-          <el-table :data="tableGradeType" stripe size="middle" class="table">
-            <el-table-column prop="type" label="班型" width="130">
-            </el-table-column>
-            <el-table-column  label="操作" width="130">
-              <template slot-scope="scope">
-                <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showTypeEditDailog(scope.row)"></el-button>
-                <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="deltypeById(scope.row.id)"></el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
         <el-col :span="5"  class="span">
           <el-button type="success" plain @click="showGradeAddDialog">添加班级</el-button>
           <el-table :data="tableGrade" stripe  size="middle" class="table">
             <el-table-column prop="grade" label="班级" width="130">
             </el-table-column>
-            <el-table-column  label="操作" width="130">
-              <template slot-scope="scope">
-                <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showGradeEditDailog(scope.row)"></el-button>
-                <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delGradeById(scope.row.id)"></el-button>
-              </template>
+
+            <el-table-column  label="查看详情" width="100">
+            <template slot-scope="scope">
+              <el-button type="primary" plain size="mini"  @click="showDetail(scope.row)">详情</el-button>
+            </template>
             </el-table-column>
           </el-table>
         </el-col>
@@ -61,43 +47,40 @@
             </el-table-column>
           </el-table>
         </el-col>
-
+        <el-col :span="6" class="span">
+          <el-button type="success" plain @click="showRoomAddDialog">教室资源</el-button>
+          <el-table :data="t_classroom" stripe size="middle" class="table">
+            <el-table-column prop="Room_number" label="教室门牌号" width="100">
+            </el-table-column>
+            <el-table-column prop="Room_capacity" label="容量" width="50">
+            </el-table-column>
+            <el-table-column  label="操作" width="130">
+              <template slot-scope="scope">
+                <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showRoomEditDailog(scope.row)"></el-button>
+                <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delRoomById(scope.row.id)"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
       </el-row>
 
 
-<!--      添加班型-->
-      <el-dialog title="添加班型" :visible.sync="typeAddDialog" @close="closeTypeAddDialog">
-        <el-form :model="typeAddForm"  ref="typeAddForm">
-          <el-form-item prop="type" label="班型" label-width="120px">
-            <el-input v-model="typeAddForm.gradeType" autocomplete="off"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="typeAddDialog = false">取 消</el-button>
-          <el-button type="primary" >确 定</el-button>
-        </div>
-
-      </el-dialog>
-<!--修改班型-->
-      <el-dialog title="修改班型" :visible.sync="typeEditDialog" @close="closeTypeEditDialog">
-        <el-form :model="typeEditForm"  ref="typeAddForm">
-          <el-form-item prop="type" label="班型" label-width="120px">
-            <el-input v-model="typeEditForm.type" autocomplete="off"></el-input>
-          </el-form-item>
-        </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="typeEditDialog = false">取 消</el-button>
-            <el-button type="primary" >确 定</el-button>
-          </div>
-
-      </el-dialog>
 
 
       <!--      添加班级-->
       <el-dialog title="添加班级" :visible.sync="gradeAddDialog" @close="closeGradeAddDialog">
-        <el-form :model="gradeAddForm"  ref="typeAddForm">
-          <el-form-item prop="type" label="班级" label-width="120px">
+        <el-form :model="gradeAddForm"  ref="gradeAddForm">
+          <el-form-item prop="type" label="班级名称" label-width="120px">
             <el-input v-model="gradeAddForm.grade" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item prop="type" label="教室" label-width="120px">
+            <el-input v-model="gradeAddForm.Room_id" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item prop="type" label="班级技术老师" label-width="120px">
+            <el-input v-model="gradeAddForm.te_id" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item prop="type" label="班级学业导师" label-width="120px">
+            <el-input v-model="gradeAddForm.tu_id" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -110,9 +93,18 @@
       <!--修改班级-->
       <el-dialog title="修改班级" :visible.sync="gradeEditDialog" @close="closeGradeEditDialog">
         <el-form :model="gradeEditForm"  ref="gradeEditForm">
-          <el-form-item prop="grade" label="班级" label-width="120px">
-            <el-input v-model="gradeEditForm.grade" autocomplete="off"></el-input>
-          </el-form-item>
+            <el-form-item prop="type" label="班级名称" label-width="120px">
+              <el-input v-model="gradeEditForm.Name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item prop="type" label="教室" label-width="120px">
+              <el-input v-model="gradeEditForm.Room_id" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item prop="type" label="班级技术老师" label-width="120px">
+              <el-input v-model="gradeEditForm.te_id" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item prop="type" label="班级学业导师" label-width="120px">
+              <el-input v-model="gradeEditForm.tu_id" autocomplete="off"></el-input>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="gradeEditDialog = false">取 消</el-button>
@@ -120,7 +112,31 @@
         </div>
 
       </el-dialog>
+<!--显示详情-->
+      <el-dialog title="班级详情" :visible.sync="gradeDetailDialog" @close="closeGradeDetailDialog">
+        <el-table :data="t_class" stripe  size="middle" class="table">
+          <el-table-column prop="Name" label="班级名称" width="100">
+          </el-table-column>
+          <el-table-column prop="Room_id" label="教室" width="100">
+          </el-table-column>
+          <el-table-column prop="te_id" label="班级技术老师" width="120">
+          </el-table-column>
+          <el-table-column prop="tu_id" label="班级学业导师" width="120">
+          </el-table-column>
+          <el-table-column label="操作" width="130">
+            <template slot-scope="scope">
+              <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showGradeEditDailog(scope.row)"></el-button>
+              <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delGradeById(scope.row.id)"></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="gradeDetailDialog = false">确 定</el-button>
+
+        </div>
+
+      </el-dialog>
 
 <!--添加学时扣分项-->
       <el-dialog title="添加学时扣分项" :visible.sync="scoreAddDialog" @close="closeScoreAddDialog">
@@ -187,6 +203,39 @@
         </div>
 
       </el-dialog>
+      <!--      添加教室资源-->
+      <el-dialog title="添加教室" :visible.sync="roomAddDialog" @close="closeRoomAddDialog">
+        <el-form :model="roomAddForm"  ref="typeAddForm">
+          <el-form-item prop="type" label="教室门牌号" label-width="120px">
+            <el-input v-model="roomAddForm.gradeType" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item prop="type" label="容量" label-width="120px">
+            <el-input v-model="roomAddForm.gradeType" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="roomAddDialog = false">取 消</el-button>
+          <el-button type="primary" >确 定</el-button>
+        </div>
+
+      </el-dialog>
+      <!--修改教室资源-->
+      <el-dialog title="修改教室资源" :visible.sync="roomEditDialog" @close="closeRoomEditDialog">
+        <el-form :model="roomEditForm"  ref="roomAddForm">
+          <el-form-item prop="type" label="教室号" label-width="120px">
+            <el-input v-model="roomEditForm.Room_number" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item prop="type" label="容量" label-width="120px">
+            <el-input v-model="roomEditForm.Room_capacity" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="roomEditDialog = false">取 消</el-button>
+          <el-button type="primary" >确 定</el-button>
+        </div>
+
+      </el-dialog>
+
     </div>
 </template>
 
@@ -195,13 +244,7 @@
     name: 'InfoManager',
     data() {
       return {
-        tableGradeType: [
-          {type: "基础班"},
-          {type: "骨干班"},
-          {type: "卓越班"},
-          {type: "实施班"},
-          {type: "考研考公班"}
-        ],
+
         tableGrade: [
           {grade: "基础1班"},
           {grade: "基础2班"},
@@ -232,30 +275,55 @@
           {course: 'Java基础'},
 
         ],
-        // 班型添加
-        typeAddDialog: false,
-        typeAddForm: {
-          gradeType: ''
+        t_classroom: [
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'},
+          {Room_number: "310",Room_capacity:'80'}
+        ],
+        t_class:[
+          {Name:"基础一班",Room_id:'310',te_id:"赵曰侠",tu_id:'刘丹丹'},
+        ],
+        // 教室资源添加
+        roomAddDialog: false,
+        roomAddForm: {
+          Room_number: '',
+          Room_capacity:''
         },
-        // 班型编辑
-        typeEditDialog: false,
-        typeEditForm: {
+        // 教室资源编辑
+        roomEditDialog: false,
+        roomEditForm: {
           num: -1,
-          type: ''
+          Room_number: '',
+          Room_capacity:''
         },
         //班级添加
         gradeAddDialog: false,
         gradeAddForm: {
-          grade: ''
+          Name:'',
+          Room_id:'',
+          te_id:'',
+          tu_id:''
         },
 
         // 班级编辑
         gradeEditDialog: false,
         gradeEditForm: {
           num: -1,
-          grade: ''
+          Name:'',
+          Room_id:'',
+          te_id:'',
+          tu_id:''
         },
 
+        //
+        // 班级详情
+        gradeDetailDialog:false,
         //学时扣分项添加
         scoreAddDialog: false,
         scoreAddForm: {
@@ -280,44 +348,44 @@
       }
     },
     methods: {
-      // 展示班型添加对话框
-      showTypeAddDialog() {
+      // 展示教室资源添加对话框
+      showRoomAddDialog() {
 
-        this.typeAddDialog = true
+        this.roomAddDialog = true
       },
       // 关闭对话框重置表单
-      closeTypeAddDialog() {
+      closeRoomAddDialog() {
         // console.log('对话框关闭了')
-        this.$refs.typeAddForm.resetFields()
+        this.$refs.roomAddForm.resetFields()
       },
-      //删除班型
-      deltypeById(id) {
+      //删除教室资源
+      delRoomById(id) {
         // console.log(id)
         this.$confirm('确认删除该班型吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
+          room: 'warning'
         })
       },
 
-      //修改班型
+      //修改教室资源
       // 展示编辑对话框
-      showTypeEditDailog(curUser) {
+      showRoomEditDailog(curUser) {
         // console.log(curUser)
         // 先获取到当前用户的数据
         // 数据交给 userEditForm 后，就会展示在编辑对话框中
-        for (const key in this.typeEditForm) {
-          this.typeEditForm[key] = curUser[key]
+        for (const key in this.roomEditForm) {
+          this.roomEditForm[key] = curUser[key]
 
         }
 
         // 打开编辑对话框
-        this.typeEditDialog = true
+        this.roomEditDialog = true
       },
 
       // 关闭编辑对话框
-      closeTypeEditDialog() {
-        this.$refs.typeEditForm.resetFields()
+      closeRoomEditDialog() {
+        this.$refs.roomEditForm.resetFields()
       },
 
       //添加班级
@@ -354,9 +422,18 @@
         this.gradeEditDialog = true
       },
 
-      // 关闭用户编辑对话框
+      // 关闭编辑对话框
       closeGradeEditDialog() {
         this.$refs.gradeEditForm.resetFields()
+      },
+
+      //班级详情
+      showDetail(){
+        this.gradeDetailDialog = true;
+      },
+      closeGradeDetailDialog(){
+        this.gradeDetailDialog = false;
+
       },
 
 
@@ -442,6 +519,7 @@
         this.$refs.courseEditForm.resetFields()
       },
 
+
     },
   }
 </script>
@@ -451,7 +529,7 @@
   margin-top: 15px;
 }
   .span{
-    margin-right: 20px;
+    margin-right: 10px;
     &&:last-child{
       margin-right: 0;
     }

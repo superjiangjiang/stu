@@ -103,7 +103,7 @@
             <el-option v-for="item in items" :label="item.reason" :value="item.id" :key="item.index"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="扣除学时原因" prop="typeId" label-width="120px">
+        <el-form-item label="扣除学时" prop="typeId" label-width="120px">
           <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
             <el-option v-for="item in scoreOption" :label="item.score" :value="item.id" :key="item.index"></el-option>
           </el-select>
