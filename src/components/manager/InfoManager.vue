@@ -115,6 +115,8 @@
 <!--显示详情-->
       <el-dialog title="班级详情" :visible.sync="gradeDetailDialog" @close="closeGradeDetailDialog">
 
+
+
         <el-table :data="t_class" stripe  size="middle" class="table">
           <el-table-column prop="Name" label="班级名称" width="100">
           </el-table-column>
