@@ -7,8 +7,6 @@ import Login from '@/components/login/Login'
 import SchoolStatisticsEmployment from '@/components/public/SchoolStatisticsEmployment'
 // 导入首页组件
 import Home from '@/components/home/Home'
-//引入学生申请退学组件
-import DropOut from '@/components/student/DropOut'
 
 //引入学生查看招聘信息的组件
 import LookInfo from '@/components/student/LookInfo'
@@ -19,8 +17,6 @@ import Score from '@/components/student/Score'
 //引入学生查看学时组件
 import ShowPeriod from '@/components/student/ShowPeriod'
 
-//引入上传组件
-import Upload from '@/components/student/Upload'
 
 //引入导师发布招聘信息组件
 import InfoDetail from '@/components/subcompoents/InfoDetail'
@@ -72,10 +68,8 @@ const router = new Router({
 
 
         { path: 'score', component: Score },
-        { path: 'upload', component: Upload },
         { path: 'showperiod', component: ShowPeriod },
         {path:'lookinfo',component:LookInfo},
-        { path: 'dropout', component: DropOut },
         { path: 'personal', component: Personal },
 
         { path: 'classemploymentrate', component: ClassEmploymentRate },

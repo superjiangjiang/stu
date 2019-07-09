@@ -82,6 +82,11 @@
           <el-form-item prop="type" label="班级学业导师" label-width="120px">
             <el-input v-model="gradeAddForm.tu_id" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item prop="type" label="课程" label-width="120px">
+            <el-checkbox-group v-model="checkedCourse" @change="handleCheckedCoursesChange">
+              <el-checkbox v-for="course in gradeAddForm.courses" :label="course" :key="course">{{course}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="gradeAddDialog = false">取 消</el-button>
@@ -123,6 +128,8 @@
           </el-table-column>
           <el-table-column prop="tu_id" label="班级学业导师" width="120">
           </el-table-column>
+          <el-table-column prop="Course" label="已选课程" width="120">
+        </el-table-column>
           <el-table-column label="操作" width="130">
             <template slot-scope="scope">
               <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showGradeEditDailog(scope.row)"></el-button>
@@ -244,7 +251,7 @@
     name: 'InfoManager',
     data() {
       return {
-
+        checkedCourse:["JAVA基础","MySQL","JDBC","JAVAWEB","SSM"],
         tableGrade: [
           {grade: "基础1班"},
           {grade: "基础2班"},
@@ -287,7 +294,7 @@
           {Room_number: "310",Room_capacity:'80'}
         ],
         t_class:[
-          {Name:"基础一班",Room_id:'310',te_id:"赵曰侠",tu_id:'刘丹丹'},
+          {Name:"基础一班",Room_id:'310',te_id:"赵曰侠",tu_id:'刘丹丹',Course:"Java,数据库"},
         ],
         // 教室资源添加
         roomAddDialog: false,
@@ -308,7 +315,8 @@
           Name:'',
           Room_id:'',
           te_id:'',
-          tu_id:''
+          tu_id:'',
+          courses:["JAVA基础","MySQL","JDBC","JAVAWEB","SSM"],
         },
 
         // 班级编辑
@@ -519,6 +527,12 @@
         this.$refs.courseEditForm.resetFields()
       },
 
+
+      handleCheckedCoursesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.Courses.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.Courses.length;
+      }
 
     },
   }
