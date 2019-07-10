@@ -334,16 +334,6 @@
         this.$refs.scoreEditForm.resetFields()
       },
 
-      chickvalue () {
-        console.log(this.scoreAddForm.subject)
-      },
-      chickvalue1 () {
-        console.log(this.scoreEditForm.subject)
-      },
-
-    chickvalue2 () {
-      console.log(this.scoreAddForm.class)
-    }
     }
   }
 </script>
