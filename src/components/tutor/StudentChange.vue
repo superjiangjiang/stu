@@ -30,18 +30,22 @@
 
 
 
-    <el-table :data="tableData" stripe>
+    <el-table :data="tableData" stripe   @selection-change="handleSelectionChange" @row-click="handleCurrentChange">
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <el-table-column prop="number" label="学号" width="120">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="80">
       </el-table-column>
-      <el-table-column prop="school" label="学校" width="150">
+      <el-table-column prop="school" label="学校" width="140">
       </el-table-column>
       <el-table-column prop="class" label="班级" width="80">
       </el-table-column>
-      <el-table-column label="宿舍" width="150">
+      <el-table-column  label="宿舍" width="120">
         <template slot-scope="scope">
-         {{dormitory}}
+          {{scope.dormitory1}}
         </template>
       </el-table-column>
       <el-table-column prop="employment" label="就业状态" width="80">
@@ -52,7 +56,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showUserEditDailog(scope.row)"></el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showStudentEditDailog(scope.row)"></el-button>
           <el-button type="primary" plain size="mini" @click="showJobTrackingDailog(scope.row)">就业追踪</el-button>
 
         </template>
@@ -78,8 +82,8 @@
           <el-input  :value="studentEditForm.school"></el-input>
         </el-form-item>
         <el-form-item prop="class" label="班级" width="100">
-          <el-select @change="chickvalue1"
-                     v-model="studentEditForm.class" filterable placeholder="请输入/请选择" >
+          <el-select
+            v-model="studentEditForm.class" filterable placeholder="请输入/请选择" >
             <el-option
               v-for="item in options1"
               :key="item.value"
@@ -91,8 +95,8 @@
         <el-form-item prop="dormitory" label="宿舍" width="100">
 
 
-          <el-select @change="chickvalue2"
-                     v-model="studentEditForm.dormitory1" filterable placeholder="请输入/请选择宿舍楼" >
+          <el-select
+            v-model="studentEditForm.dormitory1" filterable placeholder="请输入/请选择宿舍楼" >
             <el-option
               v-for="item in options2"
               :key="item.value"
@@ -100,8 +104,8 @@
               v-model="item.value">
             </el-option>
           </el-select>
-          <el-select @change="chickvalue3"
-                     v-model="studentEditForm.dormitory2" filterable placeholder="请输入/请选择单元" >
+          <el-select
+            v-model="studentEditForm.dormitory2" filterable placeholder="请输入/请选择单元" >
             <el-option
               v-for="item in options3"
               :key="item.value"
@@ -112,8 +116,8 @@
           <el-input  :value="studentEditForm.dormitory3" style="width: 150px;" placeholder="请输入宿舍号"></el-input>
         </el-form-item>
         <el-form-item prop="employment" label="就业" width="100">
-          <el-select @change="chickvalue4"
-                     v-model="studentEditForm.employment" filterable placeholder="请输入/请选择" >
+          <el-select
+            v-model="studentEditForm.employment" filterable placeholder="请输入/请选择" >
             <el-option
               v-for="item in options4"
               :key="item.value"
@@ -138,14 +142,39 @@
 
     <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
       <el-table :data="jobTrackingData">
-        <el-table-column property="time" label="就业追踪" width="120"></el-table-column>
-        <el-table-column property="name" label="姓名" width="80"></el-table-column>
+        <el-table-column property="name" label="姓名" width="100"></el-table-column>
         <el-table-column property="company" label="公司" width="250"></el-table-column>
         <el-table-column property="salary" label="薪水" idth="100"></el-table-column>
         <el-table-column property="position" label="职位" idth="150"></el-table-column>
       </el-table>
+      <el-row :gutter="20" >
+        <el-col :span="6" push="10">
+          <el-button  plain size="mini" type="primary" @click="showinfoAddDialog" style="margin-top: 10px;">添加就业追踪</el-button>
+        </el-col>
+      </el-row>
     </el-dialog>
 
+
+    <el-dialog title="添加就业追踪" :visible.sync="infoAddDialog" @close="closeinfoAddDialog">
+      <el-form :model="form"  ref="infoAddForm">
+        <el-form-item label="姓名">
+          <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="公司名">
+          <el-input v-model="form.company"  placeholder="请输入公司名"></el-input>
+        </el-form-item>
+        <el-form-item label="薪水">
+          <el-input v-model="form.salary"  placeholder="请输入薪水"></el-input>   </el-form-item>
+        <el-form-item label="职位">
+          <el-input v-model="form.position" placeholder="请输入职位"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="infoAddDialog = false">取 消</el-button>
+        <el-button type="primary">添加</el-button>
+      </div>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -209,19 +238,16 @@
         },
         jobTrackingDialog: false,
         jobTrackingData: [{
-          time: '第一次就业',
           name: '宋阳阳',
           company: '济南市睿德信息技术有限公司',
           salary: '13000',
           position: 'java开发'
         }, {
-          time: '第二次就业',
           name: '宋阳阳',
           company: '济南市睿德信息技术有限公司',
           salary: '13000',
           position: 'java开发'
         },{
-          time: '第三次就业',
           name: '宋阳阳',
           company: '济南市睿德信息技术有限公司',
           salary: '13000',
@@ -231,7 +257,7 @@
           number: '201603091071',
           name: '赵珂',
           school: '齐鲁工业大学',
-          class:'基础1班',
+          class:'基础一班',
           dormitory: '',
           dormitory1:'25号楼',
           dormitory2:'3单元',
@@ -243,7 +269,7 @@
           number: '201603091071',
           name: '十一月',
           school: '齐鲁工业大学',
-          class:'基础1班',
+          class:'基础一班',
           dormitory: '',
           dormitory1:'21号楼',
           dormitory2:'2单元',
@@ -251,11 +277,41 @@
           employment:'已就业',
           unit: '济南市睿德信息技术有限公司',
           salary: 13000
-        }]
+        }],
+        form: {
+          num:1,
+          job:'',
+          salary:'',
+          company:'',
+          location:'',
+          people:'',
+          time:'',
+          desc: ''
+        },
+        infoAddDialog: false,
         //excel上传
       }
     },
     methods: {
+
+      toggleSelection(rows) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.multipleTable.toggleRowSelection(row);
+          });
+        } else {
+          this.$refs.multipleTable.clearSelection();
+        }
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      handleCurrentChange(row, event, column) {
+        this.$refs.table.toggleRowSelection(row)
+      },
+      delGroup() {
+        var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔
+      },
       //excel 上传
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -264,7 +320,7 @@
         console.log(file);
       },
       // 展示编辑对话框
-      showUserEditDailog(curUser) {
+      showStudentEditDailog(curUser) {
         // console.log(curUser)
         // 先获取到当前用户的数据
         // 数据交给 studentEditForm 后，就会展示在编辑对话框中
@@ -285,23 +341,28 @@
       // 点击确定按钮，修改用户数据
       closeJobTrackingDialog() {
       },
-      chickvalue1 () {
-        console.log(this.studentEditForm.class)
+      showinfoAddDialog() {
+        this.infoAddDialog = true,
+          this.jobTrackingDialog = false
       },
-      chickvalue2 () {
-        console.log(this.studentEditForm.dormitory1)
+      // 关闭对话框重置表单
+      closeinfoAddDialog() {
+        // console.log('对话框关闭了')
+        this.$refs.infoAddForm.resetFields(),
+          this.jobTrackingDialog = true
       },
-      chickvalue3 () {
-        console.log(this.studentEditForm.dormitory2)
-      },
-      chickvalue4 () {
-        console.log(this.studentEditForm.employment)
-      }
+
+
+    },
+    mounted:function(){
+      console.log(
+        console.log()
+      )
     },
     computed:{
       dormitory: function () {
 
-       }
+      }
     }
   }
 </script>

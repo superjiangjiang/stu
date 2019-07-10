@@ -41,8 +41,10 @@ import StatisticalScores from  '@/components/technologyteacher/StatisticalScores
 //引入学时历史记录
 import PeriodHistory from '../components/tutor/PeriodHistory'
 
-//引入教师管理组件
-import TeacherManager from '../components/manager/TeacherManager'
+//引入学业导师管理组件
+import AcademicManager from '../components/manager/AcademicManager'
+//引入技术老师管理组件
+import TechnologyManager from '../components/manager/TechnologyManager'
 //引入课时管理组件
 import CourseInfoManager from '../components/manager/CourseInfoManager'
 
@@ -80,7 +82,8 @@ const router = new Router({
 
         { path: 'periodmanager', component: PeriodManager },
         { path: 'studentmanager', component: StudentManager },
-        {path:'teachermanager',component:TeacherManager},
+        {path:'academicmanager',component:AcademicManager},
+        {path:'technologymanager',component:TechnologyManager},
         {path:'courseinfomanager',component:CourseInfoManager},
         {path:'infomanager',component:InfoManager},
 

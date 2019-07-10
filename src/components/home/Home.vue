@@ -77,13 +77,18 @@
                 <span>学生管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/home/teachermanager">
+            <el-menu-item index="/home/academicmanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>教师管理</span>
+                <span>学业导师管理</span>
               </template>
             </el-menu-item>
-
+            <el-menu-item index="/home/technologymanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>技术老师管理</span>
+              </template>
+            </el-menu-item>
 
          <el-menu-item index="/home/infomanager">
             <template slot="title">

@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-input placeholder="请输入编号" v-model="queryStr" class="input-with-select">
+        <el-input placeholder="请输入职位名/公司名/位置" v-model="queryStr" class="input-with-select">
           <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
       </el-col>
@@ -37,13 +37,16 @@
       </el-table-column>
       <el-table-column prop="salary" label="薪资" width="80">
       </el-table-column>
-      <el-table-column prop="company" label="公司" width="220">
+      <el-table-column prop="company" label="公司" width="210">
       </el-table-column>
-      <el-table-column prop="location" label="位置" width="180">
+      <el-table-column prop="location" label="位置" width="170">
       </el-table-column>
-      <el-table-column prop="people" label="招聘人数" width="80">
+      <el-table-column prop="state" label="状态" width="100">
+        <template slot-scope="scope">
+        <el-tag>{{scope.row.status}}</el-tag>
+        </template>
       </el-table-column>
-      <el-table-column prop="time" label="发布时间" width="100">
+       <el-table-column prop="time" label="发布时间" width="100">
       </el-table-column>
       <el-table-column label="操作" width="270">
         <template slot-scope="scope">
@@ -76,24 +79,21 @@
         <el-form-item label="工作地址">
           <el-input v-model="form.location" placeholder="请输入工作地点"></el-input>
         </el-form-item>
-        <el-form-item label="招聘人数">
-          <el-input v-model="form.people"  placeholder="请输入招聘人数"></el-input>
-        </el-form-item>
-        <el-form-item label="发布时间">
+       <el-form-item label="发布时间">
           <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="招聘职业">
           <el-input v-model="form.job" placeholder="请输入企业名称"></el-input>
         </el-form-item>
         <el-form-item label="薪资">
-          <el-input v-model="form.salary" placeholder="请输入最低工资"></el-input>
+          <el-input v-model="form.salary" placeholder="请输入薪资(不用区间)"></el-input>
         </el-form-item>
-
-
         <el-form-item label="招聘详情">
           <el-input type="textarea" v-model="form.desc"></el-input>
         </el-form-item>
-
+        <el-form-item label="招聘状态">
+          <el-input :value="form.state" type="hidden"></el-input>
+        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -124,7 +124,13 @@
 
     <!-- 编辑招聘信息对话框 -->
     <el-dialog  title="修改招聘信息" :visible.sync="infoEditDialog" @close="closeInfoEditDialog">
+
       <el-form :model="infoEditForm"  ref="infoEditForm">
+        <el-row :gutter="20" style="margin-top: -50px;">
+          <el-col :span="6" push="16">
+            <el-button ref="elbutton" plain  type="primary" @click="changestatus" style="margin-top: 10px;">{{infoEditForm.status}}</el-button>
+          </el-col>
+        </el-row>
         <el-form-item label="编号">
           <el-input v-model="infoEditForm.num" disabled="true"></el-input>
         </el-form-item>
@@ -140,10 +146,7 @@
         <el-form-item label="位置">
           <el-input v-model="infoEditForm.location" ></el-input>
         </el-form-item>
-        <el-form-item label="招聘人数">
-          <el-input v-model="infoEditForm.people" ></el-input>
-        </el-form-item>
-        <el-form-item label="发布时间">
+          <el-form-item label="编辑时间">
           <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="详情">
@@ -191,8 +194,8 @@
           salary:'13000',
           company:'山东省农智信息科技有限公司',
           location:'山东省济南市历城区',
-          people:30,
-          time:'2019-7-4'
+          status:'正在招聘',
+           time:'2019-7-4'
 
         }],
         form: {
@@ -201,7 +204,7 @@
           salary:'',
           company:'',
           location:'',
-          people:'',
+          status:'正在招聘',
           time:'',
           desc: ''
         },
@@ -244,8 +247,8 @@
           salary:'',
           company:'',
           location:'',
-          people:'',
           time:'',
+          status:'正在招聘',
           desc: ''
         },
 
@@ -296,8 +299,9 @@
         this.$refs.userinfoEditForm.resetFields()
       },
 
-      // 点击确定按钮，修改用户数据
-
+      changestatus(){
+        this.infoEditForm.status="已结束"
+      }
 
     }
   }

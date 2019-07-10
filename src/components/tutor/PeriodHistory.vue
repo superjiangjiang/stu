@@ -6,6 +6,13 @@
         <el-breadcrumb-item>学时管理</el-breadcrumb-item>
         <el-breadcrumb-item>学时管理历史记录</el-breadcrumb-item>
       </el-breadcrumb>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-input placeholder="请输入学号/姓名" v-model="queryStr" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search" ></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
       <el-table :data="tableData" stripe class="content">
         <el-table-column prop="number" label="时间" width="150">
         </el-table-column>
@@ -80,7 +87,10 @@
 </script>
 
 <style scoped>
-.content{
-  margin-top: 15px;
+.user-breadcrumb {
+  line-height: 40px;
+  background-color: #d4dae0;
+  font-size: 18px;
+  padding-left: 10px;
 }
 </style>

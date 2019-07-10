@@ -15,15 +15,7 @@
         </div>
       </el-col>
       <el-col :span="4" >
-        <el-button type="primary" plain size="mini" @click="showinfoAddDialog" class="button">点我报名</el-button>
-           <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            list-type="picture">
-            <el-button type="primary" plain  size="mini" class="button">上传简历</el-button>
-          </el-upload>
+        <el-button type="primary" plain size="middle" @click="showinfoAddDialog" class="button">点我报名</el-button>
          </el-col>
 
 

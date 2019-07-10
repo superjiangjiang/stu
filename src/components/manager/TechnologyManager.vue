@@ -3,14 +3,13 @@
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>管理员</el-breadcrumb-item>
-      <el-breadcrumb-item>教师管理</el-breadcrumb-item>
+      <el-breadcrumb-item>技术老师管理</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-row :gutter="20">
       <el-col :span="8">
         <el-button type="success" plain @click="showinfoAddDialog">添加技术老师</el-button>
-        <el-button type="success" plain @click="showinfoAddDialog1">添加学业导师</el-button>
-      </el-col>
+       </el-col>
     </el-row>
 
     <el-table :data="tableData" stripe>
@@ -73,39 +72,6 @@
       </div>
 
     </el-dialog>
-
-    <el-dialog title="添加学业导师" :visible.sync="infoAddDialog1" @close="closeinfoAddDialog1">
-      <el-form :model="form1"  ref="infoAddForm1">
-        <el-form-item label="导师编号">
-          <el-input v-model="form1.empno" placeholder="请输入导师编号"></el-input>
-        </el-form-item>
-        <el-form-item label="导师姓名">
-          <el-input v-model="form1.name" placeholder="请输入导师姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="导师姓别">
-          <el-select @change="chickvalue2"
-                     v-model="form1.sex" filterable placeholder="请输入/请选择导师性别" >
-            <el-option
-              v-for="item in options2"
-              :key="item.value"
-              :label="item.label"
-              v-model="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="工作年限">
-          <el-input v-model="form1.time" placeholder="请输入工作年限"></el-input>
-        </el-form-item>
-
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="infoAddDialog1 = false">取 消</el-button>
-        <el-button type="primary">立即发布</el-button>
-      </div>
-
-    </el-dialog>
-
 
 
     <!-- 编辑导师信息对话框 -->
@@ -171,13 +137,6 @@
         }, {
           value: '女',
           label: '女'
-        }],
-        options2: [{
-          value: '男1',
-          label: '男1'
-        }, {
-          value: '男2',
-          label: '男2'
         }],
         options3: [{
           value: '男',

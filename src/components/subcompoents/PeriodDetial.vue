@@ -7,6 +7,15 @@
         <el-breadcrumb-item>查看学时详情</el-breadcrumb-item>
       </el-breadcrumb>
 
+      <el-row :gutter="20" style="margin-top: 10px;">
+        <el-col :span="4" >
+         <el-tag>总学时</el-tag>
+        </el-col>
+        <el-col :span="4" >
+          <el-tag>被扣学时</el-tag>
+        </el-col>
+      </el-row>
+
       <el-table :data="tableData" stripe class="table">
         <el-table-column prop="time" label="时间" width="150">
         </el-table-column>

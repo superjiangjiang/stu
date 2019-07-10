@@ -8,7 +8,7 @@
 
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-input placeholder="请输入学号" v-model="queryStr" class="input-with-select">
+        <el-input placeholder="请输入学号/姓名" v-model="queryStr" class="input-with-select">
           <el-button slot="append" icon="el-icon-search" ></el-button>
         </el-input>
       </el-col>
@@ -27,6 +27,39 @@
           <el-button type="primary">点击上传</el-button>
 
         </el-upload>
+      </el-col>
+      <el-col :span="4">
+      <el-select  @change="chickvalue1"
+                  v-model="tableData.school" filterable placeholder="请选择学校">
+        <el-option
+          v-for="item in optionschool"
+          :key="item.value"
+          :label="item.label"
+          v-model="item.value">
+        </el-option>
+      </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-select  @change="chickvalue2"
+                    v-model="tableData.class" filterable placeholder="请选择班级">
+          <el-option
+            v-for="item in optionclass"
+            :key="item.value"
+            :label="item.label"
+            v-model="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="3">
+        <el-select  @change="chickvalue3"
+                    v-model="tableData.subject" filterable placeholder="请选择科目">
+          <el-option
+            v-for="item in optionsubject"
+            :key="item.value"
+            :label="item.label"
+            v-model="item.value">
+          </el-option>
+        </el-select>
       </el-col>
     </el-row>
 
@@ -84,25 +117,16 @@
     <el-dialog title="录入成绩" :visible.sync="scoreAddDialog" @close="closescoreAddDialog">
       <el-form :model="scoreAddForm" ref="scoreAddForm">
           <el-form-item prop="number" label="学号" label-width="120px">
-          <el-input  v-model="scoreAddForm.number" autocomplete="off"></el-input>
+          <el-input  v-model="scoreAddForm.number" autocomplete="off" @blur="findinfo"></el-input>
           </el-form-item>
           <el-form-item prop="username" label="姓名" label-width="120px">
-            <el-input  v-model="scoreAddForm.username" autocomplete="off"></el-input>
+            <el-input disabled :value="scoreAddForm.username" autocomplete="off"></el-input>
           </el-form-item>
         <el-form-item prop="school" label="学校" label-width="120px">
-          <el-input v-model="scoreAddForm.school"  autocomplete="off"></el-input>
+          <el-input disabled :value="scoreAddForm.school"  autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="class" label="班级" label-width="120px">
-          <el-select  @change="chickvalue2"
-                      v-model="scoreAddForm.class" filterable placeholder="请输入/请选择">
-            <el-option
-              v-for="item in options1"
-              :key="item.value"
-              :label="item.label"
-              v-model="item.value">
-            </el-option>
-          </el-select>
-
+          <el-input disabled :value="scoreAddForm.class"  autocomplete="off"></el-input>
         </el-form-item>
           <el-form-item prop="subject" label="科目" label-width="120px">
               <el-select  @change="chickvalue"
@@ -173,7 +197,7 @@
 </template>
 
 <script>
-
+  import Vue from 'vue'
 
   export default {
     created() {
@@ -198,7 +222,17 @@
           value: 'maven',
           label: 'maven'
         }],
-        options1: [{
+         optionschool: [{
+          value: '齐鲁工业大学',
+          label: '齐鲁工业大学'
+        }, {
+          value: '科技',
+          label: '科技'
+        }, {
+          value: '信息',
+          label: '信息'
+        }],
+        optionclass: [{
           value: '基础1班',
           label: '基础1班'
         }, {
@@ -213,6 +247,16 @@
         }, {
           value: '实施班',
           label: '实施班'
+        }],
+        optionsubject: [{
+          value: 'java基础',
+          label: 'java基础'
+        }, {
+          value: '数据库',
+          label: '数据库'
+        }, {
+          value: 'javaweb',
+          label: 'javaweb'
         }],
         userList: [],
         // 每页大小
@@ -333,7 +377,24 @@
       closescoreEditDailog() {
         this.$refs.scoreEditForm.resetFields()
       },
+      chickvalue () {
+        console.log(this.scoreAddForm.subject)
+      },
+      chickvalue1 () {
+        console.log(this.tableData.school)
+      },
+      chickvalue2 () {
+        console.log(this.tableData.class)
+      },
+      chickvalue3 () {
+        console.log(this.tableData.subject)
+      },
 
+      findinfo(){
+        this.scoreAddForm.username='宋阳阳'
+        this.scoreAddForm.school='齐鲁工业大学'
+        this.scoreAddForm.class='基础1班'
+      }
     }
   }
 </script>

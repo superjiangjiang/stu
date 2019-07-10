@@ -8,6 +8,15 @@
         </el-breadcrumb>
       </el-row>
 
+      <el-row :gutter="20">
+        <el-col :span="7">
+          <el-input placeholder="请输入职位名/公司名/位置" v-model="queryStr" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
+
+
       <el-row>
         <el-card class="box-card" shadow="hover" >
           <div v-for="item in info" :key="item.id" class="info" @click="GoInfoDetail">
@@ -37,6 +46,7 @@
     name: 'LookInfo',
     data(){
       return{
+        queryStr:'',
         info:[{
           id:'1',
           name: '安博公司',
@@ -153,12 +163,12 @@
     padding-left: 10px;
   }
 
-  .el-row {
-    margin-bottom: 20px;
+  /*.el-row {
+    margin-bottom: 2px;
     &:last-child {
       margin-bottom: 0;
     }
-  }
+  }*/
   .el-col {
     border-radius: 4px;
   }

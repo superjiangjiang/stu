@@ -77,10 +77,26 @@
             <el-input v-model="gradeAddForm.Room_id" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="type" label="班级技术老师" label-width="120px">
-            <el-input v-model="gradeAddForm.te_id" autocomplete="off"></el-input>
+            <el-select @change="chickvalue1"
+                       v-model="gradeAddForm.te_id" filterable placeholder="请选择班级技术老师" >
+              <el-option
+                v-for="item in options1"
+                :key="item.value"
+                :label="item.label"
+                v-model="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item prop="type" label="班级学业导师" label-width="120px">
-            <el-input v-model="gradeAddForm.tu_id" autocomplete="off"></el-input>
+            <el-select @change="chickvalue2"
+                       v-model="gradeAddForm.tu_id" filterable placeholder="请选择班级学业导师" >
+              <el-option
+                v-for="item in options2"
+                :key="item.value"
+                :label="item.label"
+                v-model="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item prop="type" label="课程" label-width="120px">
             <el-checkbox-group v-model="checkedCourse" @change="handleCheckedCoursesChange">
@@ -105,10 +121,26 @@
               <el-input v-model="gradeEditForm.Room_id" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item prop="type" label="班级技术老师" label-width="120px">
-              <el-input v-model="gradeEditForm.te_id" autocomplete="off"></el-input>
+             <el-select @change="chickvalue3"
+                         v-model="gradeEditForm.te_id" filterable placeholder="请选择班级技术老师" >
+                <el-option
+                  v-for="item in options1"
+                  :key="item.value"
+                  :label="item.label"
+                  v-model="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item prop="type" label="班级学业导师" label-width="120px">
-              <el-input v-model="gradeEditForm.tu_id" autocomplete="off"></el-input>
+               <el-select @change="chickvalue4"
+                         v-model="gradeEditForm.tu_id" filterable placeholder="请选择班级技术老师" >
+                <el-option
+                  v-for="item in options2"
+                  :key="item.value"
+                  :label="item.label"
+                  v-model="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -251,6 +283,20 @@
     name: 'InfoManager',
     data() {
       return {
+        options1: [{
+          value: '张三',
+          label: '张三'
+        }, {
+          value: '李四',
+          label: '李四'
+        }],
+        options2: [{
+          value: '王五',
+          label: '王五'
+        }, {
+          value: '赵六',
+          label: '赵六'
+        }],
         checkedCourse:["JAVA基础","MySQL","JDBC","JAVAWEB","SSM"],
         tableGrade: [
           {grade: "基础1班"},
@@ -356,6 +402,18 @@
       }
     },
     methods: {
+      chickvalue1 () {
+        console.log(this.gradeAddForm.te_id)
+      },
+      chickvalue2 () {
+        console.log(this.gradeAddForm.tu_id)
+      },
+      chickvalue3 () {
+        console.log(this.gradeEditForm.te_id)
+      },
+      chickvalue4 () {
+        console.log(this.gradeEditForm.tu_id)
+      },
       // 展示教室资源添加对话框
       showRoomAddDialog() {
 

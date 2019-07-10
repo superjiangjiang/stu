@@ -13,8 +13,29 @@
         </el-input>
       </el-col>
 
-
-      <el-col :span="4" :push="8">
+      <el-col :span="4">
+        <el-select  @change="chickvalue1"
+                    v-model="tableData.school" filterable placeholder="请选择学校">
+          <el-option
+            v-for="item in optionschool"
+            :key="item.value"
+            :label="item.label"
+            v-model="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-select  @change="chickvalue2"
+                    v-model="tableData.class" filterable placeholder="请选择班级">
+          <el-option
+            v-for="item in optionclass"
+            :key="item.value"
+            :label="item.label"
+            v-model="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4" :push="5">
         <el-button type="primary" plain @click="GoHistory">查看历史记录</el-button>
       </el-col>
     </el-row>
@@ -125,6 +146,32 @@
     name: 'PeriodManager',
       data() {
         return {
+          optionschool: [{
+            value: '齐鲁工业大学',
+            label: '齐鲁工业大学'
+          }, {
+            value: '科技',
+            label: '科技'
+          }, {
+            value: '信息',
+            label: '信息'
+          }],
+          optionclass: [{
+            value: '基础1班',
+            label: '基础1班'
+          }, {
+            value: '基础2班',
+            label: '基础2班'
+          }, {
+            value: '骨干班',
+            label: '骨干班'
+          }, {
+            value: '卓越班',
+            label: '卓越班'
+          }, {
+            value: '实施班',
+            label: '实施班'
+          }],
           queryStr:"",
           userList: [],
           // 每页大小
@@ -240,7 +287,12 @@
           this.$refs.scoreEditForm.resetFields()
         },
 
-
+        chickvalue1 () {
+          console.log(this.tableData.school)
+        },
+        chickvalue2 () {
+          console.log(this.tableData.class)
+        },
       }
   }
 </script>
