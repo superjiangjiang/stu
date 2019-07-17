@@ -6,18 +6,25 @@
         <el-breadcrumb-item>查看个人信息</el-breadcrumb-item>
       </el-breadcrumb>
 
-      <el-row :gutter="20" style="margin-top: 10px;">
+      <el-row :gutter="20" style="margin-top: 10px;" >
         <el-col :span="4" :push="20">
           <el-button type="primary" plain size="mini" @click="showStudentEditDailog()">修改密码</el-button>
-        </el-col>
+          </el-col>
       </el-row>
-
       <el-form ref="form" :model="form" label-width="120px" style="margin: 10px auto; width: 800px;">
          <el-form-item prop="id" label="学生档案号" style="width: 700px;">
           <el-input disabled  :value="form.id"></el-input>
         </el-form-item>
         <el-form-item prop="photo" label="学生照片" style="width: 700px;">
-           <img :src="form.photo" alt="安博logo">
+          <el-upload
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="form.photo" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </el-form-item>
         <el-form-item prop="name" label="学生姓名" style="width: 700px;">
           <el-input disabled  :value="form.name"></el-input>
@@ -78,6 +85,7 @@
     name: 'Personal',
     data() {
       return {
+        imageUrl: '',
         form: {
           id: 201603091048,
           photo: '../../../static/assets/logo.png',
@@ -110,6 +118,21 @@
       closestudentEditDialog() {
         this.$refs.form.resetFields()
       },
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
     }
   }
 </script>
@@ -120,5 +143,28 @@
     background-color: #d4dae0;
     font-size: 18px;
     padding-left: 10px;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>
