@@ -108,7 +108,7 @@ const router = new Router({
 // 添加导航守卫之后，不管是访问哪个路由，都会执行beforeEach回调函数中的代码
 // 因为所有的路由，都会经过该导航守卫，所以，就可以在这个导航守卫的回调函数中
 // 判断有没有登录了
-/* router.beforeEach((to, from, next) => {
+ router.beforeEach((to, from, next) => {
   // console.log('导航守卫在看门', to)
   // ...
 
@@ -134,6 +134,6 @@ const router = new Router({
       next('/login')
     }
   }
-}) */
+})
 
 export default router

@@ -22,7 +22,7 @@
     <el-row type="flex" class="loginForm" justify="center" align="middle">
       <!-- col 表示一列 span 表示占用几份（共24份） -->
       <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="4" class="login-content">
-        <el-form label-position="top" :model="loginForm" :rules="rules" ref="loginForm">
+        <el-form label-position="top" :model="loginForm"  ref="loginForm">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username"></el-input>
           </el-form-item>
@@ -42,99 +42,97 @@
 <script>
 // 导入 axios
 
-
+import axios from 'axios'
 export default {
   data() {
     return {
       loginForm: {
-        username: 'admin',
+        username: 'tu001',
         password: '123456'
       },
-      rules: {
-        username: [
-          // required 是否为必填项
-          // message 当前规则校验失败时的提示
-          // trigger 表单验证的触发实际，blur表示失去焦点时触发
-          { required: true, message: '用户名为必填项', trigger: 'blur' },
-          // min 最小长度
-          // max 最大长度
-          {
-            min: 3,
-            max: 6,
-            message: '用户名长度在 3 到 6 个字符',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          { required: true, message: '密码为必填项', trigger: 'blur' },
-          {
-            min: 3,
-            max: 6,
-            message: '密码长度在 3 到 6 个字符',
-            trigger: 'blur'
-          }
-        ]
-      }
+      // rules: {
+      //   username: [
+      //     // required 是否为必填项
+      //     // message 当前规则校验失败时的提示
+      //     // trigger 表单验证的触发实际，blur表示失去焦点时触发
+      //     { required: true, message: '用户名为必填项', trigger: 'blur' },
+      //     // min 最小长度
+      //     // max 最大长度
+      //     {
+      //       min: 3,
+      //       max: 6,
+      //       message: '用户名长度在 3 到 6 个字符',
+      //       trigger: 'blur'
+      //     }
+      //   ],
+      //   password: [
+      //     { required: true, message: '密码为必填项', trigger: 'blur' },
+      //     {
+      //       min: 3,
+      //       max: 6,
+      //       message: '密码长度在 3 到 6 个字符',
+      //       trigger: 'blur'
+      //     }
+      //   ]
+      // }
     }
   },
   methods: {
     // 登录功能的实现
-    /* login() {
+    async login() {
       // 使用 axios 发送请求
       // http://localhost:8888/api/private/v1/login
-      axios
-        .post('http://localhost:8888/api/private/v1/login', this.loginForm)
-        .then(res => {
-          // console.log(res)
+      const res = await axios.post(
+        'http://47.103.10.32:8080/ambowEducation/api/pub/login',
+        this.loginForm
+      )
 
-          // const data = res.data.data
-          // const meta = res.data.meta
+      console.log(res)
 
-          // ES6中的解构，意思就是从 res.data 中取出属性 data 和 meta
-          const { data, meta } = res.data
-          // console.log(data)
-          if (meta.status === 200) {
-            // console.log('登录成功')
-            // 将登录成功的标识（token）存储到localStorage中
-            localStorage.setItem('token', data.token)
-            // 登录成功，需要跳转到 后台管理的首页
-            this.$router.push('/home')
-          } else {
-            // console.log('登录失败', meta.msg)
-            // this.$message.error(meta.msg)
-            this.$message({
-              type: 'error',
-              message: meta.msg,
-              duration: 1000
-            })
-          }
+
+      const {data} = res.data;
+      console.log(data)
+      // console.log(data)
+      if (data.code === 1) {
+        // console.log('登录成功')
+        // 将登录成功的标识（token）存储到localStorage中
+        localStorage.setItem('token', data.session_id)
+        // 登录成功，需要跳转到 后台管理的首页
+        this.$router.push('/home')
+      } else {
+        // console.log('登录失败', meta.msg)
+        // this.$message.error(meta.msg)
+        this.$message({
+          type: 'error',
+          message: res.data.data.msg,
+          duration: 1000
         })
-    }, */
+      }
+    },
 
 
+    submitForm() {
+      // ref 用在组件中，就表示当前组件
+      // this.$refs.loginForm
+      this.$refs.loginForm.validate(valid => {
+        // valid 表示是否校验成功，如果成功就为：true
+        // 如果失败就为：false
+        if (valid) {
+          // 成功：调用登录接口
+          // alert('submit!')
 
-    // submitForm() {
-    //   // ref 用在组件中，就表示当前组件
-    //   // this.$refs.loginForm
-    //   this.$refs.loginForm.validate(valid => {
-    //     // valid 表示是否校验成功，如果成功就为：true
-    //     // 如果失败就为：false
-    //     if (valid) {
-    //       // 成功：调用登录接口
-    //       // alert('submit!')
-    //
-    //       // 获取到用户名和密码
-    //       // console.log(this.loginForm)
-    //       this.login()
-    //     } else {
-    //       // 校验失败
-    //       return false
-    //     }
-    //   })
-    // },
-    // resetForm() {
-    //   this.$refs.loginForm.resetFields()
-    // }
+          // 获取到用户名和密码
+          // console.log(this.loginForm)
+          this.login()
+        } else {
+          // 校验失败
+          return false
+        }
+      })
+    },
+    resetForm() {
+      this.$refs.loginForm.resetFields()
+    }
   }
 }
 </script>

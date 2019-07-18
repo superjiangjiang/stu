@@ -14,8 +14,7 @@
       </el-col>
 
       <el-col :span="4">
-        <el-select  @change="chickvalue1"
-                    v-model="tableData.school" filterable placeholder="请选择学校">
+        <el-select v-model="list.school" filterable placeholder="请选择学校">
           <el-option
             v-for="item in optionschool"
             :key="item.value"
@@ -25,8 +24,7 @@
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select  @change="chickvalue2"
-                    v-model="tableData.class" filterable placeholder="请选择班级">
+        <el-select v-model="list.class" filterable placeholder="请选择班级">
           <el-option
             v-for="item in optionclass"
             :key="item.value"
@@ -54,14 +52,16 @@
       {}, {}, {}
     ]
      -->
-    <el-table :data="tableData" stripe>
-      <el-table-column prop="number" label="学号" width="150">
+    <el-table :data="list" stripe>
+      <el-table-column prop="sNo" label="学号" width="150">
       </el-table-column>
-      <el-table-column prop="username" label="姓名" width="150">
+      <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
       <el-table-column prop="school" label="学校" width="180">
       </el-table-column>
-      <el-table-column prop="class" label="班级" width="150">
+      <el-table-column prop="classHour" label="学时" width="180">
+      </el-table-column>
+      <el-table-column prop="cName" label="班级" width="150">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -144,6 +144,13 @@
 <script>
   export default {
     name: 'PeriodManager',
+    created() {
+      // console.log('axios: ', this.$http === axios)
+
+      // 发送请求，获取数据
+      this.getList()
+      console.log(localStorage.getItem('token'))
+    },
       data() {
         return {
           optionschool: [{
@@ -172,15 +179,28 @@
             value: '实施班',
             label: '实施班'
           }],
-          queryStr:"",
-          userList: [],
-          // 每页大小
-          pageSize: 3,
-          // 当前页码
-          curPage: 1,
-          // 总条数
-          total: 0,
 
+          pageNum: 1,
+          pageSize: 2,
+          size: 2,
+          startRow: 0,
+          endRow: 1,
+          total: 2,
+          pages: 1,
+
+
+          prePage: 0,
+          nextPage: 0,
+          isFirstPage: true,
+          isLastPage: true,
+          hasPreviousPage: false,
+          hasNextPage: false,
+          navigatePages: 8,
+          navigatepageNums: [
+            1
+          ],
+          navigateFirstPage: 1,
+          navigateLastPage: 1,
           // 控制用户添加对话框的展示和隐藏
           RewardDialog: false,
           PunishForm:{
@@ -205,40 +225,10 @@
             score:''
           },
 
-          tableData: [{
-            number: '201603091071',
-            username: '赵珂',
-            school: '齐鲁工业大学',
-            class: '基础班',
-
-          },{
-            number: '201603091071',
-            username: '赵珂',
-            school: '齐鲁工业大学',
-            class: '基础班',
-
-          },{
-            number: '201603091071',
-            username: '赵珂',
-            school: '齐鲁工业大学',
-            class: '基础班',
-
-          },{
-            number: '201603091071',
-            username: '赵珂',
-            school: '齐鲁工业大学',
-            class: '基础班',
-
-          },{
-            number: '201603091071',
-            username: '赵珂',
-            school: '齐鲁工业大学',
-            class: '基础班',
-
-          }]
+          list: [],
           //excel上传
 
-
+          queryStr:''
 
         }
       },
@@ -257,7 +247,7 @@
           this.$refs.RewardDialog.resetFields()
         },
 
-        // 添加用户
+
 
 
         // 根据用户id删除用户
@@ -287,11 +277,39 @@
           this.$refs.scoreEditForm.resetFields()
         },
 
-        chickvalue1 () {
-          console.log(this.tableData.school)
+
+        async getList(curPage = 1) {
+          const res = await this.$http.get('http://47.103.10.32:8080/ambowEducation/api/v1/tutor/toHoursIndex', {
+            params: {
+              // 当前页
+              pageNum: curPage,
+              // 每页展示多少条数据
+              pageSize: 3,
+              // 查询条件
+              query: this.queryStr || ''
+            }
+          })
+
+          const { data} = res.data
+
+          if (meta.code === 0) {
+            // 获取数据成功
+            this.list = data.list
+            this.total = data.total
+            this.curPage = data.pagenum
+          }
+
         },
-        chickvalue2 () {
-          console.log(this.tableData.class)
+        changePage(curPage) {
+          // console.log('当前页为：', curPage)
+          this.getList(curPage)
+        },
+
+        // 搜索
+        queryUserList() {
+          // console.log(this.queryStr)
+          this.curPage = 1
+          this.getList()
         },
       }
   }
