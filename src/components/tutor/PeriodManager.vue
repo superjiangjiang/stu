@@ -83,11 +83,11 @@
     -->
 <!--    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >-->
 <!--    </el-pagination>-->
-    <el-pagination
+ <!--   <el-pagination
       layout="prev, pager, next"
       :total="50">
     </el-pagination>
-
+-->
 
 
     <!-- 奖励对话框 -->
@@ -276,41 +276,24 @@
         closePunishDialog() {
           this.$refs.scoreEditForm.resetFields()
         },
-
-
-        async getList(curPage = 1) {
-          const res = await this.$http.get('http://47.103.10.32:8080/ambowEducation/api/v1/tutor/toHoursIndex', {
+        async getList() {
+          let res = await this.axios({
+            url: '/api/v1/tutor/toHoursIndex',
+            method: 'get',
             params: {
-              // 当前页
-              pageNum: curPage,
-              // 每页展示多少条数据
-              pageSize: 3,
-              // 查询条件
-              query: this.queryStr || ''
+              page_no:this.page_no
             }
           })
 
-          const { data} = res.data
-
-          if (meta.code === 0) {
-            // 获取数据成功
-            this.list = data.list
-            this.total = data.total
-            this.curPage = data.pagenum
+          let {  code,data } = res.data
+          console.log(res)
+          if (code === 0) {
+            this.List = data.list
+            // this.total = total
           }
-
-        },
-        changePage(curPage) {
-          // console.log('当前页为：', curPage)
-          this.getList(curPage)
         },
 
-        // 搜索
-        queryUserList() {
-          // console.log(this.queryStr)
-          this.curPage = 1
-          this.getList()
-        },
+
       }
   }
 </script>
