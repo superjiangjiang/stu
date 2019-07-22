@@ -2,19 +2,19 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right" class="user-breadcrumb">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>管理员</el-breadcrumb-item>
+      <el-breadcrumb-item>学业导师</el-breadcrumb-item>
       <el-breadcrumb-item>学时管理</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-input placeholder="请输入学号" v-model="queryStr" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search" ></el-button>
+        <el-input placeholder="请输入学号/姓名" v-model="queryStr" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"   @click="search"></el-button>
         </el-input>
       </el-col>
 
-      <el-col :span="4">
-        <el-select v-model="list.school" filterable placeholder="请选择学校">
+     <el-col :span="4">
+        <el-select v-model="list.school" v-if="list" filterable placeholder="请选择学校">
           <el-option
             v-for="item in optionschool"
             :key="item.value"
@@ -24,7 +24,7 @@
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="list.class" filterable placeholder="请选择班级">
+        <el-select v-model="list.class" v-if="list" filterable placeholder="请选择班级">
           <el-option
             v-for="item in optionclass"
             :key="item.value"
@@ -38,21 +38,7 @@
       </el-col>
     </el-row>
 
-    <!--
-      el-table 表格组件
-        data 用来给表格组件提供数据
-        stripe 添加改属性后，启用隔行变色效果
-
-      el-table-column 表格中的每一列
-        label 每一列的标题名称
-        width 每一列的宽度
-        prop 表示数据中的属性名（字段名称）
-
-    userList = [
-      {}, {}, {}
-    ]
-     -->
-    <el-table :data="list" stripe>
+    <el-table :data="list" stripe v-if="showPunishDialog">
       <el-table-column prop="sNo" label="学号" width="150">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="150">
@@ -81,59 +67,78 @@
 
         给 current-page 属性添加 .sync 修饰符后, 就可以设置当前页
     -->
-<!--    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >-->
-<!--    </el-pagination>-->
- <!--   <el-pagination
-      layout="prev, pager, next"
-      :total="50">
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="page_no"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
     </el-pagination>
--->
 
 
     <!-- 奖励对话框 -->
-    <el-dialog title="奖励学时" :visible.sync="RewardDialog" @close="closeRewardDialog">
-      <el-form :model="RewardForm" ref="scoreAddForm">
-        <el-form-item prop="date" label="时间" label-width="120px">
-            <el-date-picker type="date" placeholder="选择日期" v-model="RewardForm.date" style="width: 100%;"></el-date-picker>
+    <el-dialog title="奖励学时" :visible.sync="RewardDialog">
+      <el-form :model="RewardForm" ref="RewardForm">
+        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
+          <el-input v-model="RewardForm.tuId"></el-input>
+        </el-form-item>
+        <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
+          <el-input v-model="RewardForm.tuName"></el-input>
+        </el-form-item>
+        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
+          <el-input v-model="RewardForm.sId"></el-input>
+        </el-form-item>
+        <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
+          <el-input v-model="RewardForm.sName"></el-input>
         </el-form-item>
         <el-form-item prop="number" label="原因" label-width="120px">
           <el-input v-model="RewardForm.reason"></el-input>
         </el-form-item>
-        <el-form-item prop="number" label="奖励学时数" label-width="120px">
-          <el-input v-model="RewardForm.score"></el-input>
+        <el-form-item prop="detail" label="奖励学时数" label-width="120px">
+          <el-input v-model="RewardForm.detail"></el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="RewardDialog = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary"  @click="rewardClick">确 定</el-button>
       </div>
 
     </el-dialog>
 
   <!--惩罚对话框-->
 
-    <el-dialog title="扣除学时" :visible.sync="PunishDialog" @close="closePunishDialog">
+    <el-dialog title="扣除学时" :visible.sync="PunishDialog" >
       <el-form :model="PunishForm" ref="PunishForm">
-        <el-form-item label="时间"  label-width="65px">
-          <el-date-picker type="date" placeholder="选择日期" v-model="PunishForm.date" style="width: 100%;"></el-date-picker>
-
+        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
+          <el-input v-model="PunishForm.tuId"></el-input>
         </el-form-item>
-        <el-form-item label="扣除学时原因" prop="typeId" label-width="120px">
+        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
+          <el-input v-model="PunishForm.tuName"></el-input>
+        </el-form-item>
+        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
+          <el-input v-model="PunishForm.sId"></el-input>
+        </el-form-item>
+        <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
+          <el-input v-model="PunishForm.sName"></el-input>
+        </el-form-item>
+        <el-form-item label="扣除学时原因" prop="reason" label-width="120px">
           <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
-            <el-option v-for="item in items" :label="item.reason" :value="item.id" :key="item.index"></el-option>
+            <el-option v-for="item in items" :label="item.reason" :key="item.id" v-model="item.reason"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="扣除学时" prop="typeId" label-width="120px">
-          <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
-            <el-option v-for="item in scoreOption" :label="item.score" :value="item.id" :key="item.index"></el-option>
+        <el-form-item label="扣除学时" prop="detail" label-width="120px">
+          <el-select v-model="PunishForm.detail" placeholder="请选择" style="width: 100%;">
+            <el-option v-for="item in scoreOption" :label="item.detail"  :key="item.id" v-model="item.detail"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="PunishDialog = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="punishClick">确 定</el-button>
       </div>
 
     </el-dialog>
@@ -145,11 +150,8 @@
   export default {
     name: 'PeriodManager',
     created() {
-      // console.log('axios: ', this.$http === axios)
-
-      // 发送请求，获取数据
+       // 发送请求，获取数据
       this.getList()
-      console.log(localStorage.getItem('token'))
     },
       data() {
         return {
@@ -179,56 +181,40 @@
             value: '实施班',
             label: '实施班'
           }],
-
-          pageNum: 1,
-          pageSize: 2,
-          size: 2,
-          startRow: 0,
-          endRow: 1,
-          total: 2,
-          pages: 1,
-
-
-          prePage: 0,
-          nextPage: 0,
-          isFirstPage: true,
-          isLastPage: true,
-          hasPreviousPage: false,
-          hasNextPage: false,
-          navigatePages: 8,
-          navigatepageNums: [
-            1
-          ],
-          navigateFirstPage: 1,
-          navigateLastPage: 1,
           // 控制用户添加对话框的展示和隐藏
           RewardDialog: false,
-          PunishForm:{
-            reasons:''
-          },
+
           items:[{reason:'请假一天',id:'1'},{reason:'请假半天',id:'2'},{reason:'旷课',id:'3'},{reason:'早退',id:'4'}],
-          scoreOption:[{score:'5',id:'1'},{score:'2',id:'2'},{score:'3',id:'3'},{score:'4',id:'4'}],
+          scoreOption:[{detail:'10',id:'1'},{detail:'4',id:'2'},{detail:'3',id:'3'},{detail:'4',id:'4'}],
 
 
           // 控制编辑用户对话框的展示和隐藏
           PunishDialog: false,
           RewardForm: {
-
-            date:'',
+            sId:-1,
+            sName:-1,
             reason:'',
-            score:''
+            detail:'',
+            tuId:'',
+            tuName:''
 
           },
           PunishForm:{
-            date:'',
+            sName:-1,
+            sId:-1,
             reason:'',
-            score:''
+            detail:'',
+            tuId:'',
+            tuName:''
           },
 
           list: [],
           //excel上传
 
-          queryStr:''
+          queryStr:'',
+          page_no:1,
+          pageSize:1,
+          total:0,
 
         }
       },
@@ -238,62 +224,115 @@
           this.$router.push({name:'periodhistory'})
         },
         // 展示奖励分数
-        showRewardDialog() {
+        showRewardDialog(row) {
+
           this.RewardDialog = true
+          this.RewardForm.sId=row.id
+          this.RewardForm.sName = row.name
         },
         // 关闭对话框重置表单
-        closeRewardDialog() {
-
-          this.$refs.RewardDialog.resetFields()
-        },
 
 
-
-
-        // 根据用户id删除用户
-        delStuById(id) {
-          // console.log(id)
-          this.$confirm('确认删除该用户吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          })},
-
-        // 展示编辑对话框
-        showPunishDialog(curUser) {
-          // console.log(curUser)
-          // 先获取到当前用户的数据
-          // 数据交给 scoreEditForm 后，就会展示在编辑对话框中
-          for (const key in this.scoreEditForm) {
-            this.PunishForm[key] = curUser[key]
-          }
-
-          // 打开用户编辑对话框
+        // 展示惩罚学时对话框
+        showPunishDialog(row) {
           this.PunishDialog = true
+          this.RewardForm.sId=row.id
+          this.RewardForm.sName = row.name
+
         },
 
-        // 关闭用户编辑对话框
-        closePunishDialog() {
-          this.$refs.scoreEditForm.resetFields()
-        },
+
+
+
+        //展示信息
         async getList() {
           let res = await this.axios({
             url: '/api/v1/tutor/toHoursIndex',
             method: 'get',
             params: {
-              page_no:this.page_no
+              page_no:this.page_no,
+              key:this.queryStr,
             }
           })
-
-          let {  code,data } = res.data
           console.log(res)
-          if (code === 0) {
-            this.List = data.list
-            // this.total = total
+          let {status} = res
+          let { data } = res.data
+          if (status == 200) {
+            this.list = data.list
+            this.total = data.total
+            this.pageSize = data.pageSize
           }
+        },
+        //分页查询
+
+        handleCurrentChange(val) {
+          this.page_no = val
+          this.getList()
         },
 
 
+        //模糊查询
+        search() {
+          // 搜索的时候，让当前页变成1
+          this.page_no = 1
+          this.getList()
+        },
+
+        //奖励学时
+        rewardClick(row) {
+          this.$refs.RewardForm.validate(async valid => {
+            if (valid) {
+              // 发送ajax请求
+              let res = await this.axios.post(`/api/v1/tutor/editHours`, this.RewardForm)
+              let { code } = res.data
+              if (code === 0) {
+                this.$message.success('奖励学时成功')
+                // 清空表单的内容
+                this.$refs.RewardForm.resetFields()
+                // 关闭模态框
+                this.RewardDialog = false
+                // 重新渲染
+                // 求最大的页码
+                this.total++
+                this.page_no = Math.ceil(this.total / this.pageSize)
+                this.getList()
+              } else {
+                this.$message.error('奖励学时失败了')
+              }
+            } else {
+              return false
+            }
+          })
+        },
+
+        punishClick() {
+          console.log(this.PunishForm.reason)
+          console.log(this.PunishForm.detail)
+          this.$refs.PunishForm.validate(async valid => {
+            if (valid) {
+              // 发送ajax请求
+              let res = await this.axios.post(`/api/v1/tutor/editHours`, this.RewardForm)
+              let { status } = res
+              console.log(status)
+              if (status === 200) {
+                this.$message.success('处罚学时成功')
+                // 清空表单的内容
+                this.$refs.PunishForm.resetFields()
+                // 关闭模态框
+                this.RewardDialog = false
+                // 重新渲染
+                // 求最大的页码
+                this.total++
+                this.current = Math.ceil(this.total / this.pageSize)
+                this.getList()
+              } else {
+                this.$message.error('处罚学时失败了')
+              }
+            } else {
+              return false
+            }
+          })
+        },
       }
   }
 </script>

@@ -18,7 +18,6 @@ Vue.prototype.axios = axios
 axios.interceptors.request.use(
   function(config) {
     // 给config配置baseURL
-    // config.url = 'http://47.103.10.32:8080/'
     config.baseURL = 'http://47.103.10.32:8080/ambowEducation'
     // 给config设置headers
     config.headers.Authorization = localStorage.getItem('token')
@@ -43,7 +42,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-
   // 注册 App 组件为当前实例的局部组件，然后，才可以在template中使用该组件
   components: { App },
   template: '<App/>'

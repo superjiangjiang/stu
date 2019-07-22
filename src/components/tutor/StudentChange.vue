@@ -9,7 +9,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <el-input placeholder="请输入学号" v-model="queryStr" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search" ></el-button>
+          <el-button slot="append" icon="el-icon-search"  @click="search"></el-button>
         </el-input>
       </el-col>
 
@@ -30,94 +30,81 @@
 
 
 
-    <el-table :data="tableData" stripe   @selection-change="handleSelectionChange" @row-click="handleCurrentChange">
-      <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column>
-      <el-table-column prop="number" label="学号" width="120">
+    <el-table :data="tableData" stripe   @selection-change="handleSelectionChange"  @load="changeStatus">
+      <el-table-column prop="sNo" label="学号" width="120">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="80">
       </el-table-column>
       <el-table-column prop="school" label="学校" width="140">
       </el-table-column>
-      <el-table-column prop="class" label="班级" width="80">
+      <el-table-column prop="clazz.name" label="班级" width="80">
       </el-table-column>
-      <el-table-column  label="宿舍" width="120">
-        <template slot-scope="scope">
-          {{scope.dormitory1}}
-        </template>
+      <el-table-column prop="dormitoryNo"  label="宿舍" width="120" >
       </el-table-column>
-      <el-table-column prop="employment" label="就业状态" width="80">
+      <el-table-column prop="status" label="就业状态" width="80">
       </el-table-column>
-      <el-table-column prop="unit" label="首次就业单位" width="180">
+      <el-table-column prop="firstEmployment" label="首次就业单位" width="180">
       </el-table-column>
-      <el-table-column prop="salary" label="薪资" width="100">
+      <el-table-column prop="firstSalary" label="薪资" width="100">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showStudentEditDailog(scope.row)"></el-button>
-          <el-button type="primary" plain size="mini" @click="showJobTrackingDailog(scope.row)">就业追踪</el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showStudentEditDialog(scope.row)"></el-button>
+          <el-button type="primary" plain size="mini" @click="showJobTrackingDialog(scope.row)">就业追踪</el-button>
 
         </template>
       </el-table-column>
 
     </el-table>
 
-    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
+    <!--
+      分页组件
+        background 背景色
+        layout 分页显示的内容
+        total 总条数
+
+        给 current-page 属性添加 .sync 修饰符后, 就可以设置当前页
+    -->
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="page_no"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
     </el-pagination>
 
-
     <!-- 编辑用户对话框 -->
-    <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
+    <el-dialog title="学生管理" :visible.sync="studentEditDialog">
 
       <el-form :model="studentEditForm"  ref="studentEditForm">
-        <el-form-item prop="number" label="学号" width="100">
-          <el-input disabled  :value="studentEditForm.number"></el-input>
+        <el-form-item prop="sNo" label="学号" width="100">
+          <el-input disabled  v-model= "studentEditForm.sNo"></el-input>
         </el-form-item>
         <el-form-item prop="name" label="姓名" width="100">
-          <el-input  :value="studentEditForm.name"></el-input>
+          <el-input  v-model="studentEditForm.name"></el-input>
         </el-form-item>
         <el-form-item prop="school" label="学校" width="100">
-          <el-input  :value="studentEditForm.school"></el-input>
+          <el-input  v-model="studentEditForm.school"></el-input>
         </el-form-item>
-        <el-form-item prop="class" label="班级" width="100">
+        <el-form-item prop="clazz" label="班级" width="100">
           <el-select
-            v-model="studentEditForm.class" filterable placeholder="请输入/请选择" >
+            v-model="studentEditForm.clazz" filterable placeholder="请输入/请选择" >
             <el-option
               v-for="item in options1"
-              :key="item.value"
-              :label="item.label"
-              v-model="item.value">
+              :key="item.name"
+              :label="item.name"
+              v-model="item.name">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="dormitory" label="宿舍" width="100">
-
-
-          <el-select
-            v-model="studentEditForm.dormitory1" filterable placeholder="请输入/请选择宿舍楼" >
-            <el-option
-              v-for="item in options2"
-              :key="item.value"
-              :label="item.label"
-              v-model="item.value">
-            </el-option>
-          </el-select>
-          <el-select
-            v-model="studentEditForm.dormitory2" filterable placeholder="请输入/请选择单元" >
-            <el-option
-              v-for="item in options3"
-              :key="item.value"
-              :label="item.label"
-              v-model="item.value">
-            </el-option>
-          </el-select>
-          <el-input  :value="studentEditForm.dormitory3" style="width: 150px;" placeholder="请输入宿舍号"></el-input>
+        <el-form-item prop="dormitoryNo" label="宿舍" width="100">
+          <el-input  v-model="studentEditForm.dormitoryNo"></el-input>
         </el-form-item>
-        <el-form-item prop="employment" label="就业" width="100">
+        <el-form-item prop="status" label="就业" width="100">
           <el-select
-            v-model="studentEditForm.employment" filterable placeholder="请输入/请选择" >
+            v-model="studentEditForm.status" filterable placeholder="请输入/请选择" >
             <el-option
               v-for="item in options4"
               :key="item.value"
@@ -127,25 +114,24 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="unit" label="首次就业单位" width="100">
-          <el-input  :value="studentEditForm.unit"></el-input>
+        <el-form-item prop="firstEmployment" label="首次就业单位" width="100">
+          <el-input  v-model="studentEditForm.firstEmployment"></el-input>
         </el-form-item>
-        <el-form-item prop="salary" label="薪资" width="100">
-          <el-input  :value="studentEditForm.salary"></el-input>
+        <el-form-item prop="firstSalary" label="薪资" width="100">
+          <el-input  v-model="studentEditForm.firstSalary" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="studentEditDialog = false">取 消</el-button>
-        <el-button type="primary" >确 定</el-button>
+        <el-button type="primary" @click="editStudent">确 定</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
+<!--就业追踪-->
+    <el-dialog title="就业追踪" :visible.sync="jobTrackingDialog">
       <el-table :data="jobTrackingData">
-        <el-table-column property="name" label="姓名" width="100"></el-table-column>
-        <el-table-column property="company" label="公司" width="250"></el-table-column>
-        <el-table-column property="salary" label="薪水" idth="100"></el-table-column>
-        <el-table-column property="position" label="职位" idth="150"></el-table-column>
+        <el-table-column prop="companyName" label="公司" width="250"></el-table-column>
+        <el-table-column prop="salary" label="薪水" idth="100"></el-table-column>
+        <el-table-column prop="type" label="职位" idth="150"></el-table-column>
       </el-table>
       <el-row :gutter="20" >
         <el-col :span="6" push="10">
@@ -155,23 +141,20 @@
     </el-dialog>
 
 
-    <el-dialog title="添加就业追踪" :visible.sync="infoAddDialog" @close="closeinfoAddDialog">
-      <el-form :model="form"  ref="infoAddForm">
-        <el-form-item label="姓名">
-          <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
-        </el-form-item>
+    <el-dialog title="添加就业追踪" :visible.sync="infoAddDialog">
+      <el-form :model="form"  ref="form">
         <el-form-item label="公司名">
-          <el-input v-model="form.company"  placeholder="请输入公司名"></el-input>
+          <el-input v-model="form.companyName"  placeholder="请输入公司名"></el-input>
         </el-form-item>
         <el-form-item label="薪水">
           <el-input v-model="form.salary"  placeholder="请输入薪水"></el-input>   </el-form-item>
         <el-form-item label="职位">
-          <el-input v-model="form.position" placeholder="请输入职位"></el-input>
+          <el-input v-model="form.type" placeholder="请输入职位"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="infoAddDialog = false">取 消</el-button>
-        <el-button type="primary">添加</el-button>
+        <el-button type="primary" @click="addinfo">添加</el-button>
       </div>
 
     </el-dialog>
@@ -181,115 +164,48 @@
 <script>
   export default {
     created() {
+      this.getTableData()
     },
     data() {
       return {
-        options1: [{
-          value: '基础1班',
-          label: '基础1班'
-        }, {
-          value: '骨干班',
-          label: '骨干班'
-        }],
-        options2: [{
-          value: '25号楼',
-          label: '25号楼'
-        }, {
-          value: '24号楼',
-          label: '24号楼'
-        }],
-        options3: [{
-          value: '1单元',
-          label: '1单元'
-        }, {
-          value: '2单元',
-          label: '2单元'
-        }],
+        sid:'',
+        options1: [
+          ],
         options4: [{
-          value: '未就业',
+          value: '0',
           label: '未就业'
         }, {
-          value: '已就业',
+          value: '1',
           label: '已就业'
         }],
-        userList: [],
-        // 每页大小
-        pageSize: 3,
-        // 当前页码
-        curPage: 1,
-        // 总条数
-        total: 0,
-        // 搜索内容
-        queryStr: '',
         // 控制编辑用户对话框的展示和隐藏
         studentEditDialog: false,
         studentEditForm: {
-          number: -1,
+          sNo: -1,
           name: '',
           school: '',
-          class: '',
-          dormitory: '',
-          dormitory1:'',
-          dormitory2:'',
-          dormitory3:'',
-          employment:'',
-          unit: '',
-          salary: ''
+          clazz: '',
+          dormitoryNo: '',
+          firstEmployment:'',
+          firstSalary: '',
+          status: ''
         },
         jobTrackingDialog: false,
-        jobTrackingData: [{
-          name: '宋阳阳',
-          company: '济南市睿德信息技术有限公司',
-          salary: '13000',
-          position: 'java开发'
-        }, {
-          name: '宋阳阳',
-          company: '济南市睿德信息技术有限公司',
-          salary: '13000',
-          position: 'java开发'
-        },{
-          name: '宋阳阳',
-          company: '济南市睿德信息技术有限公司',
-          salary: '13000',
-          position: 'java开发'
-        }],
-        tableData: [{
-          number: '201603091071',
-          name: '赵珂',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory: '',
-          dormitory1:'25号楼',
-          dormitory2:'3单元',
-          dormitory3:'901',
-          employment:'未就业',
-          unit: '济南市睿德信息技术有限公司',
-          salary: 13000
-        },{
-          number: '201603091071',
-          name: '十一月',
-          school: '齐鲁工业大学',
-          class:'基础一班',
-          dormitory: '',
-          dormitory1:'21号楼',
-          dormitory2:'2单元',
-          dormitory3:'401',
-          employment:'已就业',
-          unit: '济南市睿德信息技术有限公司',
-          salary: 13000
-        }],
+        jobTrackingData: [],
+        tableData: [],
         form: {
-          num:1,
-          job:'',
+          sId:-1,
+          companyName:'',
           salary:'',
-          company:'',
-          location:'',
-          people:'',
-          time:'',
-          desc: ''
+          type:''
+
         },
         infoAddDialog: false,
         //excel上传
+        queryStr:'',
+        page_no:1,
+        pageSize:1,
+        total:0,
       }
     },
     methods: {
@@ -306,9 +222,7 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      handleCurrentChange(row, event, column) {
-        this.$refs.table.toggleRowSelection(row)
-      },
+
       delGroup() {
         var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔
       },
@@ -320,50 +234,180 @@
         console.log(file);
       },
       // 展示编辑对话框
-      showStudentEditDailog(curUser) {
-        // console.log(curUser)
+      async showStudentEditDialog(curUser) {
         // 先获取到当前用户的数据
         // 数据交给 studentEditForm 后，就会展示在编辑对话框中
-        for (const key in this.studentEditForm) {
-          this.studentEditForm[key] = curUser[key]
+        if(curUser.status =="已就业"){
+          curUser.status =parseInt(1)
+        }else if(curUser.status == '未就业'){
+          curUser.status = parseInt(0)
         }
+        this.studentEditForm.name = curUser.name
+        this.studentEditForm.sNo = curUser.sNo
+        this.studentEditForm.school = curUser.school
+        this.studentEditForm.firstEmployment = curUser.firstEmployment
+        this.studentEditForm.firstSalary = parseFloat(curUser.firstSalary)
+        this.studentEditForm.status =parseInt( curUser.status)
+        this.studentEditForm.dormitoryNo = curUser.dormitoryNo
+        this.studentEditForm.clazz = curUser.clazz.name
         // 打开用户编辑对话框
         this.studentEditDialog = true
+        let res = await this.axios({
+          url: '/api/v1/tutor/toUpdateStu',
+          method: 'get',
+
+        })
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.options1 = data
+        }
       },
-      // 关闭用户编辑对话框
-      closestudentEditDialog() {
-        this.$refs.studentEditForm.resetFields()
+
+      //确认修改
+      editStudent() {
+
+         this.$refs.studentEditForm.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+
+            let res = await this.axios.put(`/api/v1/tutor/updateStu/`, {
+              sNo:this.studentEditForm.sNo,
+              name:this.studentEditForm.name,
+              school:this.studentEditForm.school,
+              firstEmployment:this.studentEditForm.firstEmployment,
+              firstSalary:this.studentEditForm.firstSalary,
+              status:this.studentEditForm.status,
+              dNumber:this.studentEditForm.dormitoryNo,
+              cName:this.studentEditForm.clazz
+            })
+            let { code } = res.data
+            if (code === 0) {
+              this.studentEditDialog = false
+              this.$refs.studentEditForm.resetFields()
+              this.getTableData()
+              this.$message.success('恭喜你，修改成功了')
+            } else {
+              this.$message.error('很遗憾，修改失败了')
+            }
+          } else {
+            return false
+          }
+        })
       },
-      showJobTrackingDailog(curUser){
-        // 打开用户编辑对话框
+
+      //打开就业追踪
+      async showJobTrackingDialog(cur) {
         this.jobTrackingDialog = true
+        let res = await this.axios({
+          url: '/api/v1/tutor/getWorkInfo',
+          method: 'get',
+          params: {
+            s_id: cur.id,
+          }
+        })
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.jobTrackingData = data
+        }
+        this.sid=cur.id
       },
-      // 点击确定按钮，修改用户数据
-      closeJobTrackingDialog() {
+      //添加就业跟踪
+      showinfoAddDialog(row) {
+        this.infoAddDialog = true
+        this.jobTrackingDialog = false
+        this.form.sId=this.sid
+        console.log(this.form.sid)
       },
-      showinfoAddDialog() {
-        this.infoAddDialog = true,
-          this.jobTrackingDialog = false
+      addinfo(){
+        this.$refs.form.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+            let res = await this.axios.post(`/api/v1/tutor/addWorkInfo`, this.form)
+            let { code } = res.data
+            if (code === 0) {
+              this.$message.success('恭喜你，添加成功了')
+              // 清空表单的内容
+              this.$refs.form.resetFields()
+              // 关闭模态框
+              this.infoAddDialog = false
+              // 重新渲染
+              // 求最大的页码
+              this.total++
+              this.current = Math.ceil(this.total / this.pageSize)
+              this.getTableData()
+            } else {
+              this.$message.error('添加失败了')
+            }
+          } else {
+            return false
+          }
+        })
+
       },
       // 关闭对话框重置表单
-      closeinfoAddDialog() {
+    /*  closeinfoAddDialog() {
         // console.log('对话框关闭了')
-        this.$refs.infoAddForm.resetFields(),
+        this.$refs.infoAddForm.resetFields()
           this.jobTrackingDialog = true
+      },*/
+      //展示信息
+      async getTableData() {
+        let res = await this.axios({
+          url: '/api/v1/tutor/toStuIndex',
+          method: 'get',
+          params: {
+            page_no: this.page_no,
+            key: this.queryStr,
+          }
+        })
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.tableData = data.list
+          this.total = data.total
+          this.pageSize = data.pageSize
+        }
+      },
+      //分页查询
+
+      handleCurrentChange(val) {
+        this.page_no = val
+        this.getTableData()
+      },
+
+      //模糊查询
+      search() {
+        // 搜索的时候，让当前页变成1
+        this.page_no = 1
+        this.getTableData()
       },
 
 
-    },
-    mounted:function(){
-      console.log(
-        console.log()
-      )
-    },
-    computed:{
-      dormitory: function () {
+      //改变就业状态
+      changeStatus() {
+        for (var i = 0; i < this.tableData.length; i++) {
+          if (this.tableData[i].status == 0) {
+            this.tableData[i].status = "未就业"
+          } else if (this.tableData[i].status == 1) {
+            this.tableData[i].status = "已就业"
+          }
 
-      }
-    }
+        }
+      },
+
+    },
+
+    updated() {
+      this.changeStatus();
+
+    },
+
+
   }
 </script>
 
