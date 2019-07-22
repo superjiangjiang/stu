@@ -320,7 +320,6 @@
         this.infoAddDialog = true
         this.jobTrackingDialog = false
         this.form.sId=this.sid
-        console.log(this.form.sid)
       },
       addinfo(){
         this.$refs.form.validate(async valid => {

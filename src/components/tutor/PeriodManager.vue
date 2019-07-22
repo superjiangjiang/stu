@@ -279,14 +279,14 @@
         },
 
         //奖励学时
-        rewardClick(row) {
+        rewardClick() {
           this.$refs.RewardForm.validate(async valid => {
             if (valid) {
               // 发送ajax请求
               let res = await this.axios.post(`/api/v1/tutor/editHours`, this.RewardForm)
               let { code } = res.data
               if (code === 0) {
-                this.$message.success('奖励学时成功')
+                this.$message.success('恭喜你，添加成功了')
                 // 清空表单的内容
                 this.$refs.RewardForm.resetFields()
                 // 关闭模态框
@@ -297,7 +297,7 @@
                 this.page_no = Math.ceil(this.total / this.pageSize)
                 this.getList()
               } else {
-                this.$message.error('奖励学时失败了')
+                this.$message.error('添加失败了')
               }
             } else {
               return false
@@ -306,16 +306,13 @@
         },
 
         punishClick() {
-          console.log(this.PunishForm.reason)
-          console.log(this.PunishForm.detail)
           this.$refs.PunishForm.validate(async valid => {
             if (valid) {
               // 发送ajax请求
-              let res = await this.axios.post(`/api/v1/tutor/editHours`, this.RewardForm)
-              let { status } = res
-              console.log(status)
-              if (status === 200) {
-                this.$message.success('处罚学时成功')
+              let res = await this.axios.post(`/api/v1/tutor/addWorkInfo`, this.PunishForm)
+              let { code } = res.data
+              if (code === 0) {
+                this.$message.success('恭喜你，惩罚成功了')
                 // 清空表单的内容
                 this.$refs.PunishForm.resetFields()
                 // 关闭模态框
@@ -323,10 +320,10 @@
                 // 重新渲染
                 // 求最大的页码
                 this.total++
-                this.current = Math.ceil(this.total / this.pageSize)
+                this.page_no = Math.ceil(this.total / this.pageSize)
                 this.getList()
               } else {
-                this.$message.error('处罚学时失败了')
+                this.$message.error('惩罚失败了')
               }
             } else {
               return false
