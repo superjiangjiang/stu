@@ -239,7 +239,7 @@
         })
         let {status} = res
         let {data} = res.data
-
+        console.log(res)
         if (status == 200) {
           this.tableData = data.list
           this.total = data.total
@@ -292,6 +292,11 @@
 
 
           if (valid) {
+            if(this.teacherEditForm.sex == '男'){
+              this.teacherEditForm.sex =1
+            }else if(this.teacherEditForm.sex =='女'){
+              this.teacherEditForm.sex = 0
+            }
             // 发送ajax请求
             let res = await this.axios.put(`/api/v1/admin/update_tutor`, {
               id:this.teacherEditForm.id,
@@ -313,9 +318,22 @@
             return false
           }
         })
+      },
+      change(){
+        for (var i = 0; i < this.tableData.length; i++) {
+          if (this.tableData[i].sex == 1) {
+            this.tableData[i].sex = "男"
+          } else if (this.tableData[i].sex ==0 ) {
+            this.tableData[i].sex = "女"
+          }
+
+        }
       }
 
 
+    },
+    updated() {
+      this.change()
     }
   }
 </script>

@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column prop="name" label="技术老师姓名" width="150">
       </el-table-column>
-      <el-table-column prop="sex" label="技术老师性别" width="100">
+      <el-table-column prop="sex" label="技术老师性别" width="120">
       </el-table-column>
       <el-table-column prop="skills" label="擅长的技术" width="220">
       </el-table-column>
@@ -102,7 +102,7 @@
           <el-input  v-model="teteacherEditFrom.name"></el-input>
         </el-form-item>
 
-        <el-form-item prop="sex" label="技术老师性别" width="180">
+        <el-form-item prop="sex" label="技术老师性别" width="190">
 
           <el-select
                       v-model="teteacherEditFrom.sex" filterable placeholder="请输入/请选择技术老师性别">
@@ -309,7 +309,11 @@
         this.$refs.teteacherEditFrom.validate(async valid => {
           if (valid) {
             // 发送ajax请求
-
+            if(this.teteacherEditFrom.sex == '男'){
+              this.teteacherEditFrom.sex =1
+            }else if(this.teteacherEditFrom.sex =='女'){
+              this.teteacherEditDialog.sex = 0
+            }
             let res = await this.axios.put(`/api/v1/admin/update_technicalTeacher`, {
               id:this.teteacherEditFrom.id,
               name:this.teteacherEditFrom.name,
@@ -330,10 +334,26 @@
             return false
           }
         })
+      },
+      //改变性别
+      change(){
+        for (var i = 0; i < this.tableData.length; i++) {
+          if (this.tableData[i].sex == 1) {
+            this.tableData[i].sex = "男"
+          } else if (this.tableData[i].sex ==0 ) {
+            this.tableData[i].sex = "女"
+          }
+
+        }
       }
 
 
 
+
+
+    },
+    updated() {
+      this.change()
     }
   }
 </script>

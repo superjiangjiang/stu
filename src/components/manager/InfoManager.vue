@@ -521,7 +521,7 @@
 
       handleCheckedCoursesChange(value) {
         let checkedCount = value.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.Courses.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.crid.length;
       },
 
 

@@ -16,21 +16,25 @@
         </el-col>
       </el-row>
 
-
-      <el-row>
-        <el-card class="box-card" shadow="hover" >
-          <div v-for="item in info" :key="item.id" class="info" @click="GoInfoDetail(item.id)">
-            <el-row :gutter="20">
-              <el-col :span="4"><div class="grid-content bg-purple type">职位：{{item.position}}</div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple salary"><span>薪资：{{item.salary}}</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span class="name">公司名：{{item.companyName}}</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span >位置：{{item.location}}</span></div></el-col>
-              <el-col :span="4"> <div class="grid-content bg-purple"><span>招聘人数：{{item.region}}</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span>发布于：{{item.createtime}}</span></div></el-col>
-            </el-row>
-          </div>
-        </el-card>
-      </el-row>
+      <el-table :data="info" stripe>
+        <el-table-column prop="companyName" label="公司名称" width="180">
+        </el-table-column>
+        <el-table-column prop="position" label="招聘职位" width="180">
+        </el-table-column>
+        <el-table-column prop="salary" label="薪资" width="150">
+        </el-table-column>
+        <el-table-column prop="location" label="工作位置" width="100">
+        </el-table-column>
+        <el-table-column prop="status" label="状态" width="100">
+        </el-table-column>
+        <el-table-column prop="createtime" label="创建时间" width="200">
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="primary" plain size="mini"@click="showDetail(scope.row)">查看详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <div class="block">
 
         <el-pagination
@@ -43,6 +47,40 @@
         >
         </el-pagination>
       </div>
+      <el-dialog title="招聘详情" :visible.sync="infodetailDialog" @close="closeinfodetailDialog" width="95%">
+            <el-table :data="t_class" stripe  size="middle" class="table">
+              <el-table-column prop="id" label="公司名称" width="180" style="display: none">
+              </el-table-column>
+              <el-table-column prop="companyName" label="公司名称" width="180">
+              </el-table-column>
+              <el-table-column prop="position" label="招聘职位" width="180">
+              </el-table-column>
+              <el-table-column prop="salary" label="薪资" width="150">
+              </el-table-column>
+              <el-table-column prop="location" label="工作位置" width="100">
+              </el-table-column>
+              <el-table-column prop="status" label="状态" width="100">
+              </el-table-column>
+              <el-table-column prop="detail" label="细节" width="200">
+              </el-table-column>
+              <el-table-column prop="tuEmpNo" label="上传老师" width="200">
+              </el-table-column>
+              <el-table-column prop="createtime" label="创建时间" width="200">
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button type="primary" plain size="mini"  @click="signUp(scope.row.id)">点我报名</el-button>
+                </template>
+              </el-table-column>
+          </el-table>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="infodetailDialog = false">确 定</el-button>
+
+        </div>
+
+      </el-dialog>
+
+
     </div>
 </template>
 
@@ -59,21 +97,29 @@
         pageSize: 3,
         pageNum: 1,
         total: 0,
+        infodetailDialog: false,
+        t_class:[{
+          id:'',
+          position:'',
+          salary:'',
+          companyName:'',
+          location:'',
+          detail:'',
+          createtime:'',
+          tuEmpNo:'',
+          status:''
+        }]
        }
     },
     methods: {
+
+
       /*跳转到职位详情页,带着id*/
-      GoInfoDetail(id) {
-        console.log(id)
-        this.$router.push({
-          name: 'infodetail',
-          query:{
-          id: id
-          }})
-      },
+
 
       /*学生查询所有职位*/
       async gettableData() {
+
         let res = await this.axios({
           url: '/api/v1/student/findAllPosition',
           method: 'get',
@@ -109,7 +155,6 @@
           this.pageSize = data.pageSize
         }
       },
-
       //分页查询
       handleCurrentChange(val) {
         this.pageNum = val
@@ -122,9 +167,55 @@
         // 搜索的时候，让当前页变成1
         this.pageNum = 1
         this.findPositionByKey()
-        console.log(this.queryStr)
-      }
+      },
+      showDetail(detail){
 
+        this.t_class[0].companyName=detail.companyName
+        this.t_class[0].createtime = detail.createtime
+        this.t_class[0].detail = detail.detail
+        this.t_class[0].id = detail.id
+        this.t_class[0].location = detail.location
+        this.t_class[0].position=detail.position
+        this.t_class[0].salary = detail.salary
+        this.t_class[0].status = detail.status
+        this.t_class[0].tuEmpNo = detail.tuEmpNo
+
+        this.infodetailDialog = true;
+      },
+      closeinfodetailDialog(){
+        this.infodetailDialog = false;
+
+      },
+      async signUp(id) {
+        // 发送ajax请求
+        let res = await this.axios({
+          url: '/api/v1/student/studentSignupPosition',
+          method: 'post',
+          params: {
+            p_id:id,
+          }
+        })
+        console.log(res)
+        let {code} = res.data
+        if (code === -1) {
+          this.$message.success(res.data.message)
+        } else {
+          this.$message.error(res.data.data)
+        }
+      },
+      change(){
+        for (var i = 0; i < this.info.length; i++) {
+          if (this.info[i].status == 1) {
+            this.info[i].status = "已结束"
+          } else if (this.info[i].status ==0 ) {
+            this.info[i].status = "正在结束"
+          }
+
+        }
+      }
+    },
+    updated() {
+      this.change()
     }
   }
 </script>
