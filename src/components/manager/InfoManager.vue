@@ -12,7 +12,7 @@
             </el-input>
           <el-button type="success" plain @click="showGradeAddDialog">添加班级</el-button>
           <el-table :data="tableGrade" stripe  size="middle" class="table">
-            <el-table-column prop="grade" label="班级" width="130">
+            <el-table-column prop="name" label="班级" width="130">
             </el-table-column>
 
             <el-table-column  label="查看详情" width="100">
@@ -57,14 +57,14 @@
           </el-table>
         </el-col>
         <el-col :span="6" class="span">
-          <el-input placeholder="请输入导师编号" v-model="queryStr" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search"  @click="search"></el-button>
+          <el-input placeholder="请输入教室门牌号" v-model="classRoomQueryStr" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search"  @click="classRoomSearch"></el-button>
           </el-input>
           <el-button type="success" plain @click="showRoomAddDialog">教室资源</el-button>
           <el-table :data="t_classroom" stripe size="middle" class="table">
-            <el-table-column prop="Room_number" label="教室门牌号" width="100">
+            <el-table-column prop="roomNumber" label="教室门牌号" width="100">
             </el-table-column>
-            <el-table-column prop="Room_capacity" label="容量" width="50">
+            <el-table-column prop="roomCapacity" label="容量" width="50">
             </el-table-column>
             <el-table-column  label="操作" width="130">
               <template slot-scope="scope">
@@ -112,7 +112,7 @@
           </el-form-item>
           <el-form-item prop="type" label="课程" label-width="120px">
             <el-checkbox-group v-model="checkedCourse" @change="handleCheckedCoursesChange">
-              <el-checkbox v-for="course in gradeAddForm.courses" :label="course" :key="course">{{course}}</el-checkbox>
+              <el-checkbox v-for="course in checkedCourse" :label="course" :key="course">{{course}}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
@@ -164,15 +164,15 @@
 <!--显示详情-->
       <el-dialog title="班级详情" :visible.sync="gradeDetailDialog" @close="closeGradeDetailDialog">
         <el-table :data="t_class" stripe  size="middle" class="table">
-          <el-table-column prop="Name" label="班级名称" width="100">
+          <el-table-column prop="name" label="班级名称" width="100">
           </el-table-column>
-          <el-table-column prop="Room_id" label="教室" width="100">
+          <el-table-column prop="roomId" label="教室" width="100">
           </el-table-column>
-          <el-table-column prop="te_id" label="班级技术老师" width="120">
+          <el-table-column prop="teId" label="班级技术老师" width="120">
           </el-table-column>
-          <el-table-column prop="tu_id" label="班级学业导师" width="120">
+          <el-table-column prop="tuId" label="班级学业导师" width="120">
           </el-table-column>
-          <el-table-column prop="Course" label="已选课程" width="120">
+          <el-table-column prop="cid" label="已选课程" width="120">
         </el-table-column>
           <el-table-column label="操作" width="130">
             <template slot-scope="scope">
@@ -262,33 +262,36 @@
       </el-dialog>
       <!--      添加教室资源-->
       <el-dialog title="添加教室" :visible.sync="roomAddDialog" @close="closeRoomAddDialog">
-        <el-form :model="roomAddForm"  ref="typeAddForm">
+        <el-form :model="roomAddForm"  ref="roomAddForm">
           <el-form-item prop="type" label="教室门牌号" label-width="120px">
-            <el-input v-model="roomAddForm.gradeType" autocomplete="off"></el-input>
+            <el-input v-model="roomAddForm.roomNumber" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="type" label="容量" label-width="120px">
-            <el-input v-model="roomAddForm.gradeType" autocomplete="off"></el-input>
+            <el-input v-model="roomAddForm.roomCapacity" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="roomAddDialog = false">取 消</el-button>
-          <el-button type="primary" >确 定</el-button>
+          <el-button type="primary" @click="addroom" >确 定</el-button>
         </div>
 
       </el-dialog>
       <!--修改教室资源-->
       <el-dialog title="修改教室资源" :visible.sync="roomEditDialog" @close="closeRoomEditDialog">
-        <el-form :model="roomEditForm"  ref="roomAddForm">
+        <el-form :model="roomEditForm"  ref="roomEditForm">
+          <el-form-item prop="type" label="id" label-width="120px"  style="display: none">
+            <el-input v-model="roomEditForm.id" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item prop="type" label="教室号" label-width="120px">
-            <el-input v-model="roomEditForm.Room_number" autocomplete="off"></el-input>
+            <el-input v-model="roomEditForm.roomNumber" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="type" label="容量" label-width="120px">
-            <el-input v-model="roomEditForm.Room_capacity" autocomplete="off"></el-input>
+            <el-input v-model="roomEditForm.roomCapacity" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="roomEditDialog = false">取 消</el-button>
-          <el-button type="primary" >确 定</el-button>
+          <el-button type="primary" @click="updateRoom">确 定</el-button>
         </div>
 
       </el-dialog>
@@ -302,11 +305,14 @@
     created(){
       this.getTableCourse()
       this.getTablePeriod()
+      this.getTableClassroom()
+      this.getClassInfo()
     },
     data() {
       return {
         courseQueryStr:'',
         periodQueryStr:'',
+        classRoomQueryStr:'',
         queryStr:'',
         options1: [{
           value: '张三',
@@ -335,21 +341,24 @@
         t_classroom: [
 
         ],
-        t_class:[
-
-        ],
+        t_class:[{
+          name:'',
+          roomId:'',
+          tuId:'',
+          teId:''
+        }],
         // 教室资源添加
         roomAddDialog: false,
         roomAddForm: {
-          Room_number: '',
-          Room_capacity:''
+          roomNumber: '',
+          roomCapacity:''
         },
         // 教室资源编辑
         roomEditDialog: false,
         roomEditForm: {
-          num: -1,
-          Room_number: '',
-          Room_capacity:''
+          id: -1,
+          roomNumber: '',
+          roomCapacity:''
         },
         //班级添加
         gradeAddDialog: false,
@@ -414,13 +423,25 @@
         this.$refs.roomAddForm.resetFields()
       },
       //删除教室资源
-      delRoomById(id) {
+      async delRoomById(id) {
         // console.log(id)
-        this.$confirm('确认删除该班型吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          room: 'warning'
-        })
+        try {
+          await this.$confirm('你确定要删除该教室吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          let res = await this.axios.delete(`/api/v1/admin/delete_classroom?id=${id}`)
+          if (res.data.code == 0) {
+            this.$message.success('恭喜你，删除成功了')
+            // 重新渲染
+            this.getTableClassroom()
+          } else {
+            this.$message.danger('删除用户失败')
+          }
+        } catch (e) {
+          this.$message.error('取消删除了')
+        }
       },
 
       //修改教室资源
@@ -483,12 +504,24 @@
       },
 
       //班级详情
-      showDetail(){
+      showDetail(detail){
+        console.log(detail)
+        this.t_class[0].name=detail.name
+        this.t_class[0].roomId = detail.roomId
+        this.t_class[0].teId = detail.teId
+        this.t_class[0].tuId = detail.tuId
+        this.t_class[0].id = detail.id
         this.gradeDetailDialog = true;
       },
       closeGradeDetailDialog(){
         this.gradeDetailDialog = false;
 
+      },
+
+
+      handleCheckedCoursesChange(value) {
+        let checkedCount = value.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.Courses.length;
       },
 
 
@@ -503,13 +536,25 @@
       this.$refs.scoreAddForm.resetFields()
     },
     //删除扣分项
-    delScoreById(id) {
+    async delScoreById(id) {
       // console.log(id)
-      this.$confirm('确认删除该项目吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      try {
+        await this.$confirm('你确定要删除该项吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        let res = await this.axios.delete(`/api/v1/admin/delete_reduceHour?id=${id}`)
+        if (res.data.code == 0) {
+          this.$message.success('恭喜你，删除成功了')
+          // 重新渲染
+          this.getTablePeriod()
+        } else {
+          this.$message.danger('删除用户失败')
+        }
+      } catch (e) {
+        this.$message.error('取消删除了')
+      }
     },
       //修改扣分项
       // 展示编辑对话框
@@ -552,22 +597,14 @@
             cancelButtonText: '取消',
             type: 'warning'
           })
-          // 发送axios请求删除用户
-          let res = await this.axios({
-            url: '/api/v1/admin/delete_course',
-            method: 'delete',
-            params: {
-              id:id
-            }
-
-          })
-          let {status} = res
-          if (status === 200) {
+          // 发送axios请求删除课程
+          let res = await this.axios.delete(`/api/v1/admin/delete_course?id=${id}`)
+          if (res.data.code == 0) {
             this.$message.success('恭喜你，删除成功了')
             // 重新渲染
-            this.getTableData()
+            this.getTableCourse()
           } else {
-            this.$message.danger('删除失败')
+            this.$message.danger('删除用户失败')
           }
         } catch (e) {
           this.$message.error('取消删除了')
@@ -596,11 +633,6 @@
       },
 
 
-      handleCheckedCoursesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.Courses.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.Courses.length;
-      },
 
       //展示课程信息
 
@@ -684,7 +716,7 @@
             key:this.periodQueryStr,
           }
         })
-        console.log(res)
+        // console.log(res)
         let {status} = res
         let {data} = res.data
 
@@ -746,7 +778,99 @@
         })
       },
 
-      search(){},
+      //展示教室详情
+      async getTableClassroom() {
+        let res = await this.axios({
+          url: '/api/v1/admin/select_classroom_list',
+          method: 'get',
+          params: {
+            key:this.classRoomQueryStr,
+          }
+        })
+        // console.log(res)
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.t_classroom = data
+        }
+      },
+      classRoomSearch() {
+        this.getTableClassroom()
+      },
+      //添加教室
+      addroom(){
+        this.$refs.roomAddForm.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+            let res = await this.axios.post(`/api/v1/admin/insert_classroom`, this.roomAddForm)
+            let { code } = res.data
+            if (code === 0) {
+              this.$message.success('恭喜你，添加成功了')
+              // 清空表单的内容
+              this.$refs.roomAddForm.resetFields()
+              // 关闭模态框
+              this.roomAddDialog = false
+              // 重新渲染
+              // 求最大的页码
+              this.getTableClassroom()
+            } else {
+              this.$message.error('添加失败了')
+            }
+          } else {
+            return false
+          }
+        })
+      },
+      //修改教室
+      updateRoom(){
+
+        this.$refs.roomEditForm.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+
+            let res = await this.axios.put(`/api/v1/admin/update_classroom`, {
+              id:this.roomEditForm.id,
+              roomNumber:this.roomEditForm.roomNumber,
+              roomCapacity:this.roomEditForm.roomCapacity
+            })
+            let { code } = res.data
+            if (code === 0) {
+              this.roomEditDialog = false
+              this.$refs.roomEditForm.resetFields()
+              this.getTableClassroom()
+              this.$message.success('恭喜你，修改成功了')
+            } else {
+              this.$message.error('很遗憾，修改失败了')
+            }
+          } else {
+            return false
+          }
+        })
+      },
+
+
+      //展示班级信息
+      async getClassInfo() {
+        let res = await this.axios({
+          url: '/api/v1/admin/select_class_list',
+          method: 'get',
+          params: {
+            key:this.queryStr,
+          }
+        })
+        console.log(res)
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.tableGrade = data
+          this.t_class.course = this.checkedCourse
+        }
+      },
+      search(){
+        this.getClassInfo()
+      },
 
     },
   }
