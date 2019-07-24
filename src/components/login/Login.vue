@@ -97,6 +97,7 @@ export default {
         // console.log('登录成功')
         // 将登录成功的标识（token）存储到localStorage中
         localStorage.setItem('token', data.session_id)
+        localStorage.setItem('s_no',this.loginForm.username)
         // 登录成功，需要跳转到 后台管理的首页
         this.$router.push('/home')
       } else {
