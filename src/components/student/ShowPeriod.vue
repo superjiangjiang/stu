@@ -7,6 +7,11 @@
     </el-breadcrumb>
 
     <el-row :gutter="20" style="margin-top: 10px;">
+      <el-col :span="6">
+        <el-input placeholder="请输入学时变动原因" v-model="queryStr" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"  @click="search"></el-button>
+        </el-input>
+      </el-col>
       <el-col :span="4" >
         <el-tag>总学时</el-tag>
       </el-col>
@@ -16,51 +21,91 @@
     </el-row>
 
     <el-table :data="tableData" stripe class="table">
-      <el-table-column prop="time" label="时间" width="150">
+      <el-table-column prop="editTime" label="时间" width="150">
       </el-table-column>
-      <el-table-column prop="number" label="学号" width="120">
+      <el-table-column prop="student.sNo" label="学号" width="120">
       </el-table-column>
-      <el-table-column prop="username" label="姓名" width="100">
+      <el-table-column prop="student.name" label="姓名" width="100">
       </el-table-column>
-      <el-table-column prop="grade" label="年级" width="180">
+      <el-table-column prop="student.school" label="学校" width="180">
       </el-table-column>
-      <el-table-column prop="school" label="学校" width="180">
+      <el-table-column prop="reason" label="原因" width="180">
       </el-table-column>
-      <el-table-column prop="resource" label="原因" width="180">
-      </el-table-column>
-      <el-table-column prop="score" label="学时变动情况" width="120">
+      <el-table-column prop="detail" label="学时变动情况" width="120">
       </el-table-column>
 
     </el-table>
 
-
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="pageNum"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
-    name: 'PeriodDetial',
-    data() {
-      return {
-        tableData: [{
-          time:'2019-07-04',
-          number: '201603091071',
-          username: '赵珂',
-          grade: '计科软件外包(16-2)',
-          school:'齐鲁工业大学',
-          resource:'请假一天',
-          score:'-1'
-        }]
-
+    name: 'ShowPeriod',
+    created(){
+      this.gettableData()
+    },
+    data(){
+      return{
+        tableData: [],
+        pageSize:3,
+        pageNum:1,
+        total:0,
+        queryStr:'',
       }
+    },
+    methods:{
+      /*学生查看学时*/
+      async gettableData() {
+        let res = await this.axios({
+          url: '/api/v1/student/findStuHistory',
+          method: 'get',
+          params: {
+            pageNum:this.pageNum,
+            key:this.queryStr,
+          }
+        })
+        let {status} = res
+        let { data } = res.data
+        console.log(res)
+        if (status == 200) {
+          this.tableData = data.list
+          this.total = data.total
+          this.pageSize = data.pageSize
+
+        }
+      },
+
+      //分页查询
+      handleCurrentChange(val) {
+        this.pageNum = val
+        this.gettableData()
+      },
+
+      //通过原因查看学时
+      search() {
+        // 搜索的时候，让当前页变成1
+        this.pageNum = 1
+        this.gettableData()
+        console.log(this.queryStr)
+      },
+
+
     }
   }
 </script>
 
 <style scoped>
-  .table{
-    margin-top: 20px;
-  }
   .user-breadcrumb {
     line-height: 40px;
     background-color: #d4dae0;

@@ -6,14 +6,6 @@
       <el-breadcrumb-item>查看成绩</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-row :gutter="20">
-      <el-col :span="6">
-        <el-input placeholder="请输入用户名" v-model="queryStr" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </el-col>
-
-    </el-row>
 
     <!--
       el-table 表格组件
@@ -29,18 +21,18 @@
       {}, {}, {}
     ]
      -->
-    <el-table :data="tableData" stripe>
-      <el-table-column prop="number" label="学号" width="180">
+    <el-table :data="tableData" stripe style="margin-top: 20px;">
+      <el-table-column prop="student.sNo" label="学号" width="180">
       </el-table-column>
-      <el-table-column prop="username" label="姓名" width="180">
+      <el-table-column prop="student.name" label="姓名" width="180">
       </el-table-column>
-      <el-table-column prop="grade" label="年级" width="180">
+      <el-table-column prop="student.grade" label="年级" width="180">
       </el-table-column>
-      <el-table-column prop="school" label="学校" width="180">
+      <el-table-column prop="student.school" label="学校" width="180">
       </el-table-column>
-      <el-table-column prop="subject" label="科目" width="180">
+      <el-table-column prop="course.name" label="科目" width="180">
       </el-table-column>
-      <el-table-column prop="score" label="成绩" width="180">
+      <el-table-column prop="grade" label="成绩" width="180">
       </el-table-column>
     </el-table>
 
@@ -52,154 +44,61 @@
 
         给 current-page 属性添加 .sync 修饰符后, 就可以设置当前页
     -->
-    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="pageNum"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
     </el-pagination>
-
-
-
 
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
-  created() {
-    // console.log('axios: ', this.$http === axios)
-
-    // 发送请求，获取数据
-    // this.getUserList()
+  created(){
+    this.gettableData()
   },
 
-
-
-  data() {
-    return {
-      userList: [],
-      // 每页大小
-      pageSize: 3,
-      // 当前页码
-      curPage: 1,
-      // 总条数
-      total: 0,
-      // 搜索内容
-      queryStr: '',
-
-      tableData: [{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      }, {
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      },{
-        number: '201603091071',
-        username: '赵珂',
-        grade: '计科软件外包(16-2)',
-        school:'齐鲁工业大学',
-        subject:'数据结构',
-        score:'98'
-      }]
-    }
+  data(){
+    return{
+      tableData: [],
+      pageSize:3,
+      pageNum:1,
+      total:0,
+      }
   },
-
   methods: {
-    // 获取用户列表数据
-    // curPage = 1 给参数添加默认值
-    /* getUserList(curPage = 1) {
-      this.$http
-        .get('/student', {
+      /*学生查看成绩*/
+      async gettableData() {
+        let res = await this.axios({
+          url: '/api/v1/student/findStudentGrade',
+          method: 'get',
           params: {
-            // 当前页
-            pagenum: curPage,
-            // 每页展示多少条数据
-            pagesize: 3,
-            // 查询条件
-            query: this.queryStr || ''
-          }
-          // 将 token 作为请求头，传递给服务器接口
-          // 这样，才能正确的调用这个接口
-          // headers: {
-          //   Authorization: localStorage.getItem('token')
-          // }
+            pageNum:this.pageNum,
+           }
         })
-        .then(res => {
-          console.log('请求成功:', res)
-          const { data, meta } = res.data
-          if (meta.status === 200) {
-            // 获取数据成功
-            this.userList = data.student
-            this.total = data.total
-            this.curPage = data.pagenum
-          }
-        })
-    }, */
-    /**
-     * 分页获取数据
-     * 参数 cruPage 表示当前点击的页码
-     */
+        let {status} = res
 
-
-
-
-
-  }
+        let { data } = res.data
+        console.log(data.list)
+         if (status == 200) {
+          this.tableData = data.list
+          this.total = data.total
+          this.pageSize = data.pageSize
+        }
+      },
+      /*分页查询*/
+      handleCurrentChange(val) {
+        this.pageNum = val
+        this.gettableData()
+      },
+    }
 }
 </script>
 
