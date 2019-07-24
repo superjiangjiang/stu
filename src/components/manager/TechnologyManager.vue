@@ -257,23 +257,14 @@
             cancelButtonText: '取消',
             type: 'warning'
           })
-          // 发送axios请求删除用户
-          let res = await this.axios({
-            url: '/api/v1/admin/delete_technicalTeacher',
-            method: 'delete',
-            params: {
-              id:id
-            }
-
-          })
-          let {status} = res
-          if (status === 200) {
+          let res = await this.axios.delete(`/api/v1/admin/delete_technicalTeacher?id=${id}`)
+          if (res.data.code == 0) {
             this.$message.success('恭喜你，删除成功了')
             // 重新渲染
             if (this.tableData.length === 1 && this.page_no > 1) this.page_no--
             this.getTableData()
           } else {
-            this.$message.danger('删除失败')
+            this.$message.danger('删除用户失败')
           }
         } catch (e) {
           this.$message.error('取消删除了')

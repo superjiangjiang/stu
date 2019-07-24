@@ -13,7 +13,7 @@
         </el-input>
       </el-col>
       <el-col :span="8">
-        <el-button type="success" plain @click="showinfoAddDialog1">添加学业导师</el-button>
+        <el-button type="success" plain @click="showinfoAddDialog">添加学业导师</el-button>
       </el-col>
     </el-row>
 
@@ -72,7 +72,7 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="infoAddDialog1 = false">取 消</el-button>
+        <el-button @click="infoAddDialog = false">取 消</el-button>
         <el-button type="primary" @click="addTeacher">立即添加</el-button>
       </div>
 
@@ -186,7 +186,7 @@
       },
       // 关闭对话框重置表单
       closeinfoAddDialog() {
-        this.$refs.infoAddForm.resetFields()
+        this.$refs.form1.resetFields()
       },
 
       showteacherEditDailog(curUser) {
@@ -211,21 +211,14 @@
             type: 'warning'
           })
           // 发送axios请求删除用户
-          let res = await this.axios({
-            url: '/api/v1/admin/delete_tutor',
-            method: 'delete',
-            params: {
-              id:id
-            }
-          })
-          let {status} = res
-          if (status === 200) {
+          let res = await this.axios.delete(`/api/v1/admin/delete_tutor?id=${id}`)
+          if (res.data.code == 0) {
             this.$message.success('恭喜你，删除成功了')
             // 重新渲染
             if (this.tableData.length === 1 && this.page_no > 1) this.page_no--
             this.getTableData()
           } else {
-            this.$message.danger('删除失败')
+            this.$message.danger('删除用户失败')
           }
         } catch (e) {
           this.$message.error('取消删除了')
