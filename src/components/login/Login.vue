@@ -104,7 +104,7 @@ export default {
         // this.$message.error(meta.msg)
         this.$message({
           type: 'error',
-          message: res.data.data.msg,
+          message: res.data.data.message,
           duration: 1000
         })
       }

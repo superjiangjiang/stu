@@ -71,12 +71,6 @@
               <i class="el-icon-location"></i>
               <span>管理员</span>
             </template>
-            <el-menu-item index="/home/studentmanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学生管理</span>
-              </template>
-            </el-menu-item>
             <el-menu-item index="/home/academicmanager">
               <template slot="title">
                 <i class="el-icon-menu"></i>

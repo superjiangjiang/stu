@@ -26,8 +26,7 @@ import PeriodDetial from '@/components/subcompoents/PeriodDetial'
 
 
 
-//引入学生管理组件
-import StudentManager from '@/components/manager/StudentManager'
+
 
 //引入导师学生管理组件
 import StudentChange from '../components/tutor/StudentChange'
@@ -45,8 +44,8 @@ import PeriodHistory from '../components/tutor/PeriodHistory'
 import AcademicManager from '../components/manager/AcademicManager'
 //引入技术老师管理组件
 import TechnologyManager from '../components/manager/TechnologyManager'
-//引入课时管理组件
-import CourseInfoManager from '../components/manager/CourseInfoManager'
+
+
 
 //引入招聘信息管理组件
 import ShowRecruitment from '../components/tutor/ShowRecruitment'
@@ -81,10 +80,8 @@ const router = new Router({
 
 
         { path: 'periodmanager', component: PeriodManager },
-        { path: 'studentmanager', component: StudentManager },
         {path:'academicmanager',component:AcademicManager},
         {path:'technologymanager',component:TechnologyManager},
-        {path:'courseinfomanager',component:CourseInfoManager},
         {path:'infomanager',component:InfoManager},
 
 

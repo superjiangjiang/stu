@@ -7,43 +7,55 @@
     </el-breadcrumb>
 
     <el-row :gutter="20">
+      <el-col :span="6">
+        <el-input placeholder="请输入导师编号" v-model="queryStr" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"  @click="search"></el-button>
+        </el-input>
+      </el-col>
       <el-col :span="8">
         <el-button type="success" plain @click="showinfoAddDialog1">添加学业导师</el-button>
       </el-col>
     </el-row>
 
     <el-table :data="tableData" stripe>
-      <el-table-column prop="empno" label="导师编号" width="180">
+      <el-table-column prop="id" label="导师id" width="180">
+      </el-table-column>
+      <el-table-column prop="empNo" label="导师编号" width="180">
       </el-table-column>
       <el-table-column prop="name" label="导师姓名" width="150">
       </el-table-column>
       <el-table-column prop="sex" label="导师性别" width="100">
       </el-table-column>
-       <el-table-column prop="time" label="工作年限" width="100">
+       <el-table-column prop="workingSeniority" label="工作年限" width="100">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showScoreEditDailog(scope.row)"></el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showteacherEditDailog(scope.row)"></el-button>
           <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delStuById(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
-
-    <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page.sync="curPage" >
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="page_no"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
     </el-pagination>
 
 
-
-    <el-dialog title="添加学业导师" :visible.sync="infoAddDialog1" @close="closeinfoAddDialog1">
-      <el-form :model="form1"  ref="infoAddForm1">
+    <el-dialog title="添加学业导师" :visible.sync="infoAddDialog" @close="closeinfoAddDialog">
+      <el-form :model="form1"  ref="form1">
         <el-form-item label="导师编号">
-          <el-input v-model="form1.empno" placeholder="请输入导师编号"></el-input>
+          <el-input v-model="form1.empNo" placeholder="请输入导师编号"></el-input>
         </el-form-item>
         <el-form-item label="导师姓名">
           <el-input v-model="form1.name" placeholder="请输入导师姓名"></el-input>
         </el-form-item>
         <el-form-item label="导师姓别">
-          <el-select @change="chickvalue2"
+          <el-select
                      v-model="form1.sex" filterable placeholder="请输入/请选择导师性别" >
             <el-option
               v-for="item in options2"
@@ -54,14 +66,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="工作年限">
-          <el-input v-model="form1.time" placeholder="请输入工作年限"></el-input>
+          <el-input v-model="form1.workingSeniority" placeholder="请输入工作年限"></el-input>
         </el-form-item>
 
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="infoAddDialog1 = false">取 消</el-button>
-        <el-button type="primary">立即发布</el-button>
+        <el-button type="primary" @click="addTeacher">立即添加</el-button>
       </div>
 
     </el-dialog>
@@ -69,20 +81,23 @@
 
 
     <!-- 编辑导师信息对话框 -->
-    <el-dialog title="修改导师信息" :visible.sync="scoreEditDialog" @close="closescoreEditDailog">
+    <el-dialog title="修改导师信息" :visible.sync="teacherEditDialog" @close="closeteacherEditDailog">
 
-      <el-form :model="scoreEditForm" :rules="userEditRules" ref="scoreEditForm">
-        <el-form-item prop="empno" label="导师编号" width="180">
-          <el-input disabled  :value="scoreEditForm.empno"></el-input>
+      <el-form :model="teacherEditForm"  ref="teacherEditForm">
+        <el-form-item prop="id" label="导师ID" width="180">
+          <el-input disabled  :value="teacherEditForm.id"></el-input>
+        </el-form-item>
+        <el-form-item prop="empNo" label="导师编号" width="180">
+          <el-input disabled  :value="teacherEditForm.empNo"></el-input>
         </el-form-item>
         <el-form-item prop="name" label="导师姓名" width="180">
-          <el-input  :value="scoreEditForm.name"></el-input>
+          <el-input  :value="teacherEditForm.name"></el-input>
         </el-form-item>
 
         <el-form-item prop="sex" label="导师性别" width="180">
 
-          <el-select  @change="chickvalue1"
-                      v-model="scoreEditForm.sex" filterable placeholder="请输入/请选择导师性别">
+          <el-select
+                      v-model="teacherEditForm.sex" filterable placeholder="请输入/请选择导师性别">
             <el-option
               v-for="item in options3"
               :key="item.value"
@@ -92,14 +107,14 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="time" label="工作年限" width="180">
-          <el-input :value="scoreEditForm.time"></el-input>
+        <el-form-item prop="workingSeniority" label="工作年限" width="180">
+          <el-input :value="teacherEditForm.workingSeniority"></el-input>
         </el-form-item>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="scoreEditDialog = false">取 消</el-button>
-        <el-button type="primary" >确 定</el-button>
+        <el-button @click="teacherEditDialog = false">取 消</el-button>
+        <el-button type="primary" @click="editTeacher">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -116,71 +131,50 @@
 
       // 发送请求，获取数据
       // this.getUserList()
+      this.getTableData()
     },
 
 
 
     data() {
       return {
+        queryStr:'',
+        page_no:1,
+        pageSize:1,
+        total:0,
         options2: [{
-          value: '男1',
-          label: '男1'
-        }, {
-          value: '男2',
-          label: '男2'
-        }],
-        options3: [{
-          value: '男',
+          value: '1',
           label: '男'
         }, {
-          value: '女',
+          value: '2',
           label: '女'
         }],
-        userList: [],
-
-        tableData:[{
-          empno: '20160309',
-          name: '宋阳阳',
-          sex: '女',
-          time: '3'
-        },{
-          empno: '20160309',
-          name: 'syy',
-          sex: '男',
-           time: '4'
-        },{
-          empno: '20160309',
-          name: '宋阳阳',
-          sex: '女',
-          skills:'java',
-          time: '3'
-        },{
-          empno: '20160309',
-          name: '宋阳阳',
-          sex: '女',
-           time: '3'
+        options3: [{
+          value: '1',
+          label: '男'
+        }, {
+          value: '0',
+          label: '女'
         }],
-        form: {
-          empno: '',
-          name: '',
-          sex: '',
-          time: ''
-        },
+
+        tableData:[],
+
         form1: {
-          empno: '',
+          empNo: '',
           name: '',
           sex: '',
-          time: ''
+          workingSeniority: ''
         },
 
         infoAddDialog: false,
-        infoAddDialog1: false,
-        scoreEditDialog: false,
-        scoreEditForm: {
-          empno: -1,
+
+        teacherEditDialog: false,
+        teacherEditForm: {
+          id:-1,
+          empNo: -1,
           name: '',
           sex: '',
-          time: ''
+          workingSeniority: ''
         },
       }
     },
@@ -192,44 +186,143 @@
       },
       // 关闭对话框重置表单
       closeinfoAddDialog() {
-        // console.log('对话框关闭了')
         this.$refs.infoAddForm.resetFields()
       },
-      showinfoAddDialog1() {
-        this.infoAddDialog1 = true
-      },
-      // 关闭对话框重置表单
-      closeinfoAddDialog1() {
-        // console.log('对话框关闭了')
-        this.$refs.infoAddForm1.resetFields()
-      },
 
-      showScoreEditDailog(curUser) {
-        for (const key in this.scoreEditForm) {
-          this.scoreEditForm[key] = curUser[key]
+      showteacherEditDailog(curUser) {
+        for (const key in this.teacherEditForm) {
+          this.teacherEditForm[key] = curUser[key]
         }
         // 打开用户编辑对话框
-        this.scoreEditDialog = true
+        this.teacherEditDialog = true
       },
 
       // 关闭用户编辑对话框
-      closescoreEditDailog() {
-        this.$refs.scoreEditForm.resetFields()
-      },
-      chickvalue1 () {
-        console.log(this.form.sex)
-      },
-      chickvalue2 () {
-        console.log(this.form1.sex)
+      closeteacherEditDailog() {
+        this.$refs.teacherEditForm.resetFields()
       },
 
-      delStuById(id) {
-        // console.log(id)
-        this.$confirm('确认删除该导师吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })},
+
+      async delStuById(id) {
+        try {
+          await this.$confirm('你确定要删除该老师吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          // 发送axios请求删除用户
+          let res = await this.axios({
+            url: '/api/v1/admin/delete_tutor',
+            method: 'delete',
+            params: {
+              id:id
+            }
+          })
+          let {status} = res
+          if (status === 200) {
+            this.$message.success('恭喜你，删除成功了')
+            // 重新渲染
+            if (this.tableData.length === 1 && this.page_no > 1) this.page_no--
+            this.getTableData()
+          } else {
+            this.$message.danger('删除失败')
+          }
+        } catch (e) {
+          this.$message.error('取消删除了')
+        }
+
+      },
+
+      //展示信息
+
+      async getTableData() {
+        let res = await this.axios({
+          url: '/api/v1/admin/select_tutor_list',
+          method: 'get',
+          params: {
+            pageNo: this.page_no,
+            key:this.queryStr,
+          }
+        })
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.tableData = data.list
+          this.total = data.total
+          this.pageSize = data.pageSize
+        }
+      },
+
+      handleCurrentChange(val) {
+        this.page_no = val
+        this.getTableData()
+      },
+
+      search() {
+        // 搜索的时候，让当前页变成1
+        this.page_no = 1
+        this.getTableData()
+      },
+
+      //添加老师
+      addTeacher(){
+        this.$refs.form1.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+            let res = await this.axios.post(`/api/v1/admin/insert_tutor`, this.form1)
+            let { code } = res.data
+            if (code === 0) {
+              this.$message.success('恭喜你，添加成功了')
+              // 清空表单的内容
+              this.$refs.form1.resetFields()
+              // 关闭模态框
+              this.infoAddDialog = false
+              // 重新渲染
+              // 求最大的页码
+              this.total++
+              this.current = Math.ceil(this.total / this.pageSize)
+              this.getTableData()
+            } else {
+              this.$message.error('添加失败了')
+            }
+          } else {
+            return false
+          }
+        })
+      },
+
+      //修改老师信息
+      editTeacher(){
+
+        this.$refs.teacherEditForm.validate(async valid => {
+
+
+          if (valid) {
+            // 发送ajax请求
+            let res = await this.axios.put(`/api/v1/admin/update_tutor`, {
+              id:this.teacherEditForm.id,
+              name:this.teacherEditForm.name,
+              sex:this.teacherEditForm.sex,
+              skills:this.teacherEditForm.skills,
+              workingSeniority:this.teacherEditForm.workingSeniority,
+            })
+            let { code } = res.data
+            if (code === 0) {
+              this.teacherEditDialog = false
+              this.$refs.teacherEditForm.resetFields()
+              this.getTableData()
+              this.$message.success('恭喜你，修改成功了')
+            } else {
+              this.$message.error('很遗憾，修改失败了')
+            }
+          } else {
+            return false
+          }
+        })
+      }
+
+
     }
   }
 </script>

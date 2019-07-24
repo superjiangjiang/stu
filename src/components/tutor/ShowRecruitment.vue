@@ -88,7 +88,15 @@
         </el-col>
       </el-row>
     </el-dialog>
-
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="page_no"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
 
 
     <!-- 编辑招聘信息对话框 -->
@@ -209,15 +217,15 @@
           })
           // 发送axios请求删除用户
           let res = await this.axios({
-            url: '/api/v1/tutor/overPosition',
-            method: 'put',
+            url: '/api/v1/tutor/deletePosition',
+            method: 'delete',
             params: {
               p_id:id
             }
 
           })
-          let {status} = res
-          if (status === 200) {
+          let {code} = res.data
+          if (code === 0) {
             this.$message.success('恭喜你，删除成功了')
             // 重新渲染
             if (this.tableData.length === 1 && this.page_no > 1) this.page_no--
@@ -352,9 +360,9 @@
       },
       changstatus1(){
         for (var i = 0; i < this.tableData.length; i++) {
-          if (this.tableData[i].status == 0) {
+          if (this.tableData[i].status == 1) {
             this.tableData[i].status = "已结束"
-          } else if (this.tableData[i].status == 1) {
+          } else if (this.tableData[i].status ==0 ) {
             this.tableData[i].status = "正在招聘"
           }
 

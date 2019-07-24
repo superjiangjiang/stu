@@ -82,12 +82,6 @@
     <el-dialog title="奖励学时" :visible.sync="RewardDialog">
       <el-form :model="RewardForm" ref="RewardForm">
         <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
-          <el-input v-model="RewardForm.tuId"></el-input>
-        </el-form-item>
-        <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
-          <el-input v-model="RewardForm.tuName"></el-input>
-        </el-form-item>
-        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
           <el-input v-model="RewardForm.sId"></el-input>
         </el-form-item>
         <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
@@ -113,12 +107,6 @@
     <el-dialog title="扣除学时" :visible.sync="PunishDialog" >
       <el-form :model="PunishForm" ref="PunishForm">
         <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
-          <el-input v-model="PunishForm.tuId"></el-input>
-        </el-form-item>
-        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
-          <el-input v-model="PunishForm.tuName"></el-input>
-        </el-form-item>
-        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
           <el-input v-model="PunishForm.sId"></el-input>
         </el-form-item>
         <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
@@ -126,12 +114,12 @@
         </el-form-item>
         <el-form-item label="扣除学时原因" prop="reason" label-width="120px">
           <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
-            <el-option v-for="item in items" :label="item.reason" :key="item.id" v-model="item.reason"></el-option>
+            <el-option v-for="item in items" :label="item.name" :key="item.id" v-model="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="扣除学时" prop="detail" label-width="120px">
           <el-select v-model="PunishForm.detail" placeholder="请选择" style="width: 100%;">
-            <el-option v-for="item in scoreOption" :label="item.detail"  :key="item.id" v-model="item.detail"></el-option>
+            <el-option v-for="item in scoreOption" :label="item.classHour"  :key="item.id" v-model="item.classHour"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -184,8 +172,8 @@
           // 控制用户添加对话框的展示和隐藏
           RewardDialog: false,
 
-          items:[{reason:'请假一天',id:'1'},{reason:'请假半天',id:'2'},{reason:'旷课',id:'3'},{reason:'早退',id:'4'}],
-          scoreOption:[{detail:'10',id:'1'},{detail:'4',id:'2'},{detail:'3',id:'3'},{detail:'4',id:'4'}],
+          items:[],
+          scoreOption:[],
 
 
           // 控制编辑用户对话框的展示和隐藏
@@ -195,8 +183,6 @@
             sName:-1,
             reason:'',
             detail:'',
-            tuId:'',
-            tuName:''
 
           },
           PunishForm:{
@@ -204,8 +190,7 @@
             sId:-1,
             reason:'',
             detail:'',
-            tuId:'',
-            tuName:''
+
           },
 
           list: [],
@@ -234,10 +219,21 @@
 
 
         // 展示惩罚学时对话框
-        showPunishDialog(row) {
+        async showPunishDialog(row) {
           this.PunishDialog = true
           this.RewardForm.sId=row.id
           this.RewardForm.sName = row.name
+          let res = await this.axios({
+            url: '/api/v1/tutor/getReduceHours',
+            method: 'get',
+          })
+
+          let {status} = res
+          let { data } = res.data
+          if (status == 200) {
+            this.items = data
+            this.scoreOption = data
+          }
 
         },
 
@@ -254,7 +250,7 @@
               key:this.queryStr,
             }
           })
-          console.log(res)
+
           let {status} = res
           let { data } = res.data
           if (status == 200) {
@@ -306,6 +302,8 @@
         },
 
         punishClick() {
+          console.log(this.PunishForm.detail)
+          console.log(this.PunishForm.reason)
           this.$refs.PunishForm.validate(async valid => {
             if (valid) {
               // 发送ajax请求
@@ -330,7 +328,7 @@
             }
           })
         },
-      }
+      },
   }
 </script>
 

@@ -16,7 +16,7 @@
       <el-table :data="tableData" stripe class="content">
         <el-table-column prop="editDate" label="时间" width="150">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="150">
+        <el-table-column prop="sName" label="姓名" width="150">
         </el-table-column>
         <el-table-column prop="school" label="学校" width="180">
         </el-table-column>
@@ -24,7 +24,7 @@
         </el-table-column>
         <el-table-column prop="detail" label="学时变更" width="150">
         </el-table-column>
-        <el-table-column prop="classHour" label="学时数" width="150">
+        <el-table-column prop="hours" label="学时数" width="150">
         </el-table-column>
         <el-table-column prop="reason" label="原因" width="150">
         </el-table-column>
@@ -70,7 +70,7 @@
         //展示信息
         async gettableData() {
           let res = await this.axios({
-            url: '/api/v1/tutor/toHoursIndex',
+            url: '/api/v1/tutor/getHistory',
             method: 'get',
             params: {
               page_no:this.page_no,
