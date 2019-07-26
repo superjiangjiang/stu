@@ -83,42 +83,43 @@
       <el-dialog title="添加班级" :visible.sync="gradeAddDialog" @close="closeGradeAddDialog">
         <el-form :model="gradeAddForm"  ref="gradeAddForm">
           <el-form-item prop="type" label="班级名称" label-width="120px">
-            <el-input v-model="gradeAddForm.grade" autocomplete="off"></el-input>
+            <el-input v-model="gradeAddForm.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="type" label="教室" label-width="120px">
-            <el-input v-model="gradeAddForm.Room_id" autocomplete="off"></el-input>
+            <el-input v-model="gradeAddForm.roomName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="type" label="班级技术老师" label-width="120px">
             <el-select
-                       v-model="gradeAddForm.te_id" filterable placeholder="请选择班级技术老师" >
+                       v-model="gradeAddForm.teId" filterable placeholder="请选择班级技术老师" >
               <el-option
                 v-for="item in options1"
-                :key="item.value"
-                :label="item.label"
-                v-model="item.value">
+                :key="item.id"
+                :label="item.name"
+                v-model="item.id">
               </el-option>
             </el-select>
+
           </el-form-item>
           <el-form-item prop="type" label="班级学业导师" label-width="120px">
             <el-select
-                       v-model="gradeAddForm.tu_id" filterable placeholder="请选择班级学业导师" >
+                       v-model="gradeAddForm.tuId" filterable placeholder="请选择班级学业导师" >
               <el-option
                 v-for="item in options2"
-                :key="item.value"
-                :label="item.label"
-                v-model="item.value">
+                :key="item.id"
+                :label="item.name"
+                v-model="item.id">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="type" label="课程" label-width="120px">
-            <el-checkbox-group v-model="checkedCourse" @change="handleCheckedCoursesChange">
-              <el-checkbox v-for="course in checkedCourse" :label="course" :key="course">{{course}}</el-checkbox>
+            <el-checkbox-group v-model="gradeAddForm.crId" @change="handleCheckedCoursesChange">
+              <el-checkbox v-for="course in courseOptions" :label="course.id" :key="course.id">{{course.name}}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="gradeAddDialog = false">取 消</el-button>
-          <el-button type="primary" >确 定</el-button>
+          <el-button type="primary" @click="addGrade">确 定</el-button>
         </div>
 
       </el-dialog>
@@ -127,37 +128,42 @@
       <el-dialog title="修改班级" :visible.sync="gradeEditDialog" @close="closeGradeEditDialog">
         <el-form :model="gradeEditForm"  ref="gradeEditForm">
             <el-form-item prop="type" label="班级名称" label-width="120px">
-              <el-input v-model="gradeEditForm.Name" autocomplete="off"></el-input>
+              <el-input v-model="gradeEditForm.name" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item prop="type" label="教室" label-width="120px">
-              <el-input v-model="gradeEditForm.Room_id" autocomplete="off"></el-input>
+              <el-input v-model="gradeEditForm.roomName" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item prop="type" label="班级技术老师" label-width="120px">
              <el-select
-                         v-model="gradeEditForm.te_id" filterable placeholder="请选择班级技术老师" >
+                         v-model="gradeEditForm.teId" filterable placeholder="请选择班级技术老师" >
                 <el-option
                   v-for="item in options1"
-                  :key="item.value"
-                  :label="item.label"
-                  v-model="item.value">
+                  :key="item.id"
+                  :label="item.name"
+                  v-model="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
             <el-form-item prop="type" label="班级学业导师" label-width="120px">
                <el-select
-                         v-model="gradeEditForm.tu_id" filterable placeholder="请选择班级技术老师" >
+                         v-model="gradeEditForm.tuId" filterable placeholder="请选择班级技术老师" >
                 <el-option
                   v-for="item in options2"
-                  :key="item.value"
-                  :label="item.label"
-                  v-model="item.value">
+                  :key="item.id"
+                  :label="item.name"
+                  v-model="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
+          <el-form-item prop="type" label="课程" label-width="120px">
+            <el-checkbox-group v-model="gradeEditForm.crId" @change="handleCheckedCoursesChange">
+              <el-checkbox v-for="course in courseOptions" :label="course.name" :key="course.id" >{{course.name}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="gradeEditDialog = false">取 消</el-button>
-          <el-button type="primary" >确 定</el-button>
+          <el-button type="primary" @click="updateGrade" >确 定</el-button>
         </div>
 
       </el-dialog>
@@ -166,13 +172,13 @@
         <el-table :data="t_class" stripe  size="middle" class="table">
           <el-table-column prop="name" label="班级名称" width="100">
           </el-table-column>
-          <el-table-column prop="roomId" label="教室" width="100">
+          <el-table-column prop="roomName" label="教室" width="100">
           </el-table-column>
-          <el-table-column prop="teId" label="班级技术老师" width="120">
+          <el-table-column prop="teaName" label="班级技术老师" width="120">
           </el-table-column>
-          <el-table-column prop="tuId" label="班级学业导师" width="120">
+          <el-table-column prop="tuName" label="班级学业导师" width="120">
           </el-table-column>
-          <el-table-column prop="cid" label="已选课程" width="120">
+          <el-table-column prop="crId" label="已选课程" width="120">
         </el-table-column>
           <el-table-column label="操作" width="130">
             <template slot-scope="scope">
@@ -307,28 +313,23 @@
       this.getTablePeriod()
       this.getTableClassroom()
       this.getClassInfo()
+      this.getSelection1()
+      this.getSelection2()
     },
+
     data() {
       return {
+
+
+
         courseQueryStr:'',
         periodQueryStr:'',
         classRoomQueryStr:'',
         queryStr:'',
-        options1: [{
-          value: '张三',
-          label: '张三'
-        }, {
-          value: '李四',
-          label: '李四'
-        }],
-        options2: [{
-          value: '王五',
-          label: '王五'
-        }, {
-          value: '赵六',
-          label: '赵六'
-        }],
-        checkedCourse:["JAVA基础","MySQL","JDBC","JAVAWEB","SSM"],
+        options1: [],
+        options2: [],
+        // checkedCourse:[],
+        courseOptions:[],
         tableGrade: [
 
         ],
@@ -343,9 +344,10 @@
         ],
         t_class:[{
           name:'',
-          roomId:'',
-          tuId:'',
-          teId:''
+          roomName:'',
+          tuName:'',
+          teaName:'',
+          crId:''
         }],
         // 教室资源添加
         roomAddDialog: false,
@@ -363,21 +365,22 @@
         //班级添加
         gradeAddDialog: false,
         gradeAddForm: {
-          Name:'',
-          Room_id:'',
-          te_id:'',
-          tu_id:'',
-          courses:[]
+          name:'',
+          roomName:'',
+          teId:'',
+          tuId:'',
+          crId:[]
         },
 
         // 班级编辑
         gradeEditDialog: false,
         gradeEditForm: {
-          num: -1,
-          Name:'',
-          Room_id:'',
-          te_id:'',
-          tu_id:''
+          id: -1,
+          name:'',
+          roomName:'',
+          tuId:'',
+          teId:'',
+          crId:''
         },
 
         //
@@ -437,7 +440,7 @@
             // 重新渲染
             this.getTableClassroom()
           } else {
-            this.$message.danger('删除用户失败')
+            this.$message.danger('删除 失败')
           }
         } catch (e) {
           this.$message.error('取消删除了')
@@ -448,7 +451,7 @@
       // 展示编辑对话框
       showRoomEditDailog(curUser) {
         // console.log(curUser)
-        // 先获取到当前用户的数据
+        // 先获取到当前 的数据
         // 数据交给 userEditForm 后，就会展示在编辑对话框中
         for (const key in this.roomEditForm) {
           this.roomEditForm[key] = curUser[key]
@@ -475,24 +478,35 @@
         this.$refs.gradeAddForm.resetFields()
       },
       //删除班级
-      delGradeById(id) {
-        // console.log(id)
-        this.$confirm('确认删除该班级吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
+      async delGradeById(id) {
+        try {
+          await this.$confirm('你确定要删除该班级吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          let res = await this.axios.delete(`/api/v1/admin/delete_class?id=${id}`)
+          if (res.data.code == 0) {
+            this.$message.success('恭喜你，删除成功了')
+            // 重新渲染
+            this.getClassInfo()
+          } else {
+            this.$message.danger('删除失败')
+          }
+        } catch (e) {
+          this.$message.error('取消删除了')
+        }
       },
 
       //编辑班级
       showGradeEditDailog(curUser) {
-        // console.log(curUser)
-        // 先获取到当前用户的数据
-        // 数据交给 userEditForm 后，就会展示在编辑对话框中
-        for (const key in this.gradeEditForm) {
-          this.gradeEditForm[key] = curUser[key]
-
-        }
+        // 先获取到当前 的数据
+        this.gradeEditForm.teId=curUser.teaName
+        this.gradeEditForm.tuId=curUser.tuName
+        this.gradeEditForm.crId = (curUser.crId).split(',')
+        this.gradeEditForm.roomName=curUser.roomName
+        this.gradeEditForm.name=curUser.name
+        this.gradeEditForm.id=curUser.id
 
         // 打开编辑对话框
         this.gradeEditDialog = true
@@ -505,12 +519,12 @@
 
       //班级详情
       showDetail(detail){
-        console.log(detail)
         this.t_class[0].name=detail.name
-        this.t_class[0].roomId = detail.roomId
-        this.t_class[0].teId = detail.teId
-        this.t_class[0].tuId = detail.tuId
+        this.t_class[0].roomName = detail.roomName
+        this.t_class[0].teaName = detail.teaName
+        this.t_class[0].tuName = detail.tuName
         this.t_class[0].id = detail.id
+        this.t_class[0].crId = (detail.crId).join(',')
         this.gradeDetailDialog = true;
       },
       closeGradeDetailDialog(){
@@ -521,7 +535,7 @@
 
       handleCheckedCoursesChange(value) {
         let checkedCount = value.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.crid.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.courseOptions.length;
       },
 
 
@@ -546,11 +560,11 @@
         })
         let res = await this.axios.delete(`/api/v1/admin/delete_reduceHour?id=${id}`)
         if (res.data.code == 0) {
-          this.$message.success('恭喜你，删除成功了')
+          this.$message.succesxs('恭喜你，删除成功了')
           // 重新渲染
           this.getTablePeriod()
         } else {
-          this.$message.danger('删除用户失败')
+          this.$message.danger('删除失败')
         }
       } catch (e) {
         this.$message.error('取消删除了')
@@ -560,7 +574,7 @@
       // 展示编辑对话框
       showScoreEditDailog(curUser) {
         // console.log(curUser)
-        // 先获取到当前用户的数据
+        // 先获取到当前 的数据
         // 数据交给 userEditForm 后，就会展示在编辑对话框中
         for (const key in this.scoreEditForm) {
           this.scoreEditForm[key] = curUser[key]
@@ -604,7 +618,7 @@
             // 重新渲染
             this.getTableCourse()
           } else {
-            this.$message.danger('删除用户失败')
+            this.$message.danger('删除失败')
           }
         } catch (e) {
           this.$message.error('取消删除了')
@@ -616,7 +630,7 @@
       // 展示编辑对话框
       showCourseEditDailog(curUser) {
         // console.log(curUser)
-        // 先获取到当前用户的数据
+        // 先获取到当前 的数据
         // 数据交给 userEditForm 后，就会展示在编辑对话框中
         for (const key in this.courseEditForm) {
           this.courseEditForm[key] = curUser[key]
@@ -646,9 +660,9 @@
         })
         let {status} = res
         let {data} = res.data
-
         if (status == 200) {
           this.tableCourse = data
+          this.courseOptions = data
         }
       },
 
@@ -825,14 +839,16 @@
       //修改教室
       updateRoom(){
 
-        this.$refs.roomEditForm.validate(async valid => {
+        this.$refs.gradeEditForm.validate(async valid => {
           if (valid) {
             // 发送ajax请求
 
-            let res = await this.axios.put(`/api/v1/admin/update_classroom`, {
-              id:this.roomEditForm.id,
-              roomNumber:this.roomEditForm.roomNumber,
-              roomCapacity:this.roomEditForm.roomCapacity
+            let res = await this.axios.put(`/api/v1/admin/update_class`, {
+              id:this.gradeEditForm.id,
+              name:this.gradeEditForm.name,
+              roomName:this.gradeEditForm.roomName,
+              tuId:this.gradeEditForm.tuId,
+              teId:this.gradeEditForm.teId
             })
             let { code } = res.data
             if (code === 0) {
@@ -872,7 +888,89 @@
         this.getClassInfo()
       },
 
+      addGrade(){
+        this.$refs.gradeAddForm.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+            let res = await this.axios.post(`/api/v1/admin/insert_class`, this.gradeAddForm)
+            let { code } = res.data
+            if (code === 0) {
+              this.$message.success('恭喜你，添加成功了')
+              // 清空表单的内容
+              this.$refs.gradeAddForm.resetFields()
+              // 关闭模态框
+              this.gradeAddDialog = false
+              // 重新渲染
+              this.getClassInfo()
+            } else {
+              this.$message.error('添加失败了')
+            }
+          } else {
+            return false
+          }
+        })
+      },
+      updateGrade(){
+        this.$refs.gradeEditForm.validate(async valid => {
+          if (valid) {
+            // 发送ajax请求
+
+            let res = await this.axios.put(`/api/v1/admin/update_class`, {
+              id:this.gradeEditForm.id,
+              name:this.gradeEditForm.name,
+              roomName:this.gradeEditForm.roomName,
+              tuId:this.gradeEditForm.tuId,
+              teId:this.gradeEditForm.teId,
+              crId:this.gradeEditForm.crId
+            })
+            let { code } = res.data
+            if (code === 0) {
+              this.gradeEditDialog = false
+              this.$refs.gradeEditForm.resetFields()
+              this.getClassInfo()
+              this.$message.success('恭喜你，修改成功了')
+            } else {
+              this.$message.error('很遗憾，修改失败了')
+            }
+          } else {
+            return false
+          }
+        })
+      },
+
+      async getSelection1() {
+        let res = await this.axios({
+          url: 'api/v1/admin/select_technicalTeacher_all',
+          method: 'get',
+
+        })
+
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.options1 = data
+        }
+      },
+
+
+      async getSelection2() {
+        let res = await this.axios({
+          url: 'api/v1/admin/select_tutor_all',
+          method: 'get',
+
+        })
+        console.log(res)
+        let {status} = res
+        let {data} = res.data
+
+        if (status == 200) {
+          this.options2 = data
+        }
+      },
     },
+
+
   }
 </script>
 

@@ -12,27 +12,6 @@
           <el-button slot="append" icon="el-icon-search"   @click="search"></el-button>
         </el-input>
       </el-col>
-
-     <el-col :span="4">
-        <el-select v-model="list.school" v-if="list" filterable placeholder="请选择学校">
-          <el-option
-            v-for="item in optionschool"
-            :key="item.value"
-            :label="item.label"
-            v-model="item.value">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="4">
-        <el-select v-model="list.class" v-if="list" filterable placeholder="请选择班级">
-          <el-option
-            v-for="item in optionclass"
-            :key="item.value"
-            :label="item.label"
-            v-model="item.value">
-          </el-option>
-        </el-select>
-      </el-col>
       <el-col :span="4" :push="5">
         <el-button type="primary" plain @click="GoHistory">查看历史记录</el-button>
       </el-col>
@@ -113,7 +92,7 @@
           <el-input v-model="PunishForm.sName"></el-input>
         </el-form-item>
         <el-form-item label="扣除学时原因" prop="reason" label-width="120px">
-          <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;">
+          <el-select v-model="PunishForm.reason" placeholder="请选择" style="width: 100%;" @change="getDetail($event)">
             <el-option v-for="item in items" :label="item.name" :key="item.id" v-model="item.name"></el-option>
           </el-select>
         </el-form-item>
@@ -143,32 +122,6 @@
     },
       data() {
         return {
-          optionschool: [{
-            value: '齐鲁工业大学',
-            label: '齐鲁工业大学'
-          }, {
-            value: '科技',
-            label: '科技'
-          }, {
-            value: '信息',
-            label: '信息'
-          }],
-          optionclass: [{
-            value: '基础1班',
-            label: '基础1班'
-          }, {
-            value: '基础2班',
-            label: '基础2班'
-          }, {
-            value: '骨干班',
-            label: '骨干班'
-          }, {
-            value: '卓越班',
-            label: '卓越班'
-          }, {
-            value: '实施班',
-            label: '实施班'
-          }],
           // 控制用户添加对话框的展示和隐藏
           RewardDialog: false,
 
@@ -205,6 +158,17 @@
       },
 
       methods: {
+        getDetail(prov){
+          let roles = []
+          this.scoreOption= []
+
+          for (var val of this.items) {
+            if (prov===val.name) {
+              roles.push({id: val.id,classHour: val.classHour})
+            }
+            this.scoreOption = roles
+          }
+        },
         GoHistory(){
           this.$router.push({name:'periodhistory'})
         },
@@ -232,9 +196,13 @@
           let { data } = res.data
           if (status == 200) {
             this.items = data
+            // this.items.name = data.name
             this.scoreOption = data
+            // this.scoreOption.classHour = data.classHour
           }
-
+          for (var dataKey in this.items) {
+            console.log(dataKey.id)
+          }
         },
 
 
@@ -302,8 +270,6 @@
         },
 
         punishClick() {
-          console.log(this.PunishForm.detail)
-          console.log(this.PunishForm.reason)
           this.$refs.PunishForm.validate(async valid => {
             if (valid) {
               // 发送ajax请求

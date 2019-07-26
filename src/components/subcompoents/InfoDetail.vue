@@ -17,9 +17,6 @@
       <el-col :span="4" >
         <el-button type="primary" plain size="middle" @click="addinfo" class="button">点我报名</el-button>
          </el-col>
-
-
-
     </el-row>
 
     <el-row>
