@@ -160,7 +160,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="scoreEditDialog = false">取 消</el-button>
-        <el-button type="primary" >确 定</el-button>
+        <el-button type="primary" @click="editScore">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -179,7 +179,7 @@
     },
     data() {
       return {
-        id: '',
+
         options: [],
         queryStr: "",
         userList: [],
@@ -215,6 +215,7 @@
         // 控制编辑对话框的展示和隐藏
         scoreEditDialog: false,
         scoreEditForm: {
+          sId: '',
           stuNo: -1,
           name: '',
           school: '',
@@ -275,6 +276,7 @@
             key: ''
           }
         })
+         console.log(res)
         this.options = res.data.data
       },
       /*模糊查询*/
@@ -285,6 +287,7 @@
       },
       // 展示用户添加对话框
       showscoreAddDialog() {
+        this.findcourse()
         this.scoreAddDialog = true
       },
       // 关闭对话框重置表单
@@ -319,9 +322,7 @@
         })
       },
       // 展示编辑对话框
-       showScoreEditDailog(curUser) {
-        this.$refs.scoreEditForm.validate(async valid => {
-          if (valid) {
+      async showScoreEditDailog(curUser) {
         this.findcourse()
         this.scoreEditForm.crId = curUser.course.id
         this.scoreEditForm.grade =parseInt(curUser.grade)
@@ -329,32 +330,21 @@
         this.scoreEditForm.name = curUser.student.name
         this.scoreEditForm.school = curUser.student.school
         this.scoreEditForm.clazz = curUser.student.clazz.name
-        this.id =  curUser.student.id
+        this.scoreEditForm.sId =  curUser.student.id
         this.scoreEditDialog = true
-        let res = await this.axios({
-          url: '/api/v1/technical_teacher/modify_grade',
-          method: 'post',
-          params: {
-            sId:  this.id,
-            crId: this.scoreEditForm.crId,
-            grade:  this.scoreEditForm.grade
-          }
-        })
-        console.log(res)
+      },
+      async editScore(){
+        let res = await this.axios.post('/api/v1/technical_teacher/modify_grade', this.scoreEditForm)
+        console.log(res.data.code)
 
-           /* if (code === 0) {
-              this.scoreEditDialog = false
-              this.$refs.scoreEditForm.resetFields()
-              this.getTableData()
-              this.$message.success('恭喜你，修改成功了')
-            } else {
-              this.$message.error('很遗憾，修改失败了')
-            }*/
-
-          } else {
-            return false
-          }
-        })
+        if (res.data.code === 0) {
+          this.scoreEditDialog = false
+          this.$refs.scoreEditForm.resetFields()
+          this.getTableData()
+          this.$message.success('恭喜你，修改成功了')
+        } else {
+          this.$message.error('很遗憾，修改失败了')
+        }
       },
       // 关闭用户编辑对话框
       closescoreEditDailog() {

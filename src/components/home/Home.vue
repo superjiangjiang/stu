@@ -161,14 +161,20 @@
 
 <script>
 export default {
+  /*点击叉号清除用户登录缓存*/
+  mounted () {
+    window.addEventListener( 'beforeunload', e => this.set() );
+  },
   methods: {
+    set(){
+      localStorage.removeItem('token')
+    },
     // 退出功能
     logout() {
       // 1 弹出确认对话框
       // 2 用户点击确认
       //  2.1 跳回登录页面
       //  2.2 清除token
-
       this.$confirm('您是否确认退出?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -182,7 +188,6 @@ export default {
           this.$router.push('/login')
         })
     },
-
     handleOpen(key, keyPath) {
       console.log('open', key, keyPath)
     },
