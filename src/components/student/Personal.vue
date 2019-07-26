@@ -11,47 +11,48 @@
           <el-button type="primary" plain size="mini" @click="showStudentEditDailog()">修改密码</el-button>
           </el-col>
       </el-row>
-      <el-form ref="form" :model="form" label-width="120px" style="margin: 10px auto; width: 800px;">
-         <el-form-item prop="id" label="学生档案号" style="width: 700px;">
-          <el-input disabled  :value="form.id"></el-input>
+      <el-form ref="form" :model="form" label-width="150px" style="margin: 10px auto; width: 800px;">
+         <el-form-item prop="id" label="学生档案号：" style="width: 700px;">
+         {{form.sNo}}
         </el-form-item>
-        <el-form-item prop="photo" label="学生照片" style="width: 700px;">
+        <el-form-item prop="photo" label="学生照片：" style="width: 700px;">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+            :before-upload="beforeAvatarUpload"
+         >
             <img v-if="imageUrl" :src="form.photo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item prop="name" label="学生姓名" style="width: 700px;">
-          <el-input disabled  :value="form.name"></el-input>
+        <el-form-item prop="name" label="学生姓名：" style="width: 700px;">
+          {{form.name}}
         </el-form-item>
-        <el-form-item prop="sex" label="学生性别" style="width: 700px;">
-          <el-input disabled  :value="form.sex"></el-input>
+        <el-form-item prop="sex" label="学生性别：" style="width: 700px;">
+          {{form.sex}}
         </el-form-item>
-        <el-form-item prop="school" label="学生原学校" style="width: 700px;">
-          <el-input disabled  :value="form.school"></el-input>
+        <el-form-item prop="school" label="学生原学校：" style="width: 700px;">
+         {{form.school}}
         </el-form-item>
-        <el-form-item prop="grade" label="实训届/入学年级" style="width: 700px;">
-          <el-input disabled  :value="form.grade"></el-input>
+        <el-form-item prop="grade" label="实训届/入学年级：" style="width: 700px;">
+          {{form.grade}}
         </el-form-item>
-          <el-form-item prop="native_place" label="籍贯" style="width: 700px;">
-            <el-input disabled  :value="form.native_place"></el-input>
+          <el-form-item prop="native_place" label="籍贯：" style="width: 700px;">
+           {{form.nativePlace}}
           </el-form-item>
-          <el-form-item prop="birthday" label="出生日期" style="width: 700px;">
-            <el-input disabled  :value="form.birthday"></el-input>
+          <el-form-item prop="birthday" label="出生日期：" style="width: 700px;">
+           {{form.birthday}}
           </el-form-item>
-        <el-form-item prop="phone" label="联系方式" style="width: 700px;">
-          <el-input disabled  :value="form.phone"></el-input>
+        <el-form-item prop="phone" label="联系方式：" style="width: 700px;">
+          {{form.phone}}
         </el-form-item>
-          <el-form-item prop="id_number" label="身份证号" style="width: 700px;">
-            <el-input disabled  :value="form.id_number"></el-input>
+          <el-form-item prop="id_number" label="身份证号：" style="width: 700px;">
+            {{form.idNumber}}
           </el-form-item>
-            <el-form-item prop="interview" label="曾经的面试历史" style="width: 700px;">
-              <el-input disabled type="textarea" :value="form.interview"></el-input>
+            <el-form-item prop="interview" label="曾经的面试历史：" style="width: 700px;">
+             {{form.firstEmployment}}
             </el-form-item>
         </el-form>
 
@@ -82,22 +83,25 @@
 
 <script>
   export default {
+    created(){
+      this.findMyInfo()
+    },
     name: 'Personal',
     data() {
       return {
         imageUrl: '',
         form: {
-          id: 201603091048,
+          sNo: -1,
           photo: '../../../static/assets/logo.png',
           name: '宋阳阳',
           sex: '女',
           school: '齐鲁工业大学',
           grade: '2019',
-          native_place: "山东省菏泽市",
+          nativePlace: "山东省菏泽市",
           birthday: 2019-1-1,
           phone: '17862986510',
-          id_number: '37xxxxxxxxxxxxxxxx',
-          interview: '瑞德,虞美人,浪潮'
+          idNumber: '37xxxxxxxxxxxxxxxx',
+          firstEmployment: '瑞德,虞美人,浪潮',
         },
         studentEditDialog: false,
         studentEditForm: {
@@ -107,31 +111,70 @@
       }
     },
     methods: {
-      onSubmit() {
-        console.log('submit!');
+      /*学生查看个人信息*/
+      async findMyInfo() {
+        let res = await this.axios({
+          url: '/api/v1/student/findMyInfo',
+          method: 'get',
+          params: {
+            s_no:localStorage.getItem("s_no"),
+          }
+        })
+        let { data } = res.data
+        console.log(data.status)
+        if (data.status == 1) {
+         this.form.sNo = data.sNo
+          this.form.photo = data.photo
+          this.form.name = data.name
+          this.form.sex=data.sex==0?"男":"女"
+          this.form.school = data.school
+          this.form.grade = data.grade
+          this.form.nativePlace = data.nativePlace
+          this.form.birthday = data.birthday
+          this.form.phone = data.phone
+          this.form.idNumber = data.idNumber
+          this.form.firstEmployment = data.firstEmployment
+          this.form.photo = data.photo
+        }
       },
+      /*学生修改个人信息的头像*/
+      async uploadStudent(file) {
+        let res = await this.axios({
+          url: '/api/v1/student/uploadStudent',
+          method: 'POST',
+          params: {
+            file:file
+          }
+        })
+        console.log(file)
+      },
+      // 打开学生修改密码对话框
       showStudentEditDailog() {
-
         this.studentEditDialog = true
       },
-      // 关闭用户编辑对话框
+      // 关闭学生修改密码对话框
       closestudentEditDialog() {
         this.$refs.form.resetFields()
       },
+      //学生上传头像成功后的方法
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+       // this.imageUrl = URL.createObjectURL(file.raw);
       },
+      //学生上传头像提交之前的方法
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
+        const isPNG = file.type === 'image/png';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+        if (!isJPG && !isPNG) {
+          this.$message.error('上传头像图片只能是 JPG、PNG 格式!');
+          return
         }
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!');
+          return  isLt2M
         }
-        return isJPG && isLt2M;
+        this.uploadStudent(file)
       }
     }
   }
