@@ -18,10 +18,11 @@
         <el-form-item prop="photo" label="学生照片：" style="width: 700px;">
           <el-upload
             class="avatar-uploader"
-            action=""
+            action="123"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
+            auto-upload="false"
          >
             <img v-if="imageUrl" :src="form.photo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -138,15 +139,11 @@
         }
       },
       /*学生修改个人信息的头像*/
-      async uploadStudent(file) {
-        let res = await this.axios({
-          url: '/api/v1/student/uploadStudent',
-          method: 'POST',
-          params: {
-            file:file
-          }
-        })
-        console.log(file)
+      async uploadStudent(fd) {
+        let res = await this.axios.post('/api/v1/student/uploadStudent',{file:fd})
+
+        console.log(fd)
+        console.log(res)
       },
       // 打开学生修改密码对话框
       showStudentEditDailog() {
@@ -174,7 +171,15 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
           return  isLt2M
         }
-        this.uploadStudent(file)
+
+
+        let fd = new FormData()
+        fd.append('file', file)
+        this.uploadStudent(fd)
+        return true
+
+
+
       }
     }
   }

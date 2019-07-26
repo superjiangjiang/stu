@@ -18,19 +18,37 @@
 <script>
   import echarts from 'echarts'
   export default {
+    created(){
+      this.getTableData()
+    },
     name: "ClassEmploymentRate",
-
     data () {
       return {
+        num: '',
+        type:''
       }
     },
     methods:{
-      drawPie(id){
+      async getTableData() {
+        let res = await this.axios({
+          url: '/api/v1/technical_teacher/get_student_pre_work',
+          method: 'get',
+        })
+        let {data} = res.data
+        let {code} = res.data
+         if (code == 0) {
+          this.num = data[0].num
+           this.type = data[0].type
+           this.drawPie('main',this.num,this.type)
+            }
+      },
+      drawPie(id,num,type){
+        console.log(this.num)
         this.charts = echarts.init(document.getElementById(id))
         this.charts.setOption({
           title : {
             text: '老师所带学生就业率',
-            subtext: '纯属虚构',
+            subtext: type,
             x:'center'
           },
           tooltip : {
@@ -40,7 +58,7 @@
           legend: {
             orient: 'vertical',
             left: 'left',
-            data: ['国内开发','对日开发','软件测试','软件实施','软件销售','计算机相关','非计算机类']
+            data: ['已就业','未就业']
           },
           series : [
             {
@@ -49,13 +67,8 @@
               radius : '55%',
               center: ['60%', '45%'],
               data:[
-                {value:335, name:'国内开发'},
-                {value:310, name:'对日开发'},
-                {value:234, name:'软件测试'},
-                {value:135, name:'软件实施'},
-                {value:1548, name:'软件销售'},
-                {value:135, name:'计算机相关'},
-                {value:1548, name:'非计算机类'}
+                {value:num, name:'已就业'},
+                {value:1-num, name:'未就业'},
 
               ],
               itemStyle: {
@@ -70,12 +83,6 @@
         })
       }
     },
-    //调用
-    mounted(){
-      this.$nextTick(function() {
-        this.drawPie('main')
-      })
-    }
   }
 
 

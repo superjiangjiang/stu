@@ -127,15 +127,8 @@
   export default {
     name: 'TeacherManager',
     created() {
-      // console.log('axios: ', this.$http === axios)
-
-      // 发送请求，获取数据
-      // this.getUserList()
       this.getTableData()
     },
-
-
-
     data() {
       return {
         queryStr:'',
