@@ -7,8 +7,8 @@
     </el-breadcrumb>
 
     <el-row :gutter="20">
-      <el-col :span="6">
-        <el-input placeholder="请输入学号/姓名"v-model="queryStr" class="input-with-select">
+      <el-col :span="8">
+        <el-input placeholder="请输入学号/姓名/学校/课程名/班级id"v-model="queryStr" class="input-with-select">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
@@ -35,12 +35,10 @@
       el-table 表格组件
         data 用来给表格组件提供数据
         stripe 添加改属性后，启用隔行变色效果
-
       el-table-column 表格中的每一列
         label 每一列的标题名称
         width 每一列的宽度
         prop 表示数据中的属性名（字段名称）
-
     userList = [
       {}, {}, {}
     ]
@@ -72,7 +70,6 @@
         background 背景色
         layout 分页显示的内容
         total 总条数
-
         给 current-page 属性添加 .sync 修饰符后, 就可以设置当前页
     -->
 
@@ -90,39 +87,39 @@
     <!-- 添加用户对话框 -->
     <el-dialog title="录入成绩" :visible.sync="scoreAddDialog" @close="closescoreAddDialog">
       <el-form :model="scoreAddForm" ref="scoreAddForm">
-          <el-form-item prop="stuNo" label="学号" label-width="120px">
+        <el-form-item prop="stuNo" label="学号" label-width="120px">
           <el-input  v-model="scoreAddForm.stuNo" autocomplete="off" @blur="findinfo"></el-input>
-          </el-form-item>
-         <el-form-item prop="name" label="姓名" label-width="120px">
-            <el-input disabled :value="scoreAddForm.name" autocomplete="off"></el-input>
-          </el-form-item>
+        </el-form-item>
+        <el-form-item prop="name" label="姓名" label-width="120px">
+          <el-input disabled :value="scoreAddForm.name" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item prop="school" label="学校" label-width="120px">
           <el-input disabled :value="scoreAddForm.school"  autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="clazz" label="班级" label-width="120px">
           <el-input disabled :value="scoreAddForm.clazz"  autocomplete="off"></el-input>
         </el-form-item>
-       <el-form-item prop="crId" label="科目" label-width="120px">
-              <el-select  @change="chickvalue"
-                       v-model="scoreAddForm.crId" filterable placeholder="请输入/请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.name"
-                v-model="item.id">
-              </el-option>
-            </el-select>
+        <el-form-item prop="crId" label="科目" label-width="120px">
+          <el-select  @change="chickvalue"
+                      v-model="scoreAddForm.crId" filterable placeholder="请输入/请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.id"
+              :label="item.name"
+              v-model="item.id">
+            </el-option>
+          </el-select>
 
-          </el-form-item>
-          <el-form-item prop="grade" label="成绩" label-width="120px">
-            <el-input v-model="scoreAddForm.grade"  autocomplete="off"></el-input>
-          </el-form-item>
+        </el-form-item>
+        <el-form-item prop="grade" label="成绩" label-width="120px">
+          <el-input v-model="scoreAddForm.grade"  autocomplete="off"></el-input>
+        </el-form-item>
       </el-form>
 
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="scoreAddDialog = false">取 消</el-button>
-            <el-button type="primary" @click="addScore">确 定</el-button>
-          </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="scoreAddDialog = false">取 消</el-button>
+        <el-button type="primary" @click="addScore">确 定</el-button>
+      </div>
 
     </el-dialog>
 
@@ -132,16 +129,16 @@
 
       <el-form :model="scoreEditForm" ref="scoreEditForm">
         <el-form-item prop="stuNo" label="学号" width="180">
-          <el-input disabled  :value="scoreEditForm.stuNo"></el-input>
+          <el-input disabled  v-model="scoreEditForm.stuNo"></el-input>
         </el-form-item>
         <el-form-item prop="name" label="姓名" width="180">
-          <el-input disabled :value="scoreEditForm.name"></el-input>
+          <el-input disabled v-model="scoreEditForm.name"></el-input>
         </el-form-item>
         <el-form-item prop="school" label="学校" width="180">
-          <el-input disabled :value="scoreEditForm.school"></el-input>
+          <el-input disabled v-model="scoreEditForm.school"></el-input>
         </el-form-item>
         <el-form-item prop="clazz" label="班级" width="180">
-          <el-input disabled :value="scoreEditForm.clazz"></el-input>
+          <el-input disabled v-model="scoreEditForm.clazz"></el-input>
         </el-form-item>
         <el-form-item prop="crId" label="科目" width="180">
           <el-select  @change="chickvalue1"
@@ -155,7 +152,7 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="grade" label="成绩" width="180">
-          <el-input  :value="scoreEditForm.grade"></el-input>
+          <el-input  v-model="scoreEditForm.grade"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -171,15 +168,12 @@
 
 <script>
   import axios from 'axios'
-
   export default {
     created() {
-    this.getTableData()
-
+      this.getTableData()
     },
     data() {
       return {
-
         options: [],
         queryStr: "",
         userList: [],
@@ -210,24 +204,22 @@
               trigger: 'blur'
             }
           ]
-
         },
         // 控制编辑对话框的展示和隐藏
         scoreEditDialog: false,
         scoreEditForm: {
-          sId: '',
+          sId: -1,
           stuNo: -1,
           name: '',
           school: '',
           clazz: '',
-          crId: '',
+          crId: -1,
           grade: -1
         },
         tableData: []
-      //excel上传
+        //excel上传
       }
     },
-
     methods: {
       //根据学生学号\学生名字\学校\课程名字\班级id 查询多个成绩或者几个成绩
       async getTableData() {
@@ -245,11 +237,11 @@
           }
         })
         let {data} = res
-      if (data.code === 0) {
-        let {list} = data.data
-        this.tableData = list
-        this.total = data.data.total
-        this.pageSize = data.data.pageSize
+        if (data.code === 0) {
+          let {list} = data.data
+          this.tableData = list
+          this.total = data.data.total
+          this.pageSize = data.data.pageSize
         }
       },
       /*根据学生学号查学校，名字，班级*/
@@ -263,12 +255,12 @@
         })
         let {data} = res.data
         console.log(data+"haha")
-         this.scoreAddForm.name = data.name
+        this.scoreAddForm.name = data.name
         this.scoreAddForm.school = data.school
         this.scoreAddForm.clazz = data.grade
       },
       /*查询所有课程*/
-       async findcourse(){
+      async findcourse(){
         let res = await this.axios({
           url: '/api/v1/technical_teacher/get_all_course',
           method: 'get',
@@ -276,14 +268,14 @@
             key: ''
           }
         })
-         console.log(res)
+        console.log(res)
         this.options = res.data.data
       },
       /*模糊查询*/
       search() {
         this.pageNum=1
         // 搜索的时候，让当前页变成1
-         this.getTableData()
+        this.getTableData()
       },
       // 展示用户添加对话框
       showscoreAddDialog() {
@@ -325,7 +317,7 @@
       async showScoreEditDailog(curUser) {
         this.findcourse()
         this.scoreEditForm.crId = curUser.course.id
-        this.scoreEditForm.grade =parseInt(curUser.grade)
+        this.scoreEditForm.grade =curUser.grade
         this.scoreEditForm.stuNo = parseInt(curUser.student.sNo)
         this.scoreEditForm.name = curUser.student.name
         this.scoreEditForm.school = curUser.student.school
@@ -333,10 +325,15 @@
         this.scoreEditForm.sId =  curUser.student.id
         this.scoreEditDialog = true
       },
+      // 修改学生成绩
       async editScore(){
-        let res = await this.axios.post('/api/v1/technical_teacher/modify_grade', this.scoreEditForm)
+        let res = await this.axios.post('/api/v1/technical_teacher/modify_grade',
+          {sId:this.scoreEditForm.sId,
+            crId:this.scoreEditForm.crId,
+            grade:this.scoreEditForm.grade
+          }
+        )
         console.log(res.data.code)
-
         if (res.data.code === 0) {
           this.scoreEditDialog = false
           this.$refs.scoreEditForm.resetFields()
@@ -353,7 +350,9 @@
       /*添加对话框中的下拉框值变化了*/
       chickvalue () {},
       /*编辑对话框中的下拉框值变化了*/
-      chickvalue1(){},
+      chickvalue1(){
+        console.log(this)
+      },
       /*点击分页按钮触发*/
       handleCurrentChange(val) {
         this.pageNum = val

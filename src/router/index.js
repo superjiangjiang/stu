@@ -62,6 +62,7 @@ const router = new Router({
     // children 用来配置子路由，将来匹配的组件会展示在 Home 组件的 router-view 中
     {
       path: '/home',
+      name:'/home',
       component: Home, children: [
         { path: 'showrecruitment', component: ShowRecruitment },
 

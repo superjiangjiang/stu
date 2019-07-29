@@ -50,6 +50,7 @@ export default {
         username: 'tu001',
         password: '123456'
       },
+      name:''
       // rules: {
       //   username: [
       //     // required 是否为必填项
@@ -87,19 +88,30 @@ export default {
         this.loginForm
       )
 
-      console.log(res)
-
-
       const {data} = res.data;
-      console.log(data)
-      // console.log(data)
+       // console.log(data)
       if (data.code === 1) {
         // console.log('登录成功')
         // 将登录成功的标识（token）存储到localStorage中
+         if(data.user.roles[0].id===1){
+          this.name = data.user.admin.name
+        }else  if(data.user.roles[0].id===2){
+           this.name = data.user.tutor.name
+         }else  if(data.user.roles[0].id===3){
+           this.name = data.user.technicalTeacher.name
+         }else  if(data.user.roles[0].id===4){
+           this.name = data.user.student.name
+         }
         localStorage.setItem('token', data.session_id)
         localStorage.setItem('s_no',this.loginForm.username)
         // 登录成功，需要跳转到 后台管理的首页
-        this.$router.push('/home')
+        this.$router.push({
+          name: '/home',
+          params: {
+            roleId: data.user.roles[0].id,
+            name:this.name
+          }
+        })
       } else {
         // console.log('登录失败', meta.msg)
         // this.$message.error(meta.msg)

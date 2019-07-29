@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="8">
           <div class="welcome">
-            <span>欢迎您XX</span>
+            <span>欢迎您{{name}}</span>
             <a href="javascript:;" @click.prevent="logout">退出</a>
           </div>
         </el-col>
@@ -18,22 +18,122 @@
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <!--
-          el-menu 表示菜单组件
+        <!--roleId为1 为管理员-->
+        <el-menu v-if="this.roleId === 1" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+           <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>管理员</span>
+            </template>
+            <el-menu-item index="/home/academicmanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学业导师管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/technologymanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>技术老师管理</span>
+              </template>
+            </el-menu-item>
 
-            default-active 当前激活菜单的 index 值
+         <el-menu-item index="/home/infomanager">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>信息管理</span>
+            </template>
+          </el-menu-item>
 
-          el-sub-menu 表示一组菜单
-            index 是唯一的，不能重复！！！
-         -->
-
-        <el-menu :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>公共</span>
+            </template>
+            <el-menu-item index="/home/schoolstatisticsemployment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学校就业统计</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+        <!--roleId为2,为学业导师-->
+        <el-menu v-else-if="this.roleId === 2" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>学业导师</span>
+            </template>
+            <el-menu-item index="/home/showrecruitment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>招聘信息管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/studentchange">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学生管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/periodmanager">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学时管理</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>公共</span>
+            </template>
+            <el-menu-item index="/home/schoolstatisticsemployment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学校就业统计</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+        <!--roleId为3,为技术老师-->
+        <el-menu v-else-if="this.roleId === 3" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>技术老师</span>
+            </template>
+            <el-menu-item index="/home/statisticalscores">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>成绩管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/home/classemploymentrate">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>所带学生就业率</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>公共</span>
+            </template>
+            <el-menu-item index="/home/schoolstatisticsemployment">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>学校就业统计</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+        <!--roleId为4,为学生-->
+        <el-menu v-else-if="this.roleId === 4" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
           <el-submenu index="1">
-            <!--
-              template: 用来包裹一级菜单，内部指定菜单的图标和菜单名称
-
-              如果要给菜单添加 小图标，应该使用 template 来包裹整个内容
-              -->
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>学生</span>
@@ -65,78 +165,7 @@
                 <span>查看个人信息</span>
               </template>
             </el-menu-item>
-             </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>管理员</span>
-            </template>
-            <el-menu-item index="/home/academicmanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学业导师管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/technologymanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>技术老师管理</span>
-              </template>
-            </el-menu-item>
-
-         <el-menu-item index="/home/infomanager">
-            <template slot="title">
-              <i class="el-icon-menu"></i>
-              <span>信息管理</span>
-            </template>
-          </el-menu-item>
-
           </el-submenu>
-
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>技术老师</span>
-            </template>
-            <el-menu-item index="/home/statisticalscores">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>成绩管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/classemploymentrate">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>所带学生就业率</span>
-              </template>
-            </el-menu-item>
-
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>学业导师</span>
-            </template>
-             <el-menu-item index="/home/showrecruitment">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>招聘信息管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/studentchange">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学生管理</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/home/periodmanager">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>学时管理</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
-
           <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -161,9 +190,21 @@
 
 <script>
 export default {
+  /*接收登录页传来的roleId*/
+  created() {
+    this.roleId = this.$route.params.roleId
+    this.name = this.$route.params.name
+    console.log(this.name)
+  },
   /*点击叉号清除用户登录缓存*/
   mounted () {
     window.addEventListener( 'beforeunload', e => this.set() );
+  },
+  data(){
+    return {
+     roleId: -1,
+      name: ''
+    }
   },
   methods: {
     set(){
