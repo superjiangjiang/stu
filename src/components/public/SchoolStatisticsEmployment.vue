@@ -54,8 +54,8 @@
           this.charts = echarts.init(document.getElementById(id))
           this.charts.setOption({
             title : {
-              text: '老师所带学生就业率',
-              subtext: '纯属虚构',
+              text: '学生就业率统计',
+              subtext: '',
               x:'center'
             },
             tooltip : {
@@ -102,7 +102,7 @@
             tooltip: {},
             title : {
               text: '学生就业薪资',
-              subtext: '纯属虚构',
+              subtext: '',
               x:'left'
             },
             dataset: {
