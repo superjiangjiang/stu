@@ -104,14 +104,10 @@ export default {
          }
         localStorage.setItem('token', data.session_id)
         localStorage.setItem('s_no',this.loginForm.username)
+        localStorage.setItem('roleId', data.user.roles[0].id)
+        localStorage.setItem('name',this.name)
         // 登录成功，需要跳转到 后台管理的首页
-        this.$router.push({
-          name: '/home',
-          params: {
-            roleId: data.user.roles[0].id,
-            name:this.name
-          }
-        })
+        this.$router.push('/home')
       } else {
         // console.log('登录失败', meta.msg)
         // this.$message.error(meta.msg)

@@ -19,7 +19,7 @@
     <el-container>
       <el-aside width="200px">
         <!--roleId为1 为管理员-->
-        <el-menu v-if="this.roleId === 1" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu v-if="this.roleId == 1" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
            <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -60,7 +60,7 @@
           </el-submenu>
         </el-menu>
         <!--roleId为2,为学业导师-->
-        <el-menu v-else-if="this.roleId === 2" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu v-else-if="this.roleId == 2" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
           <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -99,7 +99,7 @@
           </el-submenu>
         </el-menu>
         <!--roleId为3,为技术老师-->
-        <el-menu v-else-if="this.roleId === 3" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu v-else-if="this.roleId == 3" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -132,7 +132,7 @@
           </el-submenu>
         </el-menu>
         <!--roleId为4,为学生-->
-        <el-menu v-else-if="this.roleId === 4" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu v-else-if="this.roleId == 4" :router="true" default-active="/home/users" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -189,26 +189,29 @@
 </template>
 
 <script>
+import  Vue from 'vue'
+
 export default {
   /*接收登录页传来的roleId*/
   created() {
-    this.roleId = this.$route.params.roleId
-    this.name = this.$route.params.name
+    this.roleId = localStorage.getItem("roleId")
+    this.name = localStorage.getItem("name")
+    console.log(this.roleId)
    },
   /*点击叉号清除用户登录缓存*/
-  mounted () {
+  /*mounted () {
     window.addEventListener( 'beforeunload', e => this.set() );
-  },
+  },*/
   data(){
     return {
      roleId: -1,
-      name: ''
+      name: '',
     }
   },
   methods: {
-    set(){
+   /* set(){
       localStorage.removeItem('token')
-    },
+    },*/
     // 退出功能
     logout() {
       // 1 弹出确认对话框
