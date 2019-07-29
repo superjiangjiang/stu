@@ -22,7 +22,7 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
-            auto-upload="false"
+            :auto-upload="false"
          >
             <img v-if="imageUrl" :src="form.photo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -121,9 +121,8 @@
             s_no:localStorage.getItem("s_no"),
           }
         })
-        let { data } = res.data
-        console.log(data.status)
-        if (data.status == 1) {
+        let { data,code } = res.data
+        if (code == 0) {
          this.form.sNo = data.sNo
           this.form.photo = data.photo
           this.form.name = data.name

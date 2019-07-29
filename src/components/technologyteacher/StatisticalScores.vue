@@ -227,12 +227,11 @@
           url: '/api/v1/technical_teacher/get_grade_info',
           method: 'post',
           params: {
-            /*stuNo:this.queryStr.replace(/\s*!/g,""),
+            stuNo:this.queryStr.replace(/\s*!/g,""),
              stuName:this.queryStr.replace(/\s*!/g,""),
               school:this.queryStr.replace(/\s*!/g,""),
              courseName:this.queryStr.replace(/\s*!/g,""),
              clazzId: this.queryStr.replace(/\s*!/g,""),
-         */
             pagenum: this.pageNum
           }
         })
@@ -253,11 +252,12 @@
             stuNo: this.scoreAddForm.stuNo
           }
         })
-        let {data} = res.data
-        console.log(data+"haha")
-        this.scoreAddForm.name = data.name
-        this.scoreAddForm.school = data.school
-        this.scoreAddForm.clazz = data.grade
+        let {data,code} = res.data
+        if (code === 0) {
+          this.scoreAddForm.name = data.name
+          this.scoreAddForm.school = data.school
+          this.scoreAddForm.clazz = data.grade
+        }
       },
       /*查询所有课程*/
       async findcourse(){
@@ -268,8 +268,10 @@
             key: ''
           }
         })
-        console.log(res)
-        this.options = res.data.data
+        let {data,code} = res.data
+        if (code === 0) {
+          this.options = res.data.data
+        }
       },
       /*模糊查询*/
       search() {

@@ -49,7 +49,7 @@
       </div>
       <el-dialog title="招聘详情" :visible.sync="infodetailDialog" @close="closeinfodetailDialog" width="95%">
             <el-table :data="t_class" stripe  size="middle" class="table">
-              <el-table-column prop="id" label="公司名称" width="180" style="display: none">
+              <el-table-column prop="id" label="公司编号" width="180" style="display: none">
               </el-table-column>
               <el-table-column prop="companyName" label="公司名称" width="180">
               </el-table-column>
@@ -113,10 +113,6 @@
     },
     methods: {
 
-
-      /*跳转到职位详情页,带着id*/
-
-
       /*学生查询所有职位*/
       async gettableData() {
 
@@ -127,10 +123,8 @@
             pageNum: this.pageNum,
           }
         })
-        let {status} = res
-        let {data} = res.data
-        console.log(res)
-        if (status == 200) {
+           let {code,data} = res.data
+        if (code == 0) {
           this.info = data.list
           this.total = data.total
           this.pageSize = data.pageSize
@@ -146,10 +140,9 @@
             key:this.queryStr,
           }
         })
-        let {status} = res
-        let {data} = res.data
+         let {code,data} = res.data
         console.log(res)
-        if (status == 200) {
+        if (code == 0) {
           this.info = data.list
           this.total = data.total
           this.pageSize = data.pageSize
@@ -168,8 +161,8 @@
         this.pageNum = 1
         this.findPositionByKey()
       },
+      /*查看招聘信息详情*/
       showDetail(detail){
-
         this.t_class[0].companyName=detail.companyName
         this.t_class[0].createtime = detail.createtime
         this.t_class[0].detail = detail.detail
@@ -182,10 +175,11 @@
 
         this.infodetailDialog = true;
       },
+      /*关闭对话框*/
       closeinfodetailDialog(){
         this.infodetailDialog = false;
-
       },
+      /*学生报名*/
       async signUp(id) {
         // 发送ajax请求
         let res = await this.axios({
@@ -197,18 +191,19 @@
         })
         console.log(res)
         let {code} = res.data
-        if (code === -1) {
-          this.$message.success(res.data.message)
+        if (code === 0) {
+          this.$message.success(res.data.data)
         } else {
           this.$message.error(res.data.data)
         }
       },
+      /*结束招聘*/
       change(){
         for (var i = 0; i < this.info.length; i++) {
           if (this.info[i].status == 1) {
             this.info[i].status = "已结束"
           } else if (this.info[i].status ==0 ) {
-            this.info[i].status = "正在结束"
+            this.info[i].status = "正在招聘"
           }
 
         }

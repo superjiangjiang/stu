@@ -83,11 +83,9 @@ export default {
             pageNum:this.pageNum,
            }
         })
-        let {status} = res
 
-        let { data } = res.data
-        console.log(data.list)
-         if (status == 200) {
+        let { data,code } = res.data
+         if (code == 0) {
           this.tableData = data.list
           this.total = data.total
           this.pageSize = data.pageSize
