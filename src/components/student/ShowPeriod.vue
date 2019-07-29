@@ -16,7 +16,7 @@
         <el-tag>总学时</el-tag>
       </el-col>
       <el-col :span="4" >
-        <el-tag>被扣学时</el-tag>
+        <el-tag>学时</el-tag>
       </el-col>
     </el-row>
 
@@ -75,10 +75,8 @@
             key:this.queryStr,
           }
         })
-        let {status} = res
-        let { data } = res.data
-        console.log(res)
-        if (status == 200) {
+        let { data,code } = res.data
+        if (code == 0) {
           this.tableData = data.list
           this.total = data.total
           this.pageSize = data.pageSize

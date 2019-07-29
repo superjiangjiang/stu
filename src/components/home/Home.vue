@@ -194,8 +194,7 @@ export default {
   created() {
     this.roleId = this.$route.params.roleId
     this.name = this.$route.params.name
-    console.log(this.name)
-  },
+   },
   /*点击叉号清除用户登录缓存*/
   mounted () {
     window.addEventListener( 'beforeunload', e => this.set() );
