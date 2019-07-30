@@ -11,6 +11,7 @@
         <el-col :span="8">
           <div class="welcome">
             <span>欢迎您{{name}}</span>
+            <el-button type="primary" round plain size="mini" @click="showStudentEditDailog()">修改密码</el-button>
             <a href="javascript:;" @click.prevent="logout">退出</a>
           </div>
         </el-col>
@@ -185,7 +186,25 @@
         <router-view />
       </el-main>
     </el-container>
+    <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
+
+      <el-form :model="studentEditForm"  ref="studentEditForm">
+        <el-form-item label="密码" prop="pass">
+          <el-input type="password" v-model="studentEditForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input type="password" v-model="studentEditForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-row :gutter="20" style="margin-top: 10px;">
+          <el-col :span="8" :push="8">
+            <el-button @click="studentEditDialog = false">取 消</el-button>
+            <el-button type="primary" >确 定</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
   </el-container>
+
 </template>
 
 <script>
@@ -206,9 +225,22 @@ export default {
     return {
      roleId: -1,
       name: '',
+      studentEditDialog: false,
+      studentEditForm: {
+        pass: '',
+        checkPass: ''
+      },
     }
   },
   methods: {
+    // 打开学生修改密码对话框
+    showStudentEditDailog() {
+      this.studentEditDialog = true
+    },
+    // 关闭学生修改密码对话框
+    closestudentEditDialog() {
+      this.$refs.form.resetFields()
+    },
    /* set(){
       localStorage.removeItem('token')
     },*/

@@ -6,11 +6,6 @@
         <el-breadcrumb-item>查看个人信息</el-breadcrumb-item>
       </el-breadcrumb>
 
-      <el-row :gutter="20" style="margin-top: 10px;" >
-        <el-col :span="4" :push="20">
-          <el-button type="primary" plain size="mini" @click="showStudentEditDailog()">修改密码</el-button>
-          </el-col>
-      </el-row>
       <el-form ref="form" :model="form" label-width="150px" style="margin: 10px auto; width: 800px;">
          <el-form-item prop="id" label="学生档案号：" style="width: 700px;">
          {{form.sNo}}
@@ -56,29 +51,6 @@
              {{form.firstEmployment}}
             </el-form-item>
         </el-form>
-
-
-
-
-
-      <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
-
-        <el-form :model="studentEditForm"  ref="studentEditForm">
-          <el-form-item label="密码" prop="pass">
-            <el-input type="password" v-model="studentEditForm.pass" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
-            <el-input type="password" v-model="studentEditForm.checkPass" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-row :gutter="20" style="margin-top: 10px;">
-            <el-col :span="8" :push="8">
-              <el-button @click="studentEditDialog = false">取 消</el-button>
-              <el-button type="primary" >确 定</el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </el-dialog>
-
     </div>
 </template>
 
@@ -104,11 +76,7 @@
           idNumber: '37xxxxxxxxxxxxxxxx',
           firstEmployment: '瑞德,虞美人,浪潮',
         },
-        studentEditDialog: false,
-        studentEditForm: {
-          pass: '',
-          checkPass: ''
-        },
+
       }
     },
     methods: {
@@ -144,14 +112,7 @@
         console.log(fd)
         console.log(res)
       },
-      // 打开学生修改密码对话框
-      showStudentEditDailog() {
-        this.studentEditDialog = true
-      },
-      // 关闭学生修改密码对话框
-      closestudentEditDialog() {
-        this.$refs.form.resetFields()
-      },
+
       //学生上传头像成功后的方法
       handleAvatarSuccess(res, file) {
        // this.imageUrl = URL.createObjectURL(file.raw);
