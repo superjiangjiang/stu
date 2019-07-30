@@ -135,7 +135,7 @@
         },
         async getInfo() {
           let res = await this.axios({
-            url: '/api/pub/get_all_student_pre_work',
+            url: '/api/v1/technical_teacher/get_all_student_pre_work',
             method: 'get',
 
           })

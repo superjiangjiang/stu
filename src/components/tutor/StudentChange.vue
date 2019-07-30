@@ -509,6 +509,7 @@
                 this.infoFileName = ''
               }
             })
+            this.getTableData()
           } else {
             this.$message.error(res.data.msg)
 
@@ -556,10 +557,12 @@
                 this.domitoryFileName = ''
               }
             })
+            this.getTableData()
           } else {
             this.$message.error(data.msg)
           }
         })
+
       },
 
       beforeUploadClass(file){
@@ -599,8 +602,9 @@
                 this.classExcelDialog = false
                 this.$refs.uploadClass.clearFiles()
                 this.classFileName = ''
-              }
+              },
             })
+            this.getTableData()
           } else {
             this.$message.error(res.data.msg)
           }
