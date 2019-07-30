@@ -14,17 +14,13 @@
       </el-col>
 
       <el-col :span="4">
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-
-          list-type="picture">
-          <el-button type="primary">点击上传excel</el-button>
-
-
-        </el-upload>
+        <el-button type="primary" size="small" @click="showInfoDialog">点击上传学生信息excel</el-button>
+      </el-col>
+      <el-col :span="4">
+        <el-button type="primary" size="small" @click="showDormitoryDialog">点击上传学生宿舍excel</el-button>
+      </el-col>
+      <el-col :span="4">
+        <el-button type="primary" size="small" @click="showClassDialog">点击上传学生班级excel</el-button>
       </el-col>
       </el-row>
 
@@ -158,6 +154,59 @@
       </div>
 
     </el-dialog>
+
+    <el-dialog title="上传学生信息excel" :visible.sync="infoExcelDialog">
+      <el-upload
+        ref="uploadInfo"
+        action=" "
+        class="upload-demo"
+        :limit="1"
+        :file-list="infoFileList"
+        :before-upload="beforeUploadFile"
+      >
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传excel文件</div>
+        <div slot="tip" class="el-upload-list__item-name">{{infoFileName}}</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="infoExcelDialog= false">取消</el-button>
+         <el-button type="primary" @click="submitUploadFile()">确定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="上传学生班级excel" :visible.sync="classExcelDialog">
+      <el-upload
+        ref="uploadClass"
+        action=""
+        class="upload-demo"
+        :file-list="classFileList"
+        :before-upload="beforeUploadClass"
+      >
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传excel文件</div>
+        <div slot="tip" class="el-upload-list__item-name">{{classFileName}}</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="closeClassExcelDialog">取消</el-button>
+         <el-button type="primary" @click="submitUploadClass()">确定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="上传学生宿舍excel" :visible.sync="domitoryExcelDialog">
+      <el-upload
+        ref="uploadDormitory"
+        action="submitUploadDormitory"
+        class="upload-demo"
+        :file-list="domitoryFileList"
+        :before-upload="beforeUploadDormitory"
+      >
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传excel文件</div>
+        <div slot="tip" class="el-upload-list__item-name">{{domitoryFileName}}</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="closeDormitoryExcelDialog">取消</el-button>
+         <el-button type="primary" @click="submitUploadDormitory()">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -206,10 +255,29 @@
         page_no:1,
         pageSize:1,
         total:0,
+
+        infoExcelDialog:false,
+        classExcelDialog:false,
+        domitoryExcelDialog:false,
+        infoFileList:[],
+        infoFileName:'',
+        classFileList:[],
+        classFileName:'',
+        domitoryFileList:[],
+        domitoryFileName:'',
       }
     },
     methods: {
-
+      closeDormitoryExcelDialog(){
+        this.domitoryExcelDialog = false
+        this.$refs.uploadDormitory.clearFiles()
+        this.domitoryFileName = ''
+      },
+      closeClassExcelDialog(){
+        this.classExcelDialog = false
+        this.$refs.uploadClass.clearFiles()
+        this.classFileName = ''
+      },
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -226,13 +294,7 @@
       delGroup() {
         var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔
       },
-      //excel 上传
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
+
       // 展示编辑对话框
       async showStudentEditDialog(curUser) {
         // 先获取到当前用户的数据
@@ -347,12 +409,6 @@
         })
 
       },
-      // 关闭对话框重置表单
-    /*  closeinfoAddDialog() {
-        // console.log('对话框关闭了')
-        this.$refs.infoAddForm.resetFields()
-          this.jobTrackingDialog = true
-      },*/
       //展示信息
       async getTableData() {
         let res = await this.axios({
@@ -397,6 +453,158 @@
           }
 
         }
+      },
+
+      showInfoDialog(){
+        this.infoExcelDialog = true
+      },
+      showDormitoryDialog(){
+        this.domitoryExcelDialog= true
+      },
+      showClassDialog(){
+        this.classExcelDialog = true
+      },
+
+      beforeUploadFile(file){
+        this.files = file;
+        const extension = file.name.split('.')[1] === 'xls'
+        const extension2 = file.name.split('.')[1] === 'xlsx'
+        const isLt2M = file.size / 1024 / 1024 < 5
+        if (!extension && !extension2) {
+          this.$message.warning('上传模板只能是 xls、xlsx格式!')
+          return
+        }
+        if (!isLt2M) {
+          this.$message.warning('上传模板大小不能超过 5MB!')
+          return
+        }
+
+        this.infoFileName = file.name;
+        return false // 返回false不会自动上传
+      },
+
+
+      submitUploadFile() {
+        if(this.infoFileName == ""){
+          this.$message.warning('请选择要上传的文件！')
+          return false
+        }
+        let fileFormData = new FormData();
+        fileFormData.append('file', this.files, this.fileName);//filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+        let requestConfig = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }
+        this.axios.post(`/api/v1/tutor/addStudents?file=`+this.files, fileFormData, requestConfig).then((res) => {
+          console.log(res)
+          if (res.data.code === 0) {
+            this.$message({
+              message: "导入成功",
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.infoExcelDialog = false
+                this.$refs.uploadInfo.clearFiles()
+                this.infoFileName = ''
+              }
+            })
+          } else {
+            this.$message.error(res.data.msg)
+
+          }
+        })
+      },
+
+
+      beforeUploadDormitory(file){
+        console.log(file,'文件');
+        this.files = file;
+        const extension = file.name.split('.')[1] === 'xls'
+        const extension2 = file.name.split('.')[1] === 'xlsx'
+        if (!extension && !extension2) {
+          this.$message.warning('上传模板只能是 xls、xlsx格式!')
+          return
+        }
+        this.domitoryFileName = file.name;
+        return false
+      },
+
+
+      submitUploadDormitory() {
+        if(this.domitoryFileName == ""){
+          this.$message.warning('请选择要上传的文件！')
+          return false
+        }
+        let fileFormData = new FormData();
+        fileFormData.append('file', this.files, this.filename);//filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+
+        let requestConfig = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }
+        this.axios.post(`/api/v1/tutor/addStuDormitory?file=`+this.files, fileFormData, requestConfig).then((res) => {
+          if (res.data.code === 0) {
+            this.$message({
+              message: res.data.data,
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.domitoryExcelDialog = false
+                this.$refs.uploadDormitory.clearFiles()
+                this.domitoryFileName = ''
+              }
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
+        })
+      },
+
+      beforeUploadClass(file){
+        console.log(file,'文件');
+        this.files = file;
+        const extension = file.name.split('.')[1] === 'xls'
+        const extension2 = file.name.split('.')[1] === 'xlsx'
+        if (!extension && !extension2) {
+          this.$message.warning('上传模板只能是 xls、xlsx格式!')
+          return
+        }
+        this.classFileName = file.name;
+        return false
+      },
+
+
+      submitUploadClass() {
+        if(this.classFileName == ""){
+          this.$message.warning('请选择要上传的文件！')
+          return false
+        }
+        let fileFormData = new FormData();
+        fileFormData.append('file', this.files, this.filename);//filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+
+        let requestConfig = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }
+        this.axios.post(`/api/v1/tutor/addStuClass?file=`+this.files, fileFormData, requestConfig).then((res) => {
+          if (res.data.code === 0) {
+            this.$message({
+              message: res.data.data,
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.classExcelDialog = false
+                this.$refs.uploadClass.clearFiles()
+                this.classFileName = ''
+              }
+            })
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
       },
 
     },

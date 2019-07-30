@@ -37,6 +37,9 @@
   import echarts from 'echarts'
     export default {
         name: "SchoolStatisticsEmployment",
+      created(){
+          this.getInfo()
+      },
       data () {
         return {
           options: [{
@@ -129,7 +132,18 @@
         },
         chickvalue () {
           console.log(this.searchValue)
-        }
+        },
+        async getInfo() {
+          let res = await this.axios({
+            url: '/api/pub/get_all_student_pre_work',
+            method: 'get',
+
+          })
+          console.log(res)
+          let {status} = res
+          let {data} = res.data
+
+        },
       },
       //调用
       mounted(){
