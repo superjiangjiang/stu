@@ -12,12 +12,12 @@
           <el-button slot="append" icon="el-icon-search"  @click="search"></el-button>
         </el-input>
       </el-col>
-      <el-col :span="4" >
+     <!-- <el-col :span="4" >
         <el-tag>总学时</el-tag>
       </el-col>
       <el-col :span="4" >
         <el-tag>学时</el-tag>
-      </el-col>
+      </el-col>-->
     </el-row>
 
     <el-table :data="tableData" stripe class="table">

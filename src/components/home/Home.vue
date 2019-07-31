@@ -11,7 +11,8 @@
         <el-col :span="8">
           <div class="welcome">
             <span>欢迎您{{name}}</span>
-            <a href="javascript:;" @click.prevent="logout">退出</a>
+            <el-button type="primary" round plain size="mini" @click="showStudentEditDailog()">修改密码</el-button>
+            <a href="javascript:;" @click.prevent="logoutBtn">退出</a>
           </div>
         </el-col>
       </el-row>
@@ -185,7 +186,25 @@
         <router-view />
       </el-main>
     </el-container>
+    <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
+
+      <el-form :model="studentEditForm"  ref="form">
+        <el-form-item label="密码" prop="pass">
+          <el-input type="password" v-model="studentEditForm.oldPassword" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="pass">
+          <el-input type="password" v-model="studentEditForm.password" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-row :gutter="20" style="margin-top: 10px;">
+          <el-col :span="8" :push="8">
+            <el-button @click="studentEditDialog = false">取 消</el-button>
+            <el-button type="primary" @click="modifypass()">确 定</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
   </el-container>
+
 </template>
 
 <script>
@@ -206,14 +225,38 @@ export default {
     return {
      roleId: -1,
       name: '',
+      studentEditDialog: false,
+      studentEditForm: {
+        oldPassword: '',
+        password: ''
+      },
     }
   },
   methods: {
+    // 打开学生修改密码对话框
+    showStudentEditDailog() {
+      this.studentEditDialog = true
+    },
+    async modifypass(){
+      let res = await this.axios.post(`/api/v1/user/modify_pass`, this.studentEditForm)
+      let { code } = res.data
+      if (code === 0) {
+        this.$refs.form.resetFields()
+        this.studentEditDialog = false
+        this.logout()
+      }else {
+        this.$message.error(res.data.msg)
+      }
+    },
+    // 关闭学生修改密码对话框
+    closestudentEditDialog() {
+      this.$refs.form.resetFields()
+    },
    /* set(){
       localStorage.removeItem('token')
     },*/
     // 退出功能
-    logout() {
+    logoutBtn() {
       // 1 弹出确认对话框
       // 2 用户点击确认
       //  2.1 跳回登录页面
@@ -224,12 +267,25 @@ export default {
         type: 'warning'
       })
         // 点击确认按钮
-        .then(() => {
-          // 清除token
-          localStorage.removeItem('token')
-          // 跳回登录页面
-          this.$router.push('/login')
+        .then(async () => {
+         this.logout()
         })
+    },
+
+    async logout(){
+      let res = await this.axios.get('/api/v1/common/logout')
+      console.log(res)
+      let { code } = res.data
+      if (code === 0) {
+        // 清除token
+        localStorage.removeItem('s_no')
+        localStorage.removeItem('name')
+        localStorage.removeItem('roleId')
+        localStorage.removeItem('token')
+
+        // 跳回登录页面
+        this.$router.push('/login')
+      }
     },
     handleOpen(key, keyPath) {
       console.log('open', key, keyPath)
