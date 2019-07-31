@@ -17,7 +17,7 @@
             :show-file-list="false"
             :before-upload="beforeAvatarUpload"
              >
-            <img v-if="form.photo" :src="form.photo" class="avatar">
+            <img v-if="form.photo" :src="'http://47.103.10.32'+form.photo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
 
@@ -94,7 +94,7 @@
         let { data,code } = res.data
        if (code == 0) {
          this.form.sNo = data.sNo
-          this.form.photo = "http://47.103.10.32"+data.photo
+          this.form.photo =data.photo
           this.form.name = data.name
           this.form.sex=data.sex==0?"男":"女"
           this.form.school = data.school
@@ -136,7 +136,6 @@
         this.axios.post(`/api/v1/student/uploadStudent?file=`+this.files, fileFormData, requestConfig).then((res) => {
           console.log(res)
           if (res.data.code === 0) {
-            this.$message.success(res.data.msg)
             this.findMyInfo()
           } else{
             this.$message.error(res.data.msg)

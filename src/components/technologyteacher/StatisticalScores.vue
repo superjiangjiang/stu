@@ -211,12 +211,12 @@
       async getTableData() {
         let res = await this.axios.post('/api/v1/technical_teacher/get_grade_info',
           {
-            pageNum: this.pageNum,
-            stuNo:this.queryStr.replace(/\s*!/g,"")||'',
-             stuName:this.queryStr.replace(/\s*!/g,"")||'',
-              school:this.queryStr.replace(/\s*!/g,"")||'',
-             courseName:this.queryStr.replace(/\s*!/g,"")||'',
-             clazzId: this.queryStr.replace(/\s*!/g,"")||'',
+          //  pageNum: this.pageNum,
+            stuNo:this.queryStr.replace(/\s*!/g,""),
+             stuName:this.queryStr.replace(/\s*!/g,""),
+              school:this.queryStr.replace(/\s*!/g,""),
+             courseName:this.queryStr.replace(/\s*!/g,""),
+             clazzId: this.queryStr.replace(/\s*!/g,""),
           })
         let {data} = res
         if (data.code === 0) {
