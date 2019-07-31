@@ -14,7 +14,7 @@
       <el-col :span="2">
         <el-button type="success" plain @click="showinfoAddDialog">添加招聘信息</el-button>
       </el-col>
-      </el-row>
+    </el-row>
 
 
     <el-table :data="tableData" stripe>
@@ -30,25 +30,37 @@
       </el-table-column>
       <el-table-column prop="status" label="状态" width="100">
       </el-table-column>
-       <el-table-column prop="createtime" label="发布时间" width="100">
+      <el-table-column prop="createtime" label="发布时间" width="100">
       </el-table-column>
       <el-table-column prop="detail" label="描述" width="150">
       </el-table-column>
       <el-table-column label="操作" width="270">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showinfoEditDailog(scope.row)"></el-button>
-          <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delInfoById(scope.row.id)"></el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit"
+                     @click="showinfoEditDailog(scope.row)"></el-button>
+          <el-button type="danger" plain size="mini" icon="el-icon-delete"
+                     @click="delInfoById(scope.row.id)"></el-button>
 
-          <el-button type="primary" plain size="mini"  @click="showJobTrackingDailog(scope.row)">查看已报名学生</el-button>
+          <el-button type="primary" plain size="mini" @click="showJobTrackingDailog(scope.row)">查看已报名学生</el-button>
 
         </template>
       </el-table-column>
     </el-table>
 
+    <el-pagination
+      background
+      @current-change="handleCurrentChange"
+      :current-page="page_no"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
+
 
     <!-- 添加招聘信息对话框 -->
     <el-dialog title="添加招聘信息" :visible.sync="infoAddDialog" @close="closeinfoAddDialog">
-      <el-form :model="form"  ref="form">
+      <el-form :model="form" ref="form">
         <el-form-item label="招聘企业">
           <el-input v-model="form.companyName" placeholder="请输入企业名称"></el-input>
         </el-form-item>
@@ -74,62 +86,58 @@
 
     </el-dialog>
 
-    <el-dialog title="已报名学生信息" :visible.sync="jobTrackingDialog" >
+    <el-dialog title="已报名学生信息" :visible.sync="jobTrackingDialog">
 
-      <el-table :data="jobTrackingData">
+      <el-table :data="jobTrackingData" id="download">
+        <el-table-column property="sNo" label="学号" width="100"></el-table-column>
         <el-table-column property="name" label="姓名" width="70"></el-table-column>
+        <el-table-column property="sex" label="性别" width="70"></el-table-column>
         <el-table-column property="school" label="学校" width="120"></el-table-column>
         <el-table-column property="grade" label="班级" width="80"></el-table-column>
-
+        <el-table-column property="idNumber" label="身份证号" width="180"></el-table-column>
+        <el-table-column property="nativePlace" label="籍贯" width="80"></el-table-column>
       </el-table>
-      <el-row :gutter="20" >
+      <el-row :gutter="20">
         <el-col :span="6" push="10">
-          <el-button  plain size="mini" type="primary" @click="showJobTrackingDailog(scope.row)">点我下载excel</el-button>
+          <el-button type="primary" @click="exportExcel">下载excel</el-button>
         </el-col>
       </el-row>
     </el-dialog>
-    <el-pagination
-      background
-      @current-change="handleCurrentChange"
-      :current-page="page_no"
-      :page-size="pageSize"
-      layout="total, prev, pager, next, jumper"
-      :total="total"
-    >
-    </el-pagination>
 
 
     <!-- 编辑招聘信息对话框 -->
-    <el-dialog  title="修改招聘信息" :visible.sync="infoEditDialog" @close="closeInfoEditDialog">
+    <el-dialog title="修改招聘信息" :visible.sync="infoEditDialog" @close="closeInfoEditDialog">
 
-      <el-form :model="infoEditForm"  ref="infoEditForm">
+      <el-form :model="infoEditForm" ref="infoEditForm">
         <el-row :gutter="20" style="margin-top: -50px;">
           <el-col :span="6" push="16">
-            <el-button ref="elbutton" plain  type="primary" @click="changestatus" style="margin-top: 10px;">{{infoEditForm.status}}</el-button>
+            <el-button ref="elbutton" plain type="primary" @click="changestatus" style="margin-top: 10px;">
+              {{infoEditForm.status}}
+            </el-button>
           </el-col>
         </el-row>
         <el-form-item label="编号" style="display: none">
-          <el-input :model="infoEditForm.id" ></el-input>
+          <el-input :model="infoEditForm.id"></el-input>
         </el-form-item>
         <el-form-item label="职业">
-          <el-input v-model="infoEditForm.position" ></el-input>
+          <el-input v-model="infoEditForm.position"></el-input>
         </el-form-item>
         <el-form-item label="薪资">
-          <el-input v-model="infoEditForm.salary" ></el-input>
+          <el-input v-model="infoEditForm.salary"></el-input>
         </el-form-item>
         <el-form-item label="公司名称">
-          <el-input v-model="infoEditForm.companyName" ></el-input>
+          <el-input v-model="infoEditForm.companyName"></el-input>
         </el-form-item>
         <el-form-item label="位置">
-          <el-input v-model="infoEditForm.location" ></el-input>
+          <el-input v-model="infoEditForm.location"></el-input>
         </el-form-item>
         <el-form-item label="详情">
-          <el-input v-model="infoEditForm.detail" ></el-input>
+          <el-input v-model="infoEditForm.detail"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="infoEditDialog = false">取 消</el-button>
-        <el-button type="primary"  @click="updateInfo">确 定</el-button>
+        <el-button type="primary" @click="updateInfo">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -138,14 +146,14 @@
 </template>
 
 <script>
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
 
   export default {
     created() {
 
       this.getTableData()
     },
-
-
 
     data() {
       return {
@@ -156,25 +164,28 @@
         page_no: 1,
         // 总条数
         total: 0,
-        jobTrackingData:[],
+        jobTrackingData: [],
         // 搜索内容
         queryStr: '',
-        form:{},
-        tableData:[],
+        form: {},
+        tableData: [],
         jobTrackingDialog: false,
 
         infoAddDialog: false,
         infoEditDialog: false,
         infoEditForm: {
-          id:'',
-          position:'',
-          salary:'',
-          companyName:'',
-          location:'',
-          createtime:'',
-          status:'正在招聘',
-          detail: '急聘'
+          id: '',
+          position: '',
+          salary: '',
+          companyName: '',
+          location: '',
+          createtime: '',
+          status: '',
+          detail: ''
         },
+        companyName:'',
+        position:'',
+
 
       }
     },
@@ -188,29 +199,30 @@
       closeinfoAddDialog() {
         this.$refs.form.resetFields()
       },
-      async showJobTrackingDailog(curUser){
+      async showJobTrackingDailog(curUser) {
         // 打开对话框
         this.jobTrackingDialog = true
-
-          let res = await this.axios({
-            url: '/api/v1/tutor/getSignupStus',
-            method: 'get',
-            params: {
-              p_id: curUser.id
-            }
-          })
-          let {status} = res
-          let {data} = res.data
-
-          if (status == 200) {
-            this.jobTrackingData = data.list
+        this.companyName = curUser.companyName
+        this.position = curUser.position
+        let res = await this.axios({
+          url: '/api/v1/tutor/getSignupStus',
+          method: 'get',
+          params: {
+            p_id: curUser.id
           }
-        },
+        })
+        let {status} = res
+        let {data} = res.data
+        console.log(res)
+        if (status == 200) {
+          this.jobTrackingData = data.list
+        }
+      },
 
       async delInfoById(id) {
 
-          try {
-        await this.$confirm('你确定要删除这条信息吗?', '提示', {
+        try {
+          await this.$confirm('你确定要删除这条信息吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -220,7 +232,7 @@
             url: '/api/v1/tutor/deletePosition',
             method: 'delete',
             params: {
-              p_id:id
+              p_id: id
             }
 
           })
@@ -246,24 +258,23 @@
           this.infoEditForm[key] = curUser[key]
         }
 
-
         // 打开用户编辑对话框
         this.infoEditDialog = true
       },
       //点击确定修改数据
-      updateInfo(){
+      updateInfo() {
         this.$refs.infoEditForm.validate(async valid => {
           if (valid) {
             // 发送ajax请求
             let res = await this.axios.put(`/api/v1/tutor/updatePosition`, {
-              id:this.infoEditForm.id,
-              position:this.infoEditForm.position,
-              salary:this.infoEditForm.salary,
-              companyName:this.infoEditForm.companyName,
-              location:this.infoEditForm.location,
-              detail:this.infoEditForm.detail,
+              id: this.infoEditForm.id,
+              position: this.infoEditForm.position,
+              salary: this.infoEditForm.salary,
+              companyName: this.infoEditForm.companyName,
+              location: this.infoEditForm.location,
+              detail: this.infoEditForm.detail,
             })
-            let { code } = res.data
+            let {code} = res.data
             if (code === 0) {
               this.infoEditDialog = false
               this.$refs.infoEditForm.resetFields()
@@ -284,13 +295,13 @@
         this.$refs.infoEditForm.resetFields()
       },
 
-      async  changestatus(){
-        this.infoEditForm.status="已结束"
+      async changestatus() {
+        this.infoEditForm.status = '已结束'
         let res = await this.axios({
           url: '/api/v1/tutor/overPosition',
           method: 'put',
           params: {
-            p_id:this.infoEditForm.id
+            p_id: this.infoEditForm.id
           }
 
         })
@@ -320,7 +331,6 @@
         this.infoEditDialog = false
       },
       //分页查询
-
       handleCurrentChange(val) {
         this.page_no = val
         this.getTableData()
@@ -333,54 +343,80 @@
         this.getTableData()
       },
       //添加
-      addInfo(){
+      addInfo() {
         this.$refs.form.validate(async valid => {
-            if (valid) {
-              // 发送ajax请求
-              let res = await this.axios.post(`/api/v1/tutor/addPosition`, this.form)
-              let { code } = res.data
-              if (code === 0) {
-                this.$message.success('恭喜你，添加成功了')
-                // 清空表单的内容
-                this.$refs.form.resetFields()
-                // 关闭模态框
-                this.infoAddDialog = false
-                // 重新渲染
-                // 求最大的页码
-                this.total++
-                this.current = Math.ceil(this.total / this.pageSize)
-                this.getTableData()
-              } else {
-                this.$message.error('添加失败了')
-              }
+          if (valid) {
+            // 发送ajax请求
+            let res = await this.axios.post(`/api/v1/tutor/addPosition`, this.form)
+            let {code} = res.data
+            if (code === 0) {
+              this.$message.success('恭喜你，添加成功了')
+              // 清空表单的内容
+              this.$refs.form.resetFields()
+              // 关闭模态框
+              this.infoAddDialog = false
+              // 重新渲染
+              // 求最大的页码
+              this.total++
+              this.current = Math.ceil(this.total / this.pageSize)
+              this.getTableData()
             } else {
-              return false
+              this.$message.error('添加失败了')
             }
+          } else {
+            return false
+          }
         })
       },
-      changstatus1(){
+      changstatus1() {
         for (var i = 0; i < this.tableData.length; i++) {
           if (this.tableData[i].status == 1) {
-            this.tableData[i].status = "已结束"
-          } else if (this.tableData[i].status ==0 ) {
-            this.tableData[i].status = "正在招聘"
+            this.tableData[i].status = '已结束'
+          } else if (this.tableData[i].status == 0) {
+            this.tableData[i].status = '正在招聘'
           }
 
         }
       },
-      resetForm(formName)
-      {
-        if (this.$refs[formName]!==undefined) {
-          this.$refs[formName].resetFields();
+      resetForm(formName) {
+        if (this.$refs[formName] !== undefined) {
+          this.$refs[formName].resetFields()
+        }
+      },
+      exportExcel() {
+        var wb = XLSX.utils.table_to_book(
+          document.querySelector("#download")
+        );
+        var wbout = XLSX.write(wb, {
+          bookType: "xlsx",
+          bookSST: true,
+          type: "array"
+        });
+        try {
+          FileSaver.saveAs(
+            new Blob([wbout], { type: "application/octet-stream" }),
+            this.companyName+" "+this.position+"报名信息"+".xlsx"
+          );
+        } catch (e) {
+          if (typeof console !== "undefined") console.log(e, wbout);
+        }
+        return wbout;
+      },
+      changeSex(){
+        for (var i = 0; i < this.jobTrackingData.length; i++) {
+          if (this.jobTrackingData[i].sex == 0) {
+            this.jobTrackingData[i].sex = "男"
+          } else if (this.jobTrackingData[i].sex == 1) {
+            this.jobTrackingData[i].sex = "女"
+          }
         }
       }
-
     },
     updated() {
       this.changstatus1()
       this.resetForm()
+      this.changeSex()
     },
-
 
   }
 </script>
@@ -392,4 +428,6 @@
     font-size: 18px;
     padding-left: 10px;
   }
+
+
 </style>

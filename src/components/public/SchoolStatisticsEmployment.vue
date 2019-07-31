@@ -8,19 +8,6 @@
       </el-breadcrumb>
 
       <el-row :gutter="20">
-         <el-col :span="6" :push="17" >
-           <el-select v-model="searchValue" placeholder="请选择" filterable @change="chickvalue">
-             <el-option
-               v-for="item in options"
-               :key="item.value"
-               :label="item.label"
-               :value="item.value">
-             </el-option>
-           </el-select>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="20">
         <el-col :span="5"  >
         <div id="main" class="main" style="width: 700px;height: 500px;"></div>
         </el-col>
@@ -39,21 +26,19 @@
         name: "SchoolStatisticsEmployment",
       created(){
           this.getInfo()
+        this.getSalary()
       },
       data () {
         return {
-          options: [{
-            value: '本科',
-            label: '本科'
-          }, {
-            value: '专科',
-            label: '专科'
-          }],
-          searchValue: ''
+          zhuDateType:[],
+          zhuDate:[],
+          pieDataType:[],
+          pieData:[],
+
         }
       },
       methods:{
-        drawPie(id){
+        drawPie(id,dataType,pieDate){
           this.charts = echarts.init(document.getElementById(id))
           this.charts.setOption({
             title : {
@@ -68,7 +53,7 @@
             legend: {
               orient: 'vertical',
               left: 'left',
-              data: ['国内开发','对日开发','软件测试','软件实施','软件销售','计算机相关','非计算机类']
+              data: dataType
             },
             series : [
               {
@@ -76,16 +61,7 @@
                 type: 'pie',
                 radius : '55%',
                 center: ['60%', '50%'],
-                data:[
-                  {value:335, name:'国内开发'},
-                  {value:310, name:'对日开发'},
-                  {value:234, name:'软件测试'},
-                  {value:135, name:'软件实施'},
-                  {value:1548, name:'软件销售'},
-                  {value:135, name:'计算机相关'},
-                  {value:1548, name:'非计算机类'}
-
-                ],
+                data:pieDate,
                 itemStyle: {
                   emphasis: {
                     shadowBlur: 10,
@@ -97,7 +73,7 @@
             ]
           })
         },
-        drawZhu(){
+        drawZhu(zhuDate,zhuDateType){
           let myChart = echarts.init(document.getElementById('main1'));
            // 指定图表的配置项和数据
           let option = {
@@ -109,12 +85,8 @@
               x:'left'
             },
             dataset: {
-              dimensions: ['salary', '软件开发', '实施运维', '软件测试'],
-              source: [
-                {salary: '2017', '软件开发': 4333, '实施运维': 3666.7, '软件测试': 3666},
-                {salary: '2018', '软件开发': 3903.8, '实施运维': 3666.7, '软件测试': 3500},
-                {salary: '2019', '软件开发': 5058.8, '实施运维': 4000, '软件测试': 4000}
-                ]
+              dimensions: zhuDateType,
+              source: zhuDate
             },
             xAxis: {type: 'category'},
             yAxis: {},
@@ -130,28 +102,57 @@
           // 使用刚指定的配置项和数据显示图表。
           myChart.setOption(option);
         },
-        chickvalue () {
-          console.log(this.searchValue)
-        },
+
         async getInfo() {
           let res = await this.axios({
-            url: '/api/v1/technical_teacher/get_all_student_pre_work',
+            url: '/api/v1/common/get_all_student_per',
             method: 'get',
 
           })
-          console.log(res)
           let {status} = res
           let {data} = res.data
+          data=JSON.parse(JSON.stringify(data).replace(/type/g, 'name'))
+          data=JSON.parse(JSON.stringify(data).replace(/num/g, 'value'))
+          if(status ==200){
+            this.pieData = data
+            for (var i in data) {
+              this.pieDataType.push(data[i].name)
+            }
+            this.drawPie('main',this.pieDataType,this.pieData)
+          }
+
+        },
+        async getSalary() {
+          let res = await this.axios({
+            url: '/api/v1/common/get_all_student_sal',
+            method: 'get',
+
+          })
+
+          let {status} = res
+          let {data} = res.data
+          console.log(res)
+          if(status ==200){
+            for(let i=0; i<Object.keys(data).length;i++){
+              this.zhuDateType.push(data[Object.keys(data)[i]][0].type)
+            }
+            for(let i=0; i<Object.keys(data).length;i++){
+              for (let j=0;j<data[Object.keys(data)[i]].length;j++){
+                data[Object.keys(data)[i]][j]=JSON.parse(JSON.stringify(data[Object.keys(data)[i]][j]).replace(/avg_sal/g, `${data[Object.keys(data)[i]][j].type}`))
+                delete data[Object.keys(data)[i]][j].type
+                data[Object.keys(data)[i]][0]=Object.assign(data[Object.keys(data)[i]][0],data[Object.keys(data)[i]][j])
+                data[Object.keys(data)[i]][0].time=Object.keys(data)[i]
+
+              }
+              this.zhuDate.push(data[Object.keys(data)[i]][0])
+            }
+
+            this.zhuDateType.unshift("time")
+            this.drawZhu(this.zhuDate,this.zhuDateType)
+          }
 
         },
       },
-      //调用
-      mounted(){
-        this.$nextTick(function() {
-          this.drawPie('main')
-          this.drawZhu()
-        })
-      }
 
     }
 </script>
