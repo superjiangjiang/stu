@@ -214,12 +214,12 @@
           url: `/api/v1/technical_teacher/get_grade_info`,
           method: 'get',
           params: {
-             pageNum: this.pageNum,
-            stuNo:this.queryStr.replace(/\s*!/g,""),
-            stuName:this.queryStr.replace(/\s*!/g,""),
-            school:this.queryStr.replace(/\s*!/g,""),
-            courseName:this.queryStr.replace(/\s*!/g,""),
-            clazzId: this.queryStr.replace(/\s*!/g,"")
+            pageNum: this.pageNum,
+            stuNo:this.queryStr,
+            stuName:this.queryStr,
+            school:this.queryStr,
+            courseName:this.queryStr,
+            clazzId: parseInt(this.queryStr)||''
           }
         })
         let {data} = res

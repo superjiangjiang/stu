@@ -17,7 +17,7 @@
             :show-file-list="false"
             :before-upload="beforeAvatarUpload"
              >
-            <img v-if="form.photo" :src="'http://www.newperson.club'+form.photo" class="avatar">
+            <img v-if="form.photo" :src="'http://47.103.10.32'+form.photo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
 

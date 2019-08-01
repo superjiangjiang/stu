@@ -319,7 +319,7 @@ export default {
 <style scoped lang="less">
 .home-wrapper {
   height: 100%;
-
+  min-width: 750px;
   .el-header {
     padding: 0;
     background-color: #b3c1cd;
