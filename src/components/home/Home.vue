@@ -237,14 +237,14 @@ export default {
     showStudentEditDailog() {
       this.studentEditDialog = true
     },
-    async modifypass(){
+    async modifypass() {
       let res = await this.axios.post(`/api/v1/user/modify_pass`, this.studentEditForm)
-      let { code } = res.data
+      let {code} = res.data
       if (code === 0) {
         this.$refs.form.resetFields()
         this.studentEditDialog = false
         this.logout()
-      }else {
+      } else {
         this.$message.error(res.data.msg)
       }
     },
@@ -252,7 +252,7 @@ export default {
     closestudentEditDialog() {
       this.$refs.form.resetFields()
     },
-   /* set(){
+    /* set(){
       localStorage.removeItem('token')
     },*/
     // 退出功能
@@ -266,16 +266,16 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        // 点击确认按钮
+      // 点击确认按钮
         .then(async () => {
-         this.logout()
+          this.logout()
         })
     },
 
-    async logout(){
+    async logout() {
       let res = await this.axios.get('/logout')
       console.log(res)
-      let { code } = res.data
+      let {code} = res.data
       if (code === -1) {
         // 清除token
         localStorage.removeItem('s_no')
@@ -292,7 +292,26 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log('close', key, keyPath)
-    }
+    },
+    beforeunloadHandler() {
+      this._beforeUnload_time = new Date().getTime();
+    },
+    unloadHandler(e) {
+      this._gap_time = new Date().getTime() - this._beforeUnload_time;
+      //判断是窗口关闭还是刷新
+      if (this._gap_time <= 5) {
+        //如果是登录状态，关闭窗口前，移除用户
+        localStorage.clear()
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener('beforeunload', e => this.beforeunloadHandler(e))
+    window.addEventListener('unload', e => this.unloadHandler(e))
+  },
+  destroyed() {
+    window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e))
+    window.removeEventListener('unload', e => this.unloadHandler(e))
   }
 }
 </script>

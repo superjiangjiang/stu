@@ -183,9 +183,8 @@
           status: '',
           detail: ''
         },
-        companyName:'',
-        position:'',
-
+        companyName: '',
+        position: '',
 
       }
     },
@@ -385,32 +384,48 @@
       },
       exportExcel() {
         var wb = XLSX.utils.table_to_book(
-          document.querySelector("#download")
-        );
+          document.querySelector('#download')
+        )
         var wbout = XLSX.write(wb, {
-          bookType: "xlsx",
+          bookType: 'xlsx',
           bookSST: true,
-          type: "array"
-        });
+          type: 'array'
+        })
         try {
           FileSaver.saveAs(
-            new Blob([wbout], { type: "application/octet-stream" }),
-            this.companyName+" "+this.position+"报名信息"+".xlsx"
-          );
+            new Blob([wbout], {type: 'application/octet-stream'}),
+            this.companyName + ' ' + this.position + '报名信息' + '.xlsx'
+          )
         } catch (e) {
-          if (typeof console !== "undefined") console.log(e, wbout);
+          if (typeof console !== 'undefined') console.log(e, wbout)
         }
-        return wbout;
+        return wbout
       },
-      changeSex(){
+      changeSex() {
         for (var i = 0; i < this.jobTrackingData.length; i++) {
           if (this.jobTrackingData[i].sex == 0) {
-            this.jobTrackingData[i].sex = "男"
+            this.jobTrackingData[i].sex = '男'
           } else if (this.jobTrackingData[i].sex == 1) {
-            this.jobTrackingData[i].sex = "女"
+            this.jobTrackingData[i].sex = '女'
           }
         }
-      }
+      },
+/*      timestampToTime(timer) {    //时间戳为10位需*1000，时间戳为13位的话不需乘1000在转成yymmdd
+        var date = new Date(timer)
+        var y = date.getFullYear()
+        var m = date.getMonth() + 1
+        m = m < 10 ? ('0' + m) : m
+        var d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        var h = date.getHours()
+        h = h < 10 ? ('0' + h) : h
+        var minute = date.getMinutes()
+        var second = date.getSeconds()
+        minute = minute < 10 ? ('0' + minute) : minute
+        second = second < 10 ? ('0' + second) : second
+
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
+      },*/
     },
     updated() {
       this.changstatus1()
