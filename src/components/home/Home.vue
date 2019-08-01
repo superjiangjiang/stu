@@ -273,10 +273,10 @@ export default {
     },
 
     async logout(){
-      let res = await this.axios.get('/api/v1/common/logout')
+      let res = await this.axios.get('/logout')
       console.log(res)
       let { code } = res.data
-      if (code === 0) {
+      if (code === -1) {
         // 清除token
         localStorage.removeItem('s_no')
         localStorage.removeItem('name')

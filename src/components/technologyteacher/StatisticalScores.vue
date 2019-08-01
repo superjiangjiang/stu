@@ -209,22 +209,27 @@
     methods: {
       //根据学生学号\学生名字\学校\课程名字\班级id 查询多个成绩或者几个成绩
       async getTableData() {
-        let res = await this.axios.post('/api/v1/technical_teacher/get_grade_info',
-          {
-          //  pageNum: this.pageNum,
+
+        let res = await this.axios({
+          url: `/api/v1/technical_teacher/get_grade_info`,
+          method: 'get',
+          params: {
+             pageNum: this.pageNum,
             stuNo:this.queryStr.replace(/\s*!/g,""),
-             stuName:this.queryStr.replace(/\s*!/g,""),
-              school:this.queryStr.replace(/\s*!/g,""),
-             courseName:this.queryStr.replace(/\s*!/g,""),
-             clazzId: this.queryStr.replace(/\s*!/g,""),
-          })
+            stuName:this.queryStr.replace(/\s*!/g,""),
+            school:this.queryStr.replace(/\s*!/g,""),
+            courseName:this.queryStr.replace(/\s*!/g,""),
+            clazzId: this.queryStr.replace(/\s*!/g,"")
+          }
+        })
         let {data} = res
-        if (data.code === 0) {
+        console.log(res)
+        /*if (data.code === 0) {
           let {list} = data.data
           this.tableData = list
           this.total = data.data.total
           this.pageSize = data.data.pageSize
-        }
+        }*/
       },
       /*根据学生学号查学校，名字，班级*/
       async findinfo(){
