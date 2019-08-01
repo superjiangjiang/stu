@@ -84,7 +84,7 @@ export default {
       // 使用 axios 发送请求
       // http://localhost:8888/api/private/v1/login
       const res = await axios.post(
-        'http://47.103.10.32:8080/ambowEducation/api/pub/login',
+        'http://www.newperson.club/ambowEducation/api/pub/login',
         this.loginForm
       )
 

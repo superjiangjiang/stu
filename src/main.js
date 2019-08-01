@@ -18,7 +18,7 @@ Vue.prototype.axios = axios
 axios.interceptors.request.use(
   function(config) {
     // 给config配置baseURL
-    config.baseURL = 'http://47.103.10.32:8080/ambowEducation'
+    config.baseURL = 'http://www.newperson.club/ambowEducation'
     // 给config设置headers
     config.headers.Authorization = localStorage.getItem('token')
     return config
