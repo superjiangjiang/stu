@@ -30,11 +30,10 @@
       },
       data () {
         return {
-          zhuDateType:[],
           zhuDate:[],
           pieDataType:[],
           pieData:[],
-
+          series:[],
         }
       },
       methods:{
@@ -73,7 +72,7 @@
             ]
           })
         },
-        drawZhu(zhuDate,zhuDateType){
+        drawZhu(zhuDate){
           let myChart = echarts.init(document.getElementById('main1'));
            // 指定图表的配置项和数据
           let option = {
@@ -85,14 +84,14 @@
               x:'left'
             },
             dataset: {
-              dimensions: zhuDateType,
+              dimensions: ['time','开发','测试','实施'],
               source: zhuDate
             },
             xAxis: {type: 'category'},
             yAxis: {},
             // Declare several bar series, each will be mapped
             // to a column of dataset.source by default.
-            series: [
+            series:[
               {type: 'bar'},
               {type: 'bar'},
               {type: 'bar'}
@@ -133,9 +132,7 @@
           let {data} = res.data
           console.log(res)
           if(status ==200){
-            for(let i=0; i<Object.keys(data).length;i++){
-              this.zhuDateType.push(data[Object.keys(data)[i]][0].type)
-            }
+
             for(let i=0; i<Object.keys(data).length;i++){
               for (let j=0;j<data[Object.keys(data)[i]].length;j++){
                 data[Object.keys(data)[i]][j]=JSON.parse(JSON.stringify(data[Object.keys(data)[i]][j]).replace(/avg_sal/g, `${data[Object.keys(data)[i]][j].type}`))
@@ -146,10 +143,10 @@
               }
               this.zhuDate.push(data[Object.keys(data)[i]][0])
             }
-
-            this.zhuDateType.unshift("time")
-            this.drawZhu(this.zhuDate,this.zhuDateType)
+            this.drawZhu(this.zhuDate)
+            console.log(this.zhuDate)
           }
+
 
         },
       },

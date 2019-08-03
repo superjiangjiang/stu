@@ -262,7 +262,7 @@
             if (code === 0) {
               this.$message.success('恭喜你，添加成功了')
               // 清空表单的内容
-              this.$refs.form1.resetFields()
+              this.form1.empNo = this.form1.name = this.form1.sex = this.form1.workingSeniority = ''
               // 关闭模态框
               this.infoAddDialog = false
               // 重新渲染

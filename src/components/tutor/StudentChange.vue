@@ -110,12 +110,6 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="firstEmployment" label="首次就业单位" width="100">
-          <el-input  v-model="studentEditForm.firstEmployment"></el-input>
-        </el-form-item>
-        <el-form-item prop="firstSalary" label="薪资" width="100">
-          <el-input  v-model="studentEditForm.firstSalary" ></el-input>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="studentEditDialog = false">取 消</el-button>
@@ -143,9 +137,18 @@
           <el-input v-model="form.companyName"  placeholder="请输入公司名"></el-input>
         </el-form-item>
         <el-form-item label="薪水">
-          <el-input v-model="form.salary"  placeholder="请输入薪水"></el-input>   </el-form-item>
-        <el-form-item label="职位">
-          <el-input v-model="form.type" placeholder="请输入职位"></el-input>
+          <el-input v-model="form.salary"  placeholder="请输入薪水"></el-input>
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-select
+            v-model="form.type" filterable placeholder="请输入/请选择" >
+            <el-option
+              v-for="item in options5"
+              :key="item.value"
+              :label="item.label"
+              v-model="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -227,6 +230,16 @@
           value: '1',
           label: '已就业'
         }],
+        options5: [{
+          value: '开发',
+          label: '开发'
+        }, {
+          value: '测试',
+          label: '测试'
+        },{
+          value:'实施',
+          label:'实施'
+        }],
         // 控制编辑用户对话框的展示和隐藏
         studentEditDialog: false,
         studentEditForm: {
@@ -307,8 +320,6 @@
         this.studentEditForm.name = curUser.name
         this.studentEditForm.sNo = curUser.sNo
         this.studentEditForm.school = curUser.school
-        this.studentEditForm.firstEmployment = curUser.firstEmployment
-        this.studentEditForm.firstSalary = parseFloat(curUser.firstSalary)
         this.studentEditForm.status =parseInt( curUser.status)
         this.studentEditForm.dormitoryNo = curUser.dormitoryNo
         this.studentEditForm.clazz = curUser.clazz.name
@@ -338,8 +349,6 @@
               sNo:this.studentEditForm.sNo,
               name:this.studentEditForm.name,
               school:this.studentEditForm.school,
-              firstEmployment:this.studentEditForm.firstEmployment,
-              firstSalary:this.studentEditForm.firstSalary,
               status:this.studentEditForm.status,
               dNumber:this.studentEditForm.dormitoryNo,
               cName:this.studentEditForm.clazz
@@ -421,7 +430,7 @@
         })
         let {status} = res
         let {data} = res.data
-
+        console.log(res)
         if (status == 200) {
           this.tableData = data.list
           this.total = data.total

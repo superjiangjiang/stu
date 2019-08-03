@@ -351,7 +351,7 @@
             if (code === 0) {
               this.$message.success('恭喜你，添加成功了')
               // 清空表单的内容
-              this.$refs.form.resetFields()
+              this.form.companyName = this.form.location = this.form.position = this.form.salary = this.form.detail= ''
               // 关闭模态框
               this.infoAddDialog = false
               // 重新渲染

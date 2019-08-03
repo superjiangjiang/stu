@@ -486,6 +486,7 @@
             type: 'warning'
           })
           let res = await this.axios.delete(`/api/v1/admin/delete_class?id=${id}`)
+          console.log(res)
           if (res.data.code == 0) {
             this.$message.success('恭喜你，删除成功了')
             // 重新渲染
@@ -560,7 +561,8 @@
         })
         let res = await this.axios.delete(`/api/v1/admin/delete_reduceHour?id=${id}`)
         if (res.data.code == 0) {
-          this.$message.succesxs('恭喜你，删除成功了')
+
+          this.$message.success('恭喜你，删除成功了')
           // 重新渲染
           this.getTablePeriod()
         } else {
@@ -679,7 +681,7 @@
             if (code === 0) {
               this.$message.success('恭喜你，添加成功了')
               // 清空表单的内容
-              this.$refs.courseAddForm.resetFields()
+              this.courseAddForm.name = ''
               // 关闭模态框
               this.courseAddDialog = false
               // 重新渲染
@@ -751,7 +753,7 @@
             if (code === 0) {
               this.$message.success('恭喜你，添加成功了')
               // 清空表单的内容
-              this.$refs.scoreAddForm.resetFields()
+              this.scoreAddForm.name = this.scoreAddForm.classHour = ''
               // 关闭模态框
               this.scoreAddDialog = false
               // 重新渲染
@@ -822,7 +824,7 @@
             if (code === 0) {
               this.$message.success('恭喜你，添加成功了')
               // 清空表单的内容
-              this.$refs.roomAddForm.resetFields()
+              this.roomAddForm.roomNumber = this.roomAddForm.roomCapacity = ''
               // 关闭模态框
               this.roomAddDialog = false
               // 重新渲染
@@ -897,7 +899,7 @@
             if (code === 0) {
               this.$message.success('恭喜你，添加成功了')
               // 清空表单的内容
-              this.$refs.gradeAddForm.resetFields()
+              this.gradeAddForm.name = this.gradeAddForm.roomName = this.gradeAddForm.teId = this.gradeAddForm.tuId=this.gradeAddForm.crId =''
               // 关闭模态框
               this.gradeAddDialog = false
               // 重新渲染

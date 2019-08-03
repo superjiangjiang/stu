@@ -94,7 +94,7 @@ export default {
         // console.log('登录成功')
         // 将登录成功的标识（token）存储到localStorage中
          if(data.user.roles[0].id===1){
-          this.name = data.user.admin.name
+          this.name = '管理员'
         }else  if(data.user.roles[0].id===2){
            this.name = data.user.tutor.name
          }else  if(data.user.roles[0].id===3){

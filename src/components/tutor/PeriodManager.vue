@@ -85,7 +85,7 @@
 
     <el-dialog title="扣除学时" :visible.sync="PunishDialog" >
       <el-form :model="PunishForm" ref="PunishForm">
-        <el-form-item prop="date" label="学号" label-width="120px" style="display: none">
+        <el-form-item prop="date" label="学号" label-width="120px" style="display: none;" >
           <el-input v-model="PunishForm.sId"></el-input>
         </el-form-item>
         <el-form-item prop="date" label="姓名" label-width="120px" style="display: none">
@@ -132,7 +132,7 @@
           // 控制编辑用户对话框的展示和隐藏
           PunishDialog: false,
           RewardForm: {
-            sId:-1,
+            sId:'',
             sName:-1,
             reason:'',
             detail:'',
@@ -183,10 +183,11 @@
 
 
         // 展示惩罚学时对话框
-        async showPunishDialog(row) {
+        async
+        showPunishDialog(row) {
           this.PunishDialog = true
-          this.RewardForm.sId=row.id
-          this.RewardForm.sName = row.name
+          this.PunishForm.sId=row.id
+          this.PunishForm.sName = row.name
           let res = await this.axios({
             url: '/api/v1/tutor/getReduceHours',
             method: 'get',
@@ -200,9 +201,10 @@
             this.scoreOption = data
             // this.scoreOption.classHour = data.classHour
           }
-          for (var dataKey in this.items) {
-            console.log(dataKey.id)
+          for (let i=0;i<this.scoreOption.length;i++){
+            this.scoreOption[i].classHour=-this.scoreOption[i].classHour
           }
+          console.log(this.scoreOption)
         },
 
 
@@ -219,12 +221,13 @@
             }
           })
 
-          let {status} = res
-          let { data } = res.data
-          if (status == 200) {
-            this.list = data.list
+
+          let { data,code } = res.data
+          console.log(res)
+          if (code == 0) {
+            this.list = data.stu.list
             this.total = data.total
-            this.pageSize = data.pageSize
+            this.pageSize = data.stu.pageSize
           }
         },
         //分页查询
@@ -252,7 +255,7 @@
               if (code === 0) {
                 this.$message.success('恭喜你，添加成功了')
                 // 清空表单的内容
-                this.$refs.RewardForm.resetFields()
+                this.RewardForm.reason = this.RewardForm.detail = ''
                 // 关闭模态框
                 this.RewardDialog = false
                 // 重新渲染
@@ -273,14 +276,14 @@
           this.$refs.PunishForm.validate(async valid => {
             if (valid) {
               // 发送ajax请求
-              let res = await this.axios.post(`/api/v1/tutor/addWorkInfo`, this.PunishForm)
+              let res = await this.axios.post(`/api/v1/tutor/editHours`, this.PunishForm)
               let { code } = res.data
               if (code === 0) {
                 this.$message.success('恭喜你，惩罚成功了')
                 // 清空表单的内容
                 this.$refs.PunishForm.resetFields()
                 // 关闭模态框
-                this.RewardDialog = false
+                this.PunishDialog = false
                 // 重新渲染
                 // 求最大的页码
                 this.total++
