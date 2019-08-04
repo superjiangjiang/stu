@@ -8,7 +8,7 @@
 
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-input placeholder="请输入学号/姓名/学校/课程名/班级id"v-model="queryStr" class="input-with-select">
+        <el-input placeholder="请输入学号/姓名/学校/课程名/班级id" v-model="queryStr" class="input-with-select">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
@@ -153,7 +153,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   export default {
     created() {
       this.getTableData()
@@ -215,21 +214,22 @@
           method: 'get',
           params: {
             pageNum: this.pageNum,
-            stuNo:this.queryStr,
-            stuName:this.queryStr,
+            sNo:this.queryStr,
+            studentName:this.queryStr,
             school:this.queryStr,
             courseName:this.queryStr,
-            clazzId: parseInt(this.queryStr)||''
+            clazzId:parseInt(this.queryStr)||null
+
           }
         })
         let {data} = res
         console.log(res)
-        /*if (data.code === 0) {
+        if (data.code === 0) {
           let {list} = data.data
           this.tableData = list
           this.total = data.data.total
           this.pageSize = data.data.pageSize
-        }*/
+        }
       },
       /*根据学生学号查学校，名字，班级*/
       async findinfo(){
@@ -256,10 +256,10 @@
             key: ''
           }
         })
-        let {data,code} = res.data
+      /*  let {data,code} = res.data
         if (code === 0) {
           this.options = res.data.data
-        }
+        }*/
       },
       /*模糊查询*/
       search() {

@@ -112,6 +112,7 @@
           let {data} = res.data
           data=JSON.parse(JSON.stringify(data).replace(/type/g, 'name'))
           data=JSON.parse(JSON.stringify(data).replace(/num/g, 'value'))
+          console.log(data)
           if(status ==200){
             this.pieData = data
             for (var i in data) {

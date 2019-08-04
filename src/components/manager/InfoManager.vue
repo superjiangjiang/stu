@@ -486,10 +486,10 @@
             type: 'warning'
           })
           let res = await this.axios.delete(`/api/v1/admin/delete_class?id=${id}`)
-          console.log(res)
           if (res.data.code == 0) {
             this.$message.success('恭喜你，删除成功了')
             // 重新渲染
+            this.gradeDetailDialog = false
             this.getClassInfo()
           } else {
             this.$message.danger('删除失败')
