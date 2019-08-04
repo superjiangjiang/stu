@@ -256,10 +256,10 @@
             key: ''
           }
         })
-      /*  let {data,code} = res.data
+        let {data,code} = res.data
         if (code === 0) {
           this.options = res.data.data
-        }*/
+        }
       },
       /*模糊查询*/
       search() {

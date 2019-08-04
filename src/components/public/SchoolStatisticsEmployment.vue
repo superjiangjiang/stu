@@ -110,6 +110,7 @@
           })
           let {status} = res
           let {data} = res.data
+          console.log(data)
           data=JSON.parse(JSON.stringify(data).replace(/type/g, 'name'))
           data=JSON.parse(JSON.stringify(data).replace(/num/g, 'value'))
           console.log(data)
@@ -136,11 +137,14 @@
 
             for(let i=0; i<Object.keys(data).length;i++){
               for (let j=0;j<data[Object.keys(data)[i]].length;j++){
+                //把"avg_sal" 替换成 "开发"
                 data[Object.keys(data)[i]][j]=JSON.parse(JSON.stringify(data[Object.keys(data)[i]][j]).replace(/avg_sal/g, `${data[Object.keys(data)[i]][j].type}`))
+                //删除"type":"开发"
                 delete data[Object.keys(data)[i]][j].type
+                //拼接开发 测试 运维
                 data[Object.keys(data)[i]][0]=Object.assign(data[Object.keys(data)[i]][0],data[Object.keys(data)[i]][j])
+                //拼接2017 2018 2019
                 data[Object.keys(data)[i]][0].time=Object.keys(data)[i]
-
               }
               this.zhuDate.push(data[Object.keys(data)[i]][0])
             }

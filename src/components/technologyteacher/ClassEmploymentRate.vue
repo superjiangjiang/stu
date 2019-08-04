@@ -24,8 +24,8 @@
     name: "ClassEmploymentRate",
     data () {
       return {
-        num: '',
-        type:''
+        nameData:[],
+        pieData: []
       }
     },
     methods:{
@@ -35,21 +35,24 @@
           method: 'get',
         })
         console.log(res)
-       /* let {data} = res.data
+       let {data} = res.data
         let {code} = res.data
          if (code == 0) {
-          this.num = data[0].num
-           this.type = data[0].type
-           this.drawPie('main',this.num,this.type)
-            }*/
+          for(let i=0; i<Object.keys(data).length;i++){
+              let obj = {value:data[Object.keys(data)[i]],name:Object.keys(data)[i]}
+              this.pieData.push(obj)
+             this.nameData.push(Object.keys(data)[i])
+
+           }
+           this.drawPie()
+            }
       },
-      drawPie(id,num,type){
+      drawPie(){
         console.log(this.num)
-        this.charts = echarts.init(document.getElementById(id))
+        this.charts = echarts.init(document.getElementById("main"))
         this.charts.setOption({
           title : {
             text: '老师所带学生就业率',
-            subtext: type,
             x:'center'
           },
           tooltip : {
@@ -59,7 +62,7 @@
           legend: {
             orient: 'vertical',
             left: 'left',
-            data: ['已就业','未就业']
+            data: this.nameData
           },
           series : [
             {
@@ -67,11 +70,7 @@
               type: 'pie',
               radius : '55%',
               center: ['60%', '45%'],
-              data:[
-                {value:num, name:'已就业'},
-                {value:1-num, name:'未就业'},
-
-              ],
+              data:this.pieData,
               itemStyle: {
                 emphasis: {
                   shadowBlur: 10,
