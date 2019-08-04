@@ -28,9 +28,9 @@
       </el-table-column>
       <el-table-column prop="student.grade" label="年级" width="180">
       </el-table-column>
-      <el-table-column prop="student.school" label="学校" width="180">
+      <el-table-column prop="student.school" label="学校" width="200">
       </el-table-column>
-      <el-table-column prop="course.name" label="科目" width="180">
+      <el-table-column prop="course.name" label="科目" width="200">
       </el-table-column>
       <el-table-column prop="grade" label="成绩" width="180">
       </el-table-column>

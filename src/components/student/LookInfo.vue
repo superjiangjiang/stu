@@ -21,13 +21,13 @@
         </el-table-column>
         <el-table-column prop="position" label="招聘职位" width="180">
         </el-table-column>
-        <el-table-column prop="salary" label="薪资" width="150">
+        <el-table-column prop="salary" label="薪资" width="120">
         </el-table-column>
-        <el-table-column prop="location" label="工作位置" width="100">
+        <el-table-column prop="location" label="工作位置" width="180">
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" width="120">
         </el-table-column>
-        <el-table-column prop="createtime" label="创建时间" width="200">
+        <el-table-column prop="createtime" label="创建时间" width="220">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -49,23 +49,23 @@
       </div>
       <el-dialog title="招聘详情" :visible.sync="infodetailDialog" @close="closeinfodetailDialog" width="95%">
             <el-table :data="t_class" stripe  size="middle" class="table">
-              <el-table-column prop="id" label="公司编号" width="180" style="display: none">
+              <el-table-column prop="id" label="公司编号" width="100" style="display: none">
               </el-table-column>
-              <el-table-column prop="companyName" label="公司名称" width="180">
+              <el-table-column prop="companyName" label="公司名称" width="130">
               </el-table-column>
-              <el-table-column prop="position" label="招聘职位" width="180">
+              <el-table-column prop="position" label="招聘职位" width="130">
               </el-table-column>
-              <el-table-column prop="salary" label="薪资" width="150">
+              <el-table-column prop="salary" label="薪资" width="110">
               </el-table-column>
-              <el-table-column prop="location" label="工作位置" width="100">
+              <el-table-column prop="location" label="工作位置" width="130">
               </el-table-column>
               <el-table-column prop="status" label="状态" width="100">
               </el-table-column>
-              <el-table-column prop="detail" label="细节" width="200">
+              <el-table-column prop="detail" label="细节" width="180">
               </el-table-column>
-              <el-table-column prop="tuEmpNo" label="上传老师" width="200">
+              <el-table-column prop="tuEmpNo" label="上传老师" width="100">
               </el-table-column>
-              <el-table-column prop="createtime" label="创建时间" width="200">
+              <el-table-column prop="createtime" label="创建时间" width="190">
               </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">

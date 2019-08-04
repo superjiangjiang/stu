@@ -189,10 +189,10 @@
     <el-dialog title="学生管理" :visible.sync="studentEditDialog" @close="closestudentEditDialog">
 
       <el-form :model="studentEditForm"  ref="form">
-        <el-form-item label="密码" prop="pass">
+        <el-form-item label="原密码" prop="pass">
           <el-input type="password" v-model="studentEditForm.oldPassword" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="pass">
+        <el-form-item label="新密码" prop="pass">
           <el-input type="password" v-model="studentEditForm.password" autocomplete="off"></el-input>
         </el-form-item>
         <el-row :gutter="20" style="margin-top: 10px;">

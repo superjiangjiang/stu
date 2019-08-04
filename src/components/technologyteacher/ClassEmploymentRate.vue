@@ -34,13 +34,14 @@
           url: '/api/v1/technical_teacher/get_student_pre_work',
           method: 'get',
         })
-        let {data} = res.data
+        console.log(res)
+       /* let {data} = res.data
         let {code} = res.data
          if (code == 0) {
           this.num = data[0].num
            this.type = data[0].type
            this.drawPie('main',this.num,this.type)
-            }
+            }*/
       },
       drawPie(id,num,type){
         console.log(this.num)

@@ -21,15 +21,15 @@
     </el-row>
 
     <el-table :data="tableData" stripe class="table">
-      <el-table-column prop="editTime" label="时间" width="150">
+      <el-table-column prop="editTime" label="时间" width="220">
       </el-table-column>
-      <el-table-column prop="student.sNo" label="学号" width="120">
+      <el-table-column prop="student.sNo" label="学号" width="150">
       </el-table-column>
-      <el-table-column prop="student.name" label="姓名" width="100">
+      <el-table-column prop="student.name" label="姓名" width="120">
       </el-table-column>
       <el-table-column prop="student.school" label="学校" width="180">
       </el-table-column>
-      <el-table-column prop="reason" label="原因" width="180">
+      <el-table-column prop="reason" label="原因" width="320">
       </el-table-column>
       <el-table-column prop="detail" label="学时变动情况" width="120">
       </el-table-column>
