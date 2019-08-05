@@ -81,6 +81,11 @@
           let { data } = res.data
           console.log(res)
           if (status == 200) {
+            for(let i=0;i<data.list.length;i++){
+            data.list[i].editDate = this.timestampToTime(data.list[i].editDate)
+              console.log(data.list[i].editDate)
+            }
+
             this.tableData = data.list
             this.total = data.total
             this.pageSize = data.pageSize
@@ -102,7 +107,15 @@
           this.getList()
           console.log(this.queryStr)
         },
-
+      timestampToTime(timer) {    //时间戳为10位需*1000，时间戳为13位的话不需乘1000在转成yymmdd
+        let date = new Date(timer)
+        let y = date.getFullYear()
+        let m = date.getMonth() + 1
+        m = m < 10 ? ('0' + m) : m
+        let d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        return y + '-' + m + '-' + d
+      },
 
     }
   }

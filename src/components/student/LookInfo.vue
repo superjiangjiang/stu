@@ -125,6 +125,9 @@
         })
            let {code,data} = res.data
         if (code == 0) {
+          for (let i=0;i<data.list.length;i++){
+            data.list[i].createtime = this.timestampToTime(data.list[i].createtime)
+          }
           this.info = data.list
           this.total = data.total
           this.pageSize = data.pageSize
@@ -207,7 +210,16 @@
           }
 
         }
-      }
+      },
+      timestampToTime(timer) {    //时间戳为10位需*1000，时间戳为13位的话不需乘1000在转成yymmdd
+        let date = new Date(timer)
+        let y = date.getFullYear()
+        let m = date.getMonth() + 1
+        m = m < 10 ? ('0' + m) : m
+        let d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        return y + '-' + m + '-' + d
+      },
     },
     updated() {
       this.change()

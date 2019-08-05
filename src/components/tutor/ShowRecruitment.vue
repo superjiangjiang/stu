@@ -321,8 +321,13 @@
         })
         let {status} = res
         let {data} = res.data
-        console.log(res)
+        console.log(data.list)
         if (status == 200) {
+         console.log(data.list.length)
+          for (let i =0;i<data.list.length;i++){
+            data.list[i].createtime=this.timestampToTime(data.list[i].createtime)
+            console.log(data.list[i].createtime)
+          }
           this.tableData = data.list
           this.total = data.total
           this.pageSize = data.pageSize
@@ -410,22 +415,15 @@
           }
         }
       },
-/*      timestampToTime(timer) {    //时间戳为10位需*1000，时间戳为13位的话不需乘1000在转成yymmdd
-        var date = new Date(timer)
-        var y = date.getFullYear()
-        var m = date.getMonth() + 1
+      timestampToTime(timer) {    //时间戳为10位需*1000，时间戳为13位的话不需乘1000在转成yymmdd
+        let date = new Date(timer)
+        let y = date.getFullYear()
+        let m = date.getMonth() + 1
         m = m < 10 ? ('0' + m) : m
-        var d = date.getDate()
+        let d = date.getDate()
         d = d < 10 ? ('0' + d) : d
-        var h = date.getHours()
-        h = h < 10 ? ('0' + h) : h
-        var minute = date.getMinutes()
-        var second = date.getSeconds()
-        minute = minute < 10 ? ('0' + minute) : minute
-        second = second < 10 ? ('0' + second) : second
-
-        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
-      },*/
+        return y + '-' + m + '-' + d
+      },
     },
     updated() {
       this.changstatus1()
