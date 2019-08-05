@@ -86,16 +86,14 @@
 
     </el-dialog>
 
-    <el-dialog title="已报名学生信息" :visible.sync="jobTrackingDialog">
+    <el-dialog title="已报名学生信息" :visible.sync="jobTrackingDialog" @close="closeJobTrackingDialog">
 
       <el-table :data="jobTrackingData" id="download">
-        <el-table-column property="sNo" label="学号" width="100"></el-table-column>
-        <el-table-column property="name" label="姓名" width="70"></el-table-column>
-        <el-table-column property="sex" label="性别" width="70"></el-table-column>
+        <el-table-column property="name" label="姓名" width="120"></el-table-column>
+        <el-table-column property="sex" label="性别" width="120"></el-table-column>
         <el-table-column property="school" label="学校" width="120"></el-table-column>
-        <el-table-column property="grade" label="班级" width="80"></el-table-column>
-        <el-table-column property="idNumber" label="身份证号" width="180"></el-table-column>
-        <el-table-column property="nativePlace" label="籍贯" width="80"></el-table-column>
+        <el-table-column property="class" label="班级" width="120"></el-table-column>
+        <el-table-column property="phone" label="联系方式" width="120"></el-table-column>
       </el-table>
       <el-row :gutter="20">
         <el-col :span="6" push="10">
@@ -164,13 +162,12 @@
         page_no: 1,
         // 总条数
         total: 0,
-        jobTrackingData: [],
         // 搜索内容
         queryStr: '',
         form: {},
         tableData: [],
         jobTrackingDialog: false,
-
+        jobTrackingData: [],
         infoAddDialog: false,
         infoEditDialog: false,
         infoEditForm: {
@@ -212,9 +209,23 @@
         })
         let {status} = res
         let {data} = res.data
-        console.log(res)
         if (status == 200) {
-          this.jobTrackingData = data.list
+          for (var i = 0; i < data.list.length; i++) {
+            let obj = {
+              class:data.list[i].clazz.name,
+              sex:data.list[i].student.sex,
+              school:data.list[i].student.school,
+              name:data.list[i].student.name,
+              phone:data.list[i].student.phone
+            }
+           this.jobTrackingData.push(obj)
+          }
+
+        }
+      },
+      closeJobTrackingDialog(){
+        for (let i=0;i<this.jobTrackingData.length;i++){
+          this.jobTrackingData.splice(this.jobTrackingData[i])
         }
       },
 
@@ -321,12 +332,11 @@
         })
         let {status} = res
         let {data} = res.data
-        console.log(data.list)
+
         if (status == 200) {
-         console.log(data.list.length)
+
           for (let i =0;i<data.list.length;i++){
             data.list[i].createtime=this.timestampToTime(data.list[i].createtime)
-            console.log(data.list[i].createtime)
           }
           this.tableData = data.list
           this.total = data.total
