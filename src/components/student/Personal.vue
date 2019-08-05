@@ -100,15 +100,22 @@
           this.form.school = data.school
           this.form.grade = data.grade
           this.form.nativePlace = data.nativePlace
-          this.form.birthday = data.birthday
+          this.form.birthday = this.timestampToTime(data.birthday)
           this.form.phone = data.phone
           this.form.idNumber = data.idNumber
           this.form.firstEmployment = data.firstEmployment
           this.form.photo = data.photo
-          console.log(this.form.photo)
         }
       },
-
+      timestampToTime(timer) {    //时间戳为10位需*1000，时间戳为13位的话不需乘1000在转成yymmdd
+        let date = new Date(timer)
+        let y = date.getFullYear()
+        let m = date.getMonth() + 1
+        m = m < 10 ? ('0' + m) : m
+        let d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        return y + '-' + m + '-' + d
+      },
       //学生上传头像提交之前的方法
       beforeAvatarUpload(file) {
         this.files = file;
@@ -143,7 +150,8 @@
         })
         return true
       }
-    }
+    },
+
   }
 </script>
 
