@@ -63,8 +63,6 @@
               </el-table-column>
               <el-table-column prop="detail" label="细节" width="180">
               </el-table-column>
-              <el-table-column prop="tuEmpNo" label="上传老师" width="100">
-              </el-table-column>
               <el-table-column prop="createtime" label="创建时间" width="190">
               </el-table-column>
               <el-table-column label="操作">
@@ -174,7 +172,6 @@
         this.t_class[0].position=detail.position
         this.t_class[0].salary = detail.salary
         this.t_class[0].status = detail.status
-        this.t_class[0].tuEmpNo = detail.tuEmpNo
 
         this.infodetailDialog = true;
       },
