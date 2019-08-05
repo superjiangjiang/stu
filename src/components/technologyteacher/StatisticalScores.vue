@@ -8,7 +8,7 @@
 
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-input placeholder="请输入学号/姓名/学校/课程名/班级id" v-model="queryStr" class="input-with-select">
+        <el-input placeholder="请输入学号/姓名/学校/课程名" v-model="queryStr" class="input-with-select">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
@@ -208,22 +208,16 @@
     methods: {
       //根据学生学号\学生名字\学校\课程名字\班级id 查询多个成绩或者几个成绩
       async getTableData() {
-
         let res = await this.axios({
-          url: `/api/v1/technical_teacher/get_grade_info`,
+          url: `/api/v1/technical_teacher/getGradeByKey`,
           method: 'get',
           params: {
             pageNum: this.pageNum,
-            sNo:this.queryStr,
-            studentName:this.queryStr,
-            school:this.queryStr,
-            courseName:this.queryStr,
-            clazzId:parseInt(this.queryStr)||null
-
+            key:this.queryStr
           }
         })
-        let {data} = res
         console.log(res)
+        let {data} = res
         if (data.code === 0) {
           let {list} = data.data
           this.tableData = list
