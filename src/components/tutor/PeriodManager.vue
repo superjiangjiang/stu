@@ -204,7 +204,6 @@
           for (let i=0;i<this.scoreOption.length;i++){
             this.scoreOption[i].classHour=-this.scoreOption[i].classHour
           }
-          console.log(this.scoreOption)
         },
 
 
@@ -259,9 +258,6 @@
                 // 关闭模态框
                 this.RewardDialog = false
                 // 重新渲染
-                // 求最大的页码
-                this.total++
-                this.page_no = Math.ceil(this.total / this.pageSize)
                 this.getList()
               } else {
                 this.$message.error('添加失败了')
@@ -284,10 +280,7 @@
                 this.$refs.PunishForm.resetFields()
                 // 关闭模态框
                 this.PunishDialog = false
-                // 重新渲染
-                // 求最大的页码
-                this.total++
-                this.page_no = Math.ceil(this.total / this.pageSize)
+
                 this.getList()
               } else {
                 this.$message.error('惩罚失败了')
