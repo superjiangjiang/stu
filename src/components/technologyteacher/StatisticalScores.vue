@@ -72,7 +72,7 @@
 
     <!-- 添加用户对话框 -->
     <el-dialog title="录入成绩" :visible.sync="scoreAddDialog" @close="closescoreAddDialog">
-      <el-form :model="scoreAddForm" ref="scoreAddForm">
+      <el-form :model="scoreAddForm" ref="scoreAddForm" :rules="scoreAddRules">
         <el-form-item prop="stuNo" label="学号" label-width="120px">
           <el-input  v-model="scoreAddForm.stuNo" autocomplete="off" @blur="findinfo"></el-input>
         </el-form-item>
@@ -113,7 +113,7 @@
     <!-- 编辑成绩对话框 -->
     <el-dialog title="修改成绩" :visible.sync="scoreEditDialog" @close="closescoreEditDailog">
 
-      <el-form :model="scoreEditForm" ref="scoreEditForm">
+      <el-form :model="scoreEditForm" ref="scoreEditForm" :rules="scoreAddRules">
         <el-form-item prop="stuNo" label="学号" width="180">
           <el-input disabled  v-model="scoreEditForm.stuNo"></el-input>
         </el-form-item>
@@ -180,15 +180,13 @@
           grade: ''
         },
         scoreAddRules: {
-          username: [
-            { required: true, message: '姓名为必填项', trigger: 'blur' },
-            {
-              min: 2,
-              max: 4,
-              message: '姓名长度在 2 到 4 个字符',
-              trigger: 'blur'
-            }
-          ]
+          grade:[{validator:(rule,value,callback)=>{
+              if(/^\d+$/.test(value) == false){
+                callback(new Error("成绩只能输入数字"));
+              }else{
+                callback();
+              }
+            }, trigger:'blur'}]
         },
         // 控制编辑对话框的展示和隐藏
         scoreEditDialog: false,
@@ -310,22 +308,29 @@
         this.scoreEditDialog = true
       },
       // 修改学生成绩
-      async editScore(){
-        let res = await this.axios.post('/api/v1/technical_teacher/modify_grade',
-          {sId:this.scoreEditForm.sId,
-            crId:this.scoreEditForm.crId,
-            grade:this.scoreEditForm.grade
+      async editScore() {
+        this.$refs.scoreEditForm.validate(async valid => {
+          if (valid) {
+            let res = await this.axios.post('/api/v1/technical_teacher/modify_grade',
+              {
+                sId: this.scoreEditForm.sId,
+                crId: this.scoreEditForm.crId,
+                grade: this.scoreEditForm.grade
+              }
+            )
+            console.log(res.data.code)
+            if (res.data.code === 0) {
+              this.scoreEditDialog = false
+              this.$refs.scoreEditForm.resetFields()
+              this.getTableData()
+              this.$message.success('恭喜你，修改成功了')
+            } else {
+              this.$message.error('很遗憾，修改失败了')
+            }
+          } else {
+            return false
           }
-        )
-        console.log(res.data.code)
-        if (res.data.code === 0) {
-          this.scoreEditDialog = false
-          this.$refs.scoreEditForm.resetFields()
-          this.getTableData()
-          this.$message.success('恭喜你，修改成功了')
-        } else {
-          this.$message.error('很遗憾，修改失败了')
-        }
+        })
       },
       // 关闭用户编辑对话框
       closescoreEditDailog() {
